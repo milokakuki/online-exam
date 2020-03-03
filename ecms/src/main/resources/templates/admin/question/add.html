@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<#include "/admin/include/title.html"/>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+		<!--Font Awesome-->
+		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
+		<!--Theme style-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
+		<!--AdminLTE Skins-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
+		<!-- <link rel="icon" href="${path}/img/favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="${path}/img/favicon.ico" type="image/x-icon"/> -->
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js}" ></script>
+			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js}" ></script>	
+		<![endif]-->
+		<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="${path}/css/question-add.css" />
+		<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+		<link rel="stylesheet" href="${path}/common/select2/dist/css/select2.min.css" />
+	</head>
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+			<#include "/admin/include/header.html"/>
+			<#include "/admin/include/left_menu.html"/>
+			<div class="content-wrapper">
+				<!-- content-header -->
+				<!-- /.content-header -->
+				<section class="content">
+					<div class="row">
+						<div class="box box-solid">
+							<div class="box-body">
+								<form id="question-add-form">
+									<div class="page-header">
+										<h1><i class="fa fa-pencil-square-o"></i> 添加试题</h1>
+									</div>
+									<div class="col-md-12">
+										<!-- 试题类型选择 -->
+										<div class="form-group">
+	                                        <span class="col-sm-2 control-label" style="top:8px">
+	                                        	<small class="text-red">*</small>  试题类型
+	                                        </span>
+	                                        <div class="col-sm-2 question-type" id="question-type">
+	                                            <select class="form-control select2" name="questionType" id="questionType" style="width: 100%;">
+	                                              <#list questionTypes as type>
+	                                                  <option value="${type.id}">${type.name}</option>
+	                                              </#list>
+	                                            </select><span class="form-message"></span>
+	                                        </div>
+	                                    </div> <br>
+	                                    <div class="form-group">
+	                                        <span class="col-sm-2 control-label" style="top:8px">
+	                                        	<small class="text-red">*</small>  选择题库
+	                                        </span>
+	                                        <div class="col-sm-3 question-field" id="aq-course1">
+	                                            <select class="form-control select2" name="field" id="field" style="width: 100%;">
+	                                              <#if fields??>
+		                                              <#list fields as type>
+		                                                  <option value="${type.id}">${type.name}</option>
+		                                              </#list>
+	                                              </#if>
+	                                            </select><span class="form-message"></span>
+	                                        </div>
+	                                    </div> <br>
+	                                    <div class="form-group">
+	                                        <span class="col-sm-2 control-label" style="top:8px">
+	                                        	<small class="text-red">*</small>  选择知识点
+	                                        </span>
+	                                        <div class="col-sm-3 question-points" id="aq-course2">
+	                                            <select class="form-control select2" name="knowledgePoint" id="knowledgePoint" required="required" multiple="multiple" style="width: 100%;">
+	                                             	<#if knowledges??>
+		                                              <#list knowledges as type>
+		                                                  <option value="${type.id}">${type.name}</option>
+		                                              </#list>
+	                                              	</#if>
+	                                            </select><span class="form-message"></span>
+	                                        </div>
+	                                    </div> <br> <br> <br> <br>
+	                                    <div class="form-group question-title">
+											<span class="col-sm-1 control-label"><small class="text-red">*</small> 题目:</span>
+											<div class="col-sm-2">
+												<input required="required" type="text" class="form-control" name="title" id="title" value="" placeholder="请输入题目信息" />
+											</div>
+											<span class="form-message"></span>
+										</div><br><br><br><br>
+	
+	                                    <!-- 试题内容 -->
+	                                    <div class="form-group question-content">
+	                                     	<span class="col-sm-2 control-label" style="top:8px">
+	                                     		<span class="text-red">*</span>试题内容：
+	                                     	</span>
+	                                     	<div class="col-sm-8">
+												<textarea class="add-question-ta" required="required"></textarea>
+											</div><br><br><br>
+											<span class="add-img add-opt-img" onclick="uploadThumbnail(0)">添加图片</span>
+											<input type="hidden" name="titleImg" value="" id="titleImg" />
+											<span class="form-message"></span>
+										</div>
+										<hr>
+                                    	<!-- 选择题 -->
+	                                	<div class="form-line form-question-opt" style="display: block;">
+											<span class="form-label">
+											<small class="text-red">*</small>选项：</span>
+											<div class="add-opt-items">
+												<span class="add-opt-item optionsA">
+													<label class="que-opt-no">A</label>
+													<input type="text" class="df-input-narrow form-question-opt-item" required="required">
+													<span class="add-img add-opt-img" onclick="uploadThumbnail(1)">添加图片</span>
+												</span>
+												<span class="add-opt-item">
+													<label class="que-opt-no optionsB">B</label>
+													<input type="text" class="df-input-narrow form-question-opt-item" required="required">
+													<span class="add-img add-opt-img" onclick="uploadThumbnail(2)">添加图片</span>
+												</span>
+												<span class="add-opt-item">
+													<label class="que-opt-no optionsC">C</label>
+													<input type="text" class="df-input-narrow form-question-opt-item" required="required">
+													<span class="add-img add-opt-img" onclick="uploadThumbnail(3)">添加图片</span>
+													<span>
+														<i class="small-icon ques-remove-opt fa fa-minus-square" title="删除此选项"></i>
+													</span> 
+												</span>
+												<span class="add-opt-item">
+													<label class="que-opt-no optionsD">D</label>
+													<input type="text" class="df-input-narrow form-question-opt-item" required="required">
+													<span class="add-img add-opt-img" onclick="uploadThumbnail(4)">添加图片</span>
+													<span>
+														<i class="small-icon ques-remove-opt fa fa-minus-square" title="删除此选项"></i>
+													</span>
+												</span>
+											</div>
+											<span id="ques-add-opt">
+												<i class="small-icon fa fa-plus-square" title="添加选项"></i>
+											</span> <br>
+											<span class="form-message"></span>
+										</div>
+										
+										<!-- 单选 -->
+										<div class="form-line form-question-answer1 correct-answer" style="display: block;">
+											<span class="form-label"><small class="text-red">*</small>正确答案：</span>
+											<select class="df-input-narrow">
+												<option value="A">A</option>
+												<option value="B">B</option>
+												<option value="C">C</option>
+												<option value="D">D</option>
+											</select>
+											<span class="form-message"></span>
+										</div>
+										
+										<!-- 多选 -->
+										<div class="form-line form-question-answer-muti correct-answer" style="display: none;">
+											<span class="form-label"><span class="text-red">*</span>正确答案：</span>
+			
+											<span class="muti-opt-item">
+												<input type="checkbox" value="A">
+												<label class="que-opt-no">A</label> <br>
+											</span>
+											<span class="muti-opt-item">
+												<input type="checkbox"value="B">
+												<label class="que-opt-no">B</label> <br>
+											</span>
+												<span class="muti-opt-item">
+												<input type="checkbox" value="C">
+												<label class="que-opt-no">C</label> <br>
+											</span>
+											<span class="muti-opt-item">
+												<input type="checkbox" value="D">
+												<label class="que-opt-no">D</label> <br>
+											</span>
+											<span class="form-message"></span>
+										</div>
+										
+										<!-- 判断题 -->
+										<div class="form-line form-question-answer-boolean correct-answer" style="display: none;">
+											<span class="form-label"><span class="text-red">*</span>正确答案：</span>
+											<select class="df-input-narrow">
+												<option value="T">正确</option>
+												<option value="F">错误</option>
+											</select><span class="form-message"></span>
+										</div>
+										
+										<!-- 填空题 -->
+										<div class="form-line correct-answer form-question-answer-text" style="display: none;">
+											<span id="ques-add-answer"><i class="small-icon fa fa-plus-square" title="添加备选答案"></i></span>
+											<span class="fill-answer-opt">
+												<span class="form-label form-question-answer-more">
+												<span class="text-red">*</span>备选答案：</span>
+												<input type="text" class="add-question-fill" size="40">
+											</span>
+											<span class="form-message"></span>
+										</div>
+										<hr>
+										<div class="form-group form-question-keyword">
+											<span class="col-sm-1 control-label"><span class="text-red"></span>  关键字:</span>
+											<div class="col-sm-2">
+												<input required="required" type="text" class="form-control" name="keyword" id="keyword" value="" placeholder="请输入关键字信息" />
+											</div>
+											<span class="form-message"></span>
+										</div><br><br><br><br>
+										
+										<div class="form-group form-question-analysis">
+											<span class="col-sm-1 control-label"><span class="text-red"></span>  题目解析:</span>
+											<div class="col-sm-10">
+												<textarea class="add-question-ta"></textarea>
+											</div>
+											<span class="form-message"></span>
+										</div><br><br><br><br><br><br><br><br>
+									</div>
+									<div class="form-line">
+										<input id="btn-save" value="保存" type="button" class="df-submit">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					
+				</section>
+			</div>
+			<#include "/admin/include/footer.html"/>
+		</div>
+		<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="${path}/common/select2/dist/js/select2.full.js"></script>
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<script type="text/javascript" src="${path}/js/plugs.js"></script>
+		<script type="text/javascript" src="${path}/js/field_point.js"></script>
+		<script type="text/javascript" src="${path}/js/question-add.js"></script>
+		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
+		<script type="text/javascript">
+			$('.select2').select2();
+			function uploadThumbnail(num){
+				layer.open({
+					type:2,
+					title:'上传图片',
+					shadeClose:true,
+					shade:0.2,
+					area:['50%','50%'],
+					content:'${path}/admin/question/upload-img/'+num,
+					end:function(){
+						var url = $("#titleImg").val();
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

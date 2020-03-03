@@ -1,0 +1,96 @@
+<meta charset="utf-8" />
+<!--Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+	<section class="sidebar">
+    	<ul class="sidebar-menu" data-widget="tree">
+	        <li class="header text-center" style="color: white;font-weight: 500;font-size: 16px;">系统菜单</li>
+	        <li>
+	        	<a href="${path}/admin/index">
+	        		<i class="fa fa-tv"></i> <span>工作台</span>
+	        	</a>
+	        </li>
+	       
+	        <li class="treeview">
+		        <a href="#">
+			        <i class="fa fa-user"></i> <span>用户管理</span>
+			        <span class="pull-right-container">
+			        	<i class="fa fa-angle-left pull-right"></i>
+			        </span>
+		        </a>
+	        <ul class="treeview-menu">
+				<#if login_admin.typeName?? && (login_admin.typeName="ADMIN") >
+					<li><a href="${path}/admin/user/list.html"><i class="fa fa-user-md"></i> 管理员</a></li>
+				</#if>
+	         	<li class="active"><a href="${path}/admin/user/pwd.html"><i class="fa fa-user-secret"></i>安全设置</a></li>
+	        </ul>
+	        </li>
+	        <#if login_admin.typeName?? && (login_admin.typeName="ADMIN" )>
+				<li class="treeview">
+					<a href="#">
+						<i class="glyphicon glyphicon-th"></i>
+						<span>试题管理</span>
+						<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<#if login_admin.typeName?? && (login_admin.typeName="ADMIN" || login_admin.typeName="TEACHER")>
+							<li>
+								<a href="${path}/admin/question/list-0-0-0.html">
+									<i class="glyphicon glyphicon-th-large"></i> 试题列表
+								</a>
+							</li>
+							<li>
+								<a href="${path}/admin/question/add">
+									<i class="fa fa-plus"></i> 添加试题</a>
+							</li>
+						</#if>
+					</ul>
+				</li>
+			</#if>
+			<#if login_admin.typeName?? && (login_admin.typeName="ADMIN" || login_admin.typeName="TEACHER")>
+				<li class="treeview">
+					<a href="#">
+						<i class="glyphicon glyphicon-book"></i><span>内容管理</span><span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li>
+							<a href="${path}/admin/field/list.html">
+								<i class="glyphicon glyphicon-bookmark" id="contentMenu"></i> 题库管理
+							</a>
+						</li>
+						<li>
+							<a href="${path}/admin/knowledgePoint/list.html">
+								<i class="glyphicon glyphicon-map-marker"></i> 知识点管理
+							</a>
+						</li>
+						<li>
+							<a href="${path}/admin/page/list.html">
+								<i class="fa fa-file-text"></i> 试卷管理
+							</a>
+						</li>
+					</ul>
+				</li>
+			</#if>
+			<#if login_admin.typeName?? && (login_admin.typeName="STUDENT")>
+				<li class="treeview">
+					<a href="#">
+						<i class="glyphicon glyphicon-book"></i><span>我的考试</span><span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+					<ul class="treeview-menu">
+						<li>
+							<a href="${path}/list_page">
+								<i class="glyphicon glyphicon-bookmark" id="mytestMenu"></i> 考试列表
+							</a>
+						</li>
+					</ul>
+				</li>
+			</#if>
+    	</ul>
+	</section>
+</aside>
+<!-- / left side column-->

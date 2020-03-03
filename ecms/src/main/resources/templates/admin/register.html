@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<#include "/admin/include/title.html"/>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!--Bootstrap 3.3.7-->
+		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+		<!--Font Awesome-->
+		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
+		<!--Ionicons-->
+		<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
+		<!--Theme style-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
+		<!--AdminLTE Skins-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js" ></script>
+			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js" ></script>	
+		<![endif]-->
+		<!--Google Font-->
+		<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+		<link rel="stylesheet" href="${path}/css/login.css" />
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+	    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	    <![endif]-->
+	</head>
+
+	<body>
+		<div id="box"></div>
+		<div class="zhuce_body">
+			<div class="logo">
+				<a href="index.html">
+					<h1 class="zxksxt">用户注册</h1>
+				</a>
+			</div>
+			<div class="zhuce_kong">
+				<div class="zc">
+					<div class="bj_bai">
+						<h3>欢迎注册</h3>
+						<form action="${path}/admin/register" method="POST">
+							<input name="username"  type="text" class="kuang_txt email form-control" required="required" placeholder="用户名">
+							
+							<label for="new-password" class="col-md-4 control-label"></label>
+							<input type="password" class="kuang_txt possword form-control" name="password" id="new-password"  value="" required="required" placeholder="密码">
+							
+							<label for="new-password" class="col-sm-4 control-label"></label>
+							<input type="password" class="kuang_txt possword" name="pwd2"  id="new-password-1" maxlength="16"  value="" required="required" placeholder="确认密码">
+							<br /><br />
+							<#if msg??>
+						 		<span>${msg}</span>
+							</#if>
+							<button type="submit" id="submitBtn" class="btn_zhuce" style="display: none;" class="btn btn-sm btn-primary">注册</button>
+							
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--jQuery-->
+		<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
+		<!--jQuery UI-->
+		<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<!--Bootstrap-->
+		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+
+		<!--AdminLTE App-->
+		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
+		<script src='${path}/js/particles.js' type="text/javascript"></script>
+		<script src='${path}/js/background.js' type="text/javascript"></script>
+		<script type="text/javascript">
+			$("input[id=new-password-1]").focusout(function(){
+				var pwd2 = $(this).val();
+				var pwd = $("input[id=new-password]").val();
+				if(pwd2!=null&&pwd!=null&&pwd2!=""&&pwd!=""&&pwd==pwd2){
+					$("#submitBtn").css("display","inline");
+				}
+			})
+		</script>
+	</body>
+
+</html>

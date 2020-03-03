@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <#include "/admin/include/title.html"/>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="${path}/dist/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="${path}/plugins/index/css/htmleaf-demo.css" />
+	<link rel="stylesheet" href="${path}/plugins/index/css/normalize.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body style=" overflow: hidden;">
+	<div class="htmleaf-container">
+		<header class="htmleaf-header">
+			<div class="login-box">
+			  <div class="login-logo">
+			    <a href="javascript:void(0)" style="color: white;"><b>ECMS1.0</b></a>
+			  </div>
+			  <!-- /.login-logo -->
+			  <div class="box box-solid" style="background-color: rgba(255,255,255,0);">
+			  	<div class="box-header">
+			  		 <a href="javascript:void(0)" class="login-box-msg text-info key" data-toggle="tooltip" data-placement="top" title="点击输入口令">点击输入口令</a>
+			  	</div>
+			  	<div class="box-body" style="display:none;">
+			  		<form action="${path}/admin/login" method="POST">
+				      <div class="form-group has-feedback">
+				        <input type="text" name="username" class="form-control" required="required" style="border-radius: 15px;" value="" placeholder="账号/邮箱/电话号码">
+				        <span class="fa fa-user form-control-feedback"></span>
+				      </div>
+				      <div class="form-group has-feedback">
+				        <input type="password" name="password" class="form-control" required="required"  style="border-radius: 15px;" placeholder="密码">
+				        <span class="fa fa-key form-control-feedback"></span>
+				      </div>
+				      <div class="form-group">
+				      	<div class="col-xs-6 no-padding">
+				      		<input type="text" class="form-control" name="validateCode" required="required" style="border-radius: 15px 0 0px 15px;border-right: 0px; width: 150px;" placeholder="验证码">	
+				      		<!-- <span class="fa fa-code form-control-feedback"></span> -->
+				      	</div>
+				        <div class="col-xs-6 no-padding">
+				        	<img src="${path}/checkcode" title="点击更换验证码" style="height: 34px;cursor:pointer; border-radius: 0 15px 15px 0;width: 100%;" onclick="this.src='${path}/checkcode?time='+Math.random()" class="img img-responsive"/>	
+				        </div>
+				      </div>
+				      <div class="row">
+				        <div class="col-xs-12">
+				          <input type="submit" class="form-control btn btn-warning btn-block" style="margin-top: 15px;border-radius: 15px;" value="登录"/>
+				          <a class="btn btn-danger btn-block" href="${path}/admin/register" style="margin-top: 15px; border-radius: 15px;">注册</a>
+				        </div>
+				      </div>
+					<#if msg??>
+				 		<span>${msg}</span>
+					</#if>
+				    </form>
+			  	</div>
+			  	<div class="box-footer" style="background-color: rgba(255,255,255,0);" >
+				  	<p><span style="color:white;">&copy;powered by</span> <a href="http://www.ecms.com" target="_blank">ecms</a></p>
+				</div>
+			  </div>
+			</div>
+		</header>
+		<canvas id="canvas"></canvas>
+	</div>
+	<script src="${path}/common/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+	<script src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="${path}/js/login.js" type="text/javascript"></script>
+</body>
+</html>
+

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<#include "/admin/include/title.html"/>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+		<!--Font Awesome-->
+		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
+		<!--Theme style-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
+		<!--AdminLTE Skins-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
+		<!-- <link rel="icon" href="${path}/img/favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="${path}/img/favicon.ico" type="image/x-icon"/> -->
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js}" ></script>
+			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js}" ></script>	
+		<![endif]-->
+		<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+	</head>
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+			<#include "/admin/include/header.html"/>
+			<#include "/admin/include/left_menu.html"/>
+			<div class="content-wrapper">
+				<!-- content-header -->
+				<section class="content-header">
+			      <h1>
+			        <small style="color:#737373;">
+			        	<a href="${path}/admin/index"><i class="fa fa-home"></i></a> 
+			        	<i class="fa fa-angle-double-right"></i> 试卷管理 
+			        </small>
+			      </h1>
+			    </section>
+				<!-- /.content-header -->
+				<section class="content">
+					<div class="row" style="padding: 0 15px 10px 15px;">
+						<div style="float: left;">
+							<a href="${path}/admin/page/add" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> 添加试卷</a>
+							<button type="button" class="btn btn-danger btn-sm" onclick="deleteBatch()"><i class="fa fa-trash"></i> Delete</button>
+						</div>
+						<div class="pull-right">
+							<button type="button" class="btn btn-default btn-sm btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
+						</div>
+					</div>
+					<div class="box box-solid">
+						<div class="box-body table-responsive no-padding">
+							<table class="table table-hover text-center">
+								<thead>
+									<tr>
+										<td width="20"><input id="check-all" type="checkbox"/></td>
+										<th>编号</th>
+										<th>试卷名称</th>
+										<th>时长</th>
+										<th>类别</th>
+										<th>创建人</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<#if page.getContent()??>
+										<#list page.getContent() as point>
+											<tr>
+												<td><input value="${point.id}" type="checkbox"/></td>
+												<td>${point.id}</td>
+												<td><span class="hot_title">${point.name!}</span></td>
+												<td>${point.duration!}</td>
+												<td>${point.creator!}</td>
+												<td>
+													<#switch point.status>
+														<#case 1>
+															<span class="state label label-success">ACTIVE</span>
+															<#break>
+														<#default>
+															<span class="state label label-warning">LOCKED</span>
+													</#switch>
+												</td>
+												<td>
+													<a href="${path}/admin/page/edit/${point.id}" class="text-info"><i class="fa fa-edit"></i> 编辑</a>&nbsp;
+													<#switch point.status>
+														<#case 1>
+															<a href="javascript:void(0);" id="locked-user" onclick="lockedPage(this,${point.id})" class="text-yellow"><i class="fa fa-lock"></i> 锁定</a>&nbsp;
+															<#break>
+														<#default>
+															<a href="javascript:void(0);" id="locked-user" onclick="lockedPage(this,${point.id})" class="text-success"><i class="fa fa-unlock"></i> 解锁</a>&nbsp;
+													</#switch>
+													<a href="javascript:void(0);" id="delete-point" class="text-red" onclick="delete_point(this,${point.id})"><i class="fa  fa-trash"></i> 删除</a> 
+												</td>
+											</tr>
+										</#list>
+									</#if>
+								</tbody>
+							</table>
+						</div>
+						<div class="box-footer">
+							<div class="row">
+								<#assign url="/admin/page/list">
+								<#include "/admin/include/page_inc.html"/>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<#include "/admin/include/footer.html"/>
+		</div>
+		<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<script type="text/javascript" src="${path}/js/plugs.js"></script>
+		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
+		<script type="text/javascript">
+		
+			/* 修改用户状态 */
+			function lockedPage(obj,id){
+				var offset = $(obj).offset();
+				layer.open({
+					type:5,
+					title:false,
+					shadeClose:true,
+					shade:0,
+					skin: 'layui-layer-molv',
+					btn:['确认','取消'],
+					btnAlign:'c',
+					offset:[offset.top-60,offset.left-120],
+					yes:function(index){
+						$.ajax({
+							url:"${path}/admin/page/toggle-status/"+id,
+							type:"POST",
+							contentType:"application/x-www-form-urlencoded",
+							encoding:"utf-8",
+							cache:false,
+							success:function(msg){
+								if(msg=="yes"){
+									var parent = $(obj).parent().parent();
+									var stateDom = parent.find(".state");
+									var stateHtml = stateDom.html();
+									if(stateHtml=="ACTIVE"){
+										stateDom.removeClass("label-success").addClass("label-warning");
+										stateDom.html("LOCKED");
+										$(obj).html("<i class='fa fa-unlock'></i> 解锁");
+									}else{
+										stateDom.removeClass("label-warning").addClass("label-success");
+										stateDom.html("ACTIVE");
+										$(obj).html("<i class='fa fa-lock'></i> 锁定");
+									}
+									layer.close(index);
+									layer.msg('状态切换成功', {icon: 1,offset: 't',anim: 5});
+								}
+							}
+						});
+					},
+					close:function(){
+						return false;
+					}
+				});
+				
+			}
+			/**
+				删除知识点
+			*/
+			function delete_point(obj,id){
+				var offset = $(obj).offset();
+				layer.open({
+					type:5,
+					title:false,
+					shadeClose:true,
+					shade:0,
+					skin: 'layui-layer-molv',
+					btn:['确认','取消'],
+					btnAlign:'c',
+					offset:[offset.top-60,offset.left-120],
+					yes:function(index){
+						$.ajax({
+							url:"${path}/admin/page/delete/"+id,
+							type:"DELETE",
+							contentType:"application/x-www-form-urlencoded",
+							encoding:"utf-8",
+							cache:false,
+							success:function(msg){
+								if(msg=="Y"){
+									layer.close(index);
+									layer.msg('成功删除数据', {icon: 1,offset: 't', anim: 5});
+									location.reload();
+								}
+							}
+						});
+						return false;
+					},
+					close:function(){
+						return false;
+					}
+				});
+			}
+			
+			$(".btn-refresh").on("click",function(){
+				location.reload();
+			});
+			
+			$(".hot_title").each(function(n){
+		    	$(this).html($.fixWidth($(this).html(),{length:15,suffix:".",fillLength:3}));
+		    });
+			
+			/* 全选按钮 */
+			$("#check-all").on("click",function(){
+				if(this.checked){
+					$("input[type=checkbox]").prop("checked",true);
+				}else{
+					$("input[type=checkbox]").prop("checked",false);
+				}
+			});
+			
+			function deleteBatch(){
+				var ids = [];
+				var doms = $("tbody input[type=checkbox]:checked");
+				for(var i=0;i<doms.length;i++){
+					if(doms[i].checked){
+						ids[i]=doms[i].value;
+					}
+				}
+				if(ids.length<=0){
+					top.layer.open({
+						title:false,
+						icon:5,
+						content:'请选择需要删除的数据',
+						offset:'15px'
+					});
+				}else{
+					top.layer.open({
+						title:false,
+						icon:2,
+						content:'确认删除？',
+						offset:'15px',
+						btn:['确认','取消'],
+						btnAlign:'c',
+						yes:function(index){
+							$.ajax({
+								url:"${path}/admin/page/deleteBatch",
+								type:'POST',
+								data:{
+									ids:ids.toString()
+								},
+								contentType:'application/x-www-form-urlencoded',
+								encoding:'utf-8',
+								cache:false,
+								success:function(msg){
+									if(msg == "ok"){
+										layer.close(index);
+										location.reload();
+									}
+								}
+							});
+							
+						},
+						cancel:function(index){
+							layer.close(index);
+							return false;
+						}
+					});
+				}
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<#include "/admin/include/title.html"/>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.css" />
+		<!--Font Awesome-->
+		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
+		<!--Theme style-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/_all-skins.min.css" />
+		<link rel="stylesheet" type="text/css" href="${path}/plugins/iCheck/all.css" />
+		<!--AdminLTE Skins-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
+		<!-- <link rel="icon" href="${path}/img/favicon.ico" type="image/x-icon" />-->
+		<link rel="shortcut icon" href="${path}/img/favicon.ico" type="image/x-icon"/>
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js}" ></script>
+			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js}" ></script>	
+		<![endif]-->
+		<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="${path}/css/question-add.css" />
+		<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+		<link rel="stylesheet" href="${path}/common/select2/dist/css/select2.min.css" />
+	</head>
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+			<#include "/admin/include/header.html"/>
+			<#include "/admin/include/left_menu.html"/>
+			<div class="content-wrapper">
+				<!-- content-header -->
+				<!-- /.content-header -->
+				<section class="content">
+					<div class="col-md-12">
+			          <!-- Box Comment -->
+			          <div class="box box-widget">
+			            <div class="box-header with-border">
+			              <div class="user-block">
+			                <span class="username"><i class="fa fa-user"></i> 作者：${view.creator}</a></span>
+			                <span class="description"><i class="fa fa-edit"></i> 发布于：${(view.createTime?string("yyyy年MM月dd日 HH:mm:ss"))!}</span>
+			              </div>
+		              	  <div class="box-tools pull-right">
+		              		  <button type="button" class="btn btn-box-tool" onclick="javascript:window.close();"><i class="fa fa-times"></i> 关闭页面</button>
+		              	  </div>
+			            </div>
+			            <!-- /.box-header -->
+			            <div class="box-body">
+			              <h4>【${view.questionType.name}】${view.title!}</h4>
+			              <#if view.titleImg?? && view.titleImg!="">
+				              <img class="img-responsive pad" src="${path}/${view.titleImg}" alt="Photo">
+			              </#if>
+			
+			              <p>&nbsp &nbsp &nbsp ${view.content}</p>
+			            </div>
+			            <!-- /.box-body -->
+			            <div class="box-footer box-comments">
+			            	<#if view.questionType.id = 1>
+					            <div class="form-group">
+									<#list view.choiceList?keys as ca>
+						                <div class="box-comment">
+							              	<#if view.choiceImgList[ca]?? && view.choiceImgList[ca]!="">
+								                <!-- Title image -->
+								                <img class="attachment-img" src="${view.choiceImgList[ca]}" alt="Attachment Image">
+											</#if>
+							                <div class="comment-text">
+								                <label>
+											      <input type="radio" value="${ca}" name="r3" class="flat-red">
+								                  <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${view.choiceList[ca]}</span>
+								                </label>
+							                </div>
+						                </div>
+					                </#list>
+								</div>
+							</#if>
+							<#if view.questionType.id = 2>
+								<div class="form-group">
+									<#list view.choiceList?keys as ca>
+										<div class="box-comment">
+											<#if view.choiceImgList[ca]?? && view.choiceImgList[ca]!="">
+								                <!-- Title image -->
+								                <img class="attachment-img" src="${view.choiceImgList[ca]}" alt="Attachment Image">
+											</#if>
+											<div class="comment-text">
+								                <label>
+								                  <input type="checkbox" name="r3" class="flat-red" >
+								                   <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${view.choiceList[ca]}</span>
+								                </label>
+							                </div>
+						                </div>
+					                </#list>
+					            </div>
+							</#if>
+							<#if view.questionType.id = 3>
+								<div class="form-group">
+									<div class="box-comment">
+										<div class="comment-text">
+											<input type="button" value="√" id="btnDa11">&nbsp &nbsp &nbsp 
+											<input type="button" value="×" id="btnDa12">
+										</div>
+									</div>
+					            </div>
+							</#if>
+							<#if view.questionType.id = 4>
+								<div class="form-group">
+									<div class="box-comment">
+										<div class="comment-text col-xs-6">
+											<br/>
+											<input type="text" class="form-control" placeholder="Enter ...">
+										</div>
+									</div>
+					            </div>
+							</#if>
+			            </div>
+			            <!-- /.box-footer -->
+			            <div class="box-footer">
+			            	<h4>正确答案：${view.answer}</h4>
+			            	<hr>
+			            	<strong><i class="fa fa-paw"></i> 来源</strong>
+			            	<p>
+			            	&nbsp &nbsp ${view.keyword}
+			            	</p>
+			            	<hr>
+			            	<strong><i class="fa fa-flag"></i> 分析</strong>
+			            	<p>
+			            	&nbsp &nbsp ${view.analysis}
+			            	</p>
+			            	<hr>
+			            	<strong><i class="fa fa-bookmark"></i> 考点</strong>
+			            	<p>
+			            	&nbsp &nbsp ${view.field.name} >
+			            	<#if knowledgePoint??>
+				            	<#list knowledgePoint as key>
+				            		<#if key_index=0>
+				            			${key.name}
+				            		<#else>
+				            			, ${key.name}
+				            		</#if>
+				            	</#list>
+			            	</#if>
+			            	</p>
+			            </div>
+			            <!-- /.box-footer -->
+			          </div>
+			          <!-- /.box -->
+			        </div>
+			        <!-- /.col -->
+				</section>
+			</div>
+			<#include "/admin/include/footer.html"/>
+		</div>
+		<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="${path}/common/select2/dist/js/select2.full.js"></script>
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<script type="text/javascript" src="${path}/js/plugs.js"></script>
+		<script type="text/javascript" src="${path}/js/field_point.js"></script>
+		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
+		<!-- iCheck 1.0.1 -->
+		<script type="text/javascript" src="${path}/plugins/iCheck/icheck.min.js"></script>
+		<script type="text/javascript">
+		//Flat red color scheme for iCheck
+	    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+	      checkboxClass: 'icheckbox_flat-green',
+	      radioClass   : 'iradio_flat-green'
+	    })
+		</script>
+	</body>
+</html>

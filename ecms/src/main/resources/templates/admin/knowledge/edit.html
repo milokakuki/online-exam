@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<#include "/admin/include/title.html"/>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!--Bootstrap 3.3.7-->
+		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+		<!--Font Awesome-->
+		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
+		<!--Ionicons-->
+		<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
+		<!--Theme style-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
+		<!--AdminLTE Skins-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js" ></script>
+			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js" ></script>	
+		<![endif]-->
+		<!--Google Font-->
+		<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+	</head>
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+			<#include "/admin/include/header.html"/>
+			<!-- /.main-header -->
+			<#include "/admin/include/left_menu.html"/>
+
+			<!--Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<!-- content-header -->
+				<section class="content-header">
+					<h1>
+			        <small style="color:#737373;">
+			        	<a href="${path}/admin/index"><i class="fa fa-home"></i></a> 
+			        	<i class="fa fa-angle-double-right"></i> 题库管理
+			        	<i class="fa fa-angle-double-right"></i> 新增题库
+			        </small>
+			        </h1>
+				</section>
+				<!-- /.content-header -->
+				<section class="content">
+					<div class="row">
+						<form action="${path}/admin/knowledgePoint/edit" id="form-field-edit" method="POST" class="col-md-12" onsubmit="return init_form()">
+							<div class="box box-solid">
+								<div class="box-body">
+									<div class="form-horizontal">
+										<h4>基础信息</h4><hr />
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="name" class="col-md-3 control-label"><small class="text-red">*</small> 知识点（必填）</label>
+													<div class="col-md-8">
+														<input type="hidden" name="id" value="${point.id}"/>
+														<input required="required" type="text" class="form-control" name="name" id="name" value="${(point.name)!}" placeholder="请输入题库名" />
+													</div>
+												</div>
+												<div class="form-group">
+												<label for="memo" class="col-md-3 control-label"><small class="text-red">*</small> 描述（必填）</label>
+													<div class="col-md-8">
+														<input required="required" type="text" class="form-control" name="memo" id="memo" value="${(point.memo)!}" placeholder="请输入描述信息" />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="status" class="col-md-3 control-label">状态</label>
+													<div class="col-md-8">
+														<select id="state" class="form-control" name="status">
+															<#list status as state>
+																<option value="${state.value()}">${state}</option>
+															</#list>
+														</select>
+													</div>
+												</div>
+												<div class="form-group">
+                                                    <label for="field" class="col-sm-3 control-label">所属题库</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="hidden" name="typeName" id="typeName"/>
+                                                        <select class="form-control select2" name="field" id="field" style="width: 100%;">
+                                                          <#list fields as field>
+                                                          	  <#if point.field?? && point.field.id = field.id >
+	                                                              <option value="${field.id}" selected="selected">${field.name}</option>
+	      													  <#else>
+	                                                              <option value="${field.id}">${field.name}</option>
+                                                          	  </#if>
+                                                          </#list>
+                                                        </select>
+                                                    </div>
+                                                </div>
+											</div>
+										</div>
+									</div>
+									<div class="form-horizontal">
+										<h4>操作</h4>
+										<hr />
+										<div class="row margin-bottom">
+											<div class="col-md-12">
+												<div style="float: left;">
+													<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> 修改</button>
+													<button type="reset" class="btn btn-warning btn-sm"><i class="fa fa-rotate-left"></i> 重置</button>
+													<button type="button" onclick="history.back(-1);" class="btn btn-info btn-sm"><i class="fa fa-reply"></i> 返回</button>
+												</div>	
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>	
+					</div>
+					
+				</section>
+			</div>
+			<!-- / content wrapper-->
+
+			<!-- footer -->
+			<#include "/admin/include/footer.html"/>
+		</div>
+		<!-- /.wrapper -->
+
+		<!--jQuery-->
+		<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
+		<!--jQuery UI-->
+		<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<!--Bootstrap-->
+		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+
+		<!--AdminLTE App-->
+		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
+		<script type="text/javascript" src="${path}/common/select2/dist/js/select2.full.js"></script>
+		<script type="text/javascript">
+			var testEditor;
+			$(function(){
+				testEditor = editormd("test-editormd",{
+					width:'100%',
+					height:800,
+					syncSrolling:'single',
+					path:'${path}/plugins/editormd/lib/',
+					codeFold:true,
+					emoji:true,
+					taskList:true,
+					tocm:true,
+					tex:true,
+					flowChart:true,
+					sequenceDiagram:true,
+					imageUpload:true,
+					imageFormates:['jpg','jpeg','gif','png','bmp','webp'],
+					imageUploadURL:"${path}/admin/attach/upload-img",
+					saveHTMLToTextarea:true
+				});
+				$('.select2').select2();
+			});
+			function init_form(){
+				var typeName = $("#field").find("option:selected").text();
+				$("#typeName").val(typeName);
+			}
+		</script>
+	</body>
+</html>

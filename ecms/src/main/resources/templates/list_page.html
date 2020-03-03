@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<#include "/admin/include/title.html"/>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!--Bootstrap 3.3.7-->
+		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+		<!--Font Awesome-->
+		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
+		<!--Ionicons-->
+		<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
+		<!--Theme style-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
+		<!--AdminLTE Skins-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js" ></script>
+			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js" ></script>	
+		<![endif]-->
+		<!--Google Font-->
+		<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+	</head>
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+			<#include "/admin/include/header.html"/>
+			<!-- /.main-header -->
+			<#include "/admin/include/left_menu.html"/>
+
+			<!--Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<!-- content-header -->
+				<section class="content-header">
+					<h1>
+			        <small style="color:#737373;">
+			        	<a href="${path}/admin/index"><i class="fa fa-home"></i></a> 
+			        	<i class="fa fa-angle-double-right"></i> 我的考试
+			        	<i class="fa fa-angle-double-right"></i> 考试列表
+			        </small>
+				</section>
+				<!-- /.content-header -->
+				<section class="content">
+					<div class="row">
+						<form action="${path}/admin/user/add" id="form-user-add" method="POST" class="col-md-12">
+							<div class="box box-solid">
+								<div class="box-body">
+									<div class="form-horizontal">
+										<h4>
+										考试列表
+										<#if msg??>
+									 		<span style="float: right;color:red;">${msg}</span>
+										</#if>
+										</h4>
+										<hr />
+										<div class="row">
+											<ul>
+												<#list list as tp>
+													<li>
+														<div class="knowledge-title">
+															<span class="knowledge-title-name" onclick="openDetail(${tp.id})">[${(tp.pageType.name)!}]&nbsp;&nbsp;${tp.name }</span>
+														</div>
+													</li>
+												</#list>
+											</ul>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</form>	
+					</div>
+					
+				</section>
+			</div>
+			<!-- / content wrapper-->
+
+			<!-- footer -->
+			<#include "/admin/include/footer.html"/>
+		</div>
+		<!-- /.wrapper -->
+
+		<!--jQuery-->
+		<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
+		<!--jQuery UI-->
+		<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<!--Bootstrap-->
+		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+
+		<!--AdminLTE App-->
+		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
+		<script type="text/javascript">
+			function openDetail(id){
+				document.location.href = "/detail_page?id="+id;
+			};
+		</script>
+	</body>
+</html>

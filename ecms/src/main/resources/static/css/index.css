@@ -1,0 +1,70 @@
+.icon_photo {
+    padding-bottom: 13px;
+}
+a {
+    text-decoration: none;
+}
+a {
+    background-color: transparent;
+}
+
+.icon_column span {
+    font-size: 18px;
+    display: block;
+    color: #231f20;
+    line-height: 21px;
+}
+
+.icon_column {
+    width: 25%;
+    padding: 0 10px;
+}
+.pull-left {
+    float: left!important;
+}
+.icon_content_holder {
+    padding: 35px 0 52px 0;
+    overflow: hidden;
+}
+
+.center_content {
+    max-width: 1375px;
+    margin: 0 auto;
+    min-height: 64px;
+    padding-top: 11px;
+    position: relative;
+}
+
+.text-center {
+    text-align: center;
+}
+.footer {
+	height: 76px;
+}
+
+
+
+div,ul,li{margin: 0;padding: 0}/*先初始化一下默认样式*/
+.notice {
+ height: 35px;/*固定公告栏显示区域的高度*/
+ padding: 0px;
+ background: #f0f0f0;
+ background-image: url(./img/bg.png);
+ overflow: hidden;
+}
+.notice ul li {
+ list-style: none;
+ line-height: 35px;
+ /*以下为了单行显示，超出隐藏*/
+ display: block;
+ white-space: nowrap;
+ text-overflow: ellipsis;
+ overflow: hidden;
+ text-align: center;
+}
+.navbar {
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+}

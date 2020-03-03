@@ -1,0 +1,31 @@
+<header class="main-header">
+	<a href="index2.html" class="logo">
+		<span class="logo-mini" style="padding: 10px;"><b><img src="${path}/img/logo.png" class="img img-responsive"/></b></span>
+		<span class="logo-lg"><b>ECMS</b></span>
+	</a>
+	<nav class="navbar navbar-static-top">
+		<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+			role="button"> <span class="sr-only">Toggle navigation</span>
+		</a>
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
+				<li class="dropdown user user-menu"><a href="javascript:void(0)" class="dropdown-toggle">
+					<#if login_admin.avatar?? && login_admin.avatar !=""> 
+						<img src="${login_admin.avatar}" class="user-image" alt="User Image">
+					<#else>
+						<img src="${path}/assert/img/default_user_avatar.png" class="user-image" alt="User Image">
+					</#if>
+					<span class="hidden-xs">${(login_admin.nickname)!}</span>
+				</a></li>
+				<li class="messages-menu">
+					<a href="${path}/admin/user/pwd" title="修改密码">
+						<i class="fa fa-key"></i>
+					</a>
+				</li>
+				<li class="messages-menu">
+					<a href="${path}/admin/logout" title="退出"> <i class="fa fa-power-off"></i></a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</header>

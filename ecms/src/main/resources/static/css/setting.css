@@ -1,0 +1,25 @@
+ul.default-sidenav li.active {
+    background-color: #0088cc;
+    color: #FFF;
+}
+ul.default-sidenav li {
+    margin-top: -1px;
+}
+.nav > li {
+    position: relative;
+    display: block;
+}
+ul.default-sidenav {
+    margin-top: 40px;
+    padding-right: 12px;
+}
+ul.default-sidenav li.active a {
+    color: #FFF;
+}
+ul.default-sidenav>li>a {
+    padding: 8px 12px;
+}
+.nav>li>a:hover, .nav>li>a:active, .nav>li>a:focus {
+    color: #444;
+    background: none;
+}

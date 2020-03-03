@@ -1,0 +1,29 @@
+.def-bk-content {
+    background: rgb(255, 255, 255);
+    border-radius: 0px 3px 3px 3px;
+    box-shadow: 1px 2px 2px rgb(226, 226, 226);
+    padding: 20px;
+    border: 1px solid rgb(206, 206, 206);
+}
+#question-time {
+    text-align: center;
+    font-size: 16px;
+    line-height: 40px;
+    font-family: Verdana, Arial, sans-serif, '微软雅黑';
+}
+#question-time, #question-submit {
+    margin-top: 20px;
+}
+.question-time-normal {
+	color: #1ba1e2;
+}
+
+.question-time-warning {
+	color: rgb(240,81,38);
+}
+
+#time-icon {
+    line-height: 140px;
+    font-size: 140px;
+    color: #B8B8B8;
+}
