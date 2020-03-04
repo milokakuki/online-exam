@@ -27,7 +27,7 @@ public interface PageHistoryService extends SimpleService<PageHistory, Integer> 
 
 	//PageHistory findByPageAndUserAndStatus(Page page, User user, Boolean flag);
 	PageHistory findByPageAndStudent(Page page,Student student);
-	PageHistory findByStudent(Student student);
+	List<PageHistory> findByStudent(Student student);
 	PageHistory upDate(PageHistory pageHistory);
 	List<PageHistory> findAllByPageAndUserAndStatus(Page page, User user, Boolean flag);
 }

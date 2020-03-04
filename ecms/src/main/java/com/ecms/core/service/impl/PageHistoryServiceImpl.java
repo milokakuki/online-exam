@@ -136,7 +136,7 @@ public class PageHistoryServiceImpl implements PageHistoryService {
 	}
 
 	@Override
-	public PageHistory findByStudent(Student student) {
+	public List<PageHistory> findByStudent(Student student) {
 		return historyDao.findByStudent(student);
 	}
 

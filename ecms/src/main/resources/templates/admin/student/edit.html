@@ -47,65 +47,63 @@
 				<!-- /.content-header -->
 				<section class="content">
 					<div class="row">
-						<form action="${path}/admin/student/edit" id="form-user-add" method="POST" class="col-md-12">
+						<form action="${path}/admin/student/edit" name="form1" id="form-user-add" method="POST" class="col-md-12" onsubmit="return check()">
 							<div class="box box-solid">
 								<div class="box-body">
 									<div class="form-horizontal">
-										<h4>联系信息</h4>
+										<h4>联系信息
+											<#if msg??>
+									 		<span style="float: right;color:red;margin-right:100px;">${msg}</span>
+										</#if>
+										</h4>
 										<hr />
 										<div class="row">
 											<div class="col-md-6">
 												<div class="form-group">
-													<label for="name" class="col-md-3 control-label">姓名</label>
+													<label for="province" class="col-md-3 control-label"><small class="text-red">*</small> 姓名（必填）</label>
 													<div class="col-md-8">
 														<input type="hidden" name="studentid" value="${student.studentid}"/>
-														<input type="text" class="form-control" name="name" id="name" value="${(student.name)!}" placeholder="请输入姓名" />
+														<input type="text" class="form-control" name="name" id="name" value="${(student.name)!}" placeholder="请输入姓名" required="required" readonly="readonly"/>
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="phone" class="col-md-3 control-label">电话</label>
+													<label for="tel" class="col-md-3 control-label">电话</label>
 													<div class="col-md-8">
 														<input type="text" class="form-control" name="phone" id="phone" value="${(student.phone)!}" placeholder="请输入联系电话" />
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="email" class="col-md-3 control-label">邮箱</label>
+													<label for="email" class="col-md-3 control-label"><small class="text-red">*</small> 邮箱（必填）</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" name="email" id="email" value="${(student.email)!}" placeholder="请输入联系邮箱" readonly="readonly"/>
+														<input type="text" class="form-control" name="email" id="email" value="${(student.email)!}" placeholder="请输入联系邮箱" required="required" readonly="readonly"/>
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="birthdate" class="col-md-3 control-label">出生年月</label>
+													<label for="email" class="col-md-3 control-label">备考</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" name="birthdate" id="birthdate" value="${(student.birthdate)!}" placeholder="请输入出生年月" />
+														<input type="text" class="form-control" name="remark" id="remark" value="${(student.remark)!}" placeholder="请输入备考信息" />
 													</div>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
-													<label for="major" class="col-md-3 control-label">专业</label>
+													<label for="province" class="col-md-3 control-label">专业</label>
 													<div class="col-md-8">
 														<input type="text" class="form-control" name="major" id="major" value="${(student.major)!}" placeholder="请输入专业" />
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="school" class="col-md-3 control-label">学校</label>
+													<label for="tel" class="col-md-3 control-label">学校</label>
 													<div class="col-md-8">
 														<input type="text" class="form-control" name="school" id="school" value="${(student.school)!}" placeholder="请输入学校" />
 													</div>
 												</div>
 												<div class="form-group">
-													<label for="degree" class="col-md-3 control-label">学位</label>
+													<label for="email" class="col-md-3 control-label">学位</label>
 													<div class="col-md-8">
 														<input type="text" class="form-control" name="degree" id="degree" value="${(student.degree)!}" placeholder="请输入学位" />
 													</div>
 												</div>
-												<!-- <div class="form-group">
-													<label for="email" class="col-md-3 control-label">籍贯</label>
-													<div class="col-md-8">
-														<input type="text" class="form-control" name="email" id="email" value="${(user.email)!}" placeholder="请输入籍贯" />
-													</div>
-												</div> -->
 											</div>
 										</div>
 									</div>
@@ -113,13 +111,60 @@
 										<h4>考试邀请URL生成</h4>
 										<hr />
 										<div class="row margin-bottom">
+											<div class="col-md-6">
+												<div class="col-md-1"></div>
+												<div clsss="col-md-11">
+													<div class="form-group">
+									                    <label for="pageType" class="col-sm-3 control-label">试卷选择1</label>
+									                    <div class="col-sm-5 add-type">
+								                       		<select class="form-control select2" name="pageType1" id="testType1" style="width: 100%;" >
+								                       		  <option selected="selected"></option>
+				                                              <#list testPages as testPage>
+																<option value="${testPage.pageType.id}">${testPage.name}</option>
+															  </#list>
+				                                            </select>
+				                                            <span class="form-message"></span>
+							            				</div>
+							            			</div>								
+												</div>
+												
+											</div>
+											<div class="col-md-6">
+												<div class="col-md-1"></div>
+												<div clsss="col-md-11">
+													<div class="form-group">
+									                    <label for="pageType" class="col-sm-3 control-label"> 试卷选择2</label>
+									                    <div class="col-sm-5 add-type">
+								                       		<select class="form-control select2" name="pageType2" id="testType2" style="width: 100%;" >
+								                       		  <option selected="selected"></option>
+				                                              <#list testPages as testPage>
+																<option value="${testPage.pageType.id}">${testPage.name}</option>
+															  </#list>
+				                                            </select>
+				                                            <span class="form-message"></span>
+							            				</div>
+							            			</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="col-md-2"></div>
+												<div clsss="col-md-10">
+													<span style="float: left;color:red;" id="testMsg"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-horizontal">
+										<h4>&nbsp;</h4>
+										<hr />
+										<div class="row margin-bottom">
 											<div class="col-md-12">
-												<div style="float: left;">
-													<button type="submit" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-bolt"></i> 生成</button>
-													<input type="text" name="name" size="12" readonly="readonly" style="border:none; border-color: #878787;border-bottom:1px solid;outline: none;width:300px;margin-left:20px;" >
+												<div style="float: left;padding-left:15px;">
+													<button type="submit" id="generate" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-bolt"></i> 生成</button>						
+ 													<input type="text" name="link" size="12" id = "urlLink" value="${(strLink)!}" readonly="readonly" style="border:none; border-color: #878787;border-bottom:1px solid;outline: none;width:500px;margin-left:20px;" >
 												</div>	
 												<div style="float:right;clear:both;padding-right:15px;">
-													<button type="submit" class="btn btn-warning btn-sm" style="width:88px;"><i class="fa fa-check-square-o" ></i> 登录</button>
+													<button type="submit" class="btn btn-warning btn-sm" style="width:88px;"><i class="fa fa-check-square-o" ></i> 修改</button>
 													<button type="button" onclick="history.back(-1);" class="btn btn-info btn-sm" style="margin-left:10px;width:88px;"><i class="fa fa-reply"></i> 返回</button>
 												</div>
 											</div>
@@ -148,6 +193,31 @@
 			/* window.onblur = function(e) {
 				alert("请不要离开当前界面");
 			}; */
+ 			$('#generate').click(function(){
+ 				document.form1.action = "${path}/admin/student/generate";
+ 				//document.form1.submit();
+				var value1 = $("#testType1").val();
+				var value2 = $("#testType2").val();		
+				
+				if(value1 == "" && value2 == ""){
+					var msg = document.getElementById("testMsg");
+					msg.innerHTML = "试卷类型未选择！";
+				}else if(value1 == value2){
+					var msg = document.getElementById("testMsg");
+					msg.innerHTML = "请选择不同类型的试卷!";
+				}
+			}); 
+			
+			function check(){
+				var value1 = $("#testType1").val();
+				var value2 = $("#testType2").val();
+				if(value1 == "" && value2 == ""){
+					var msg = document.getElementById("testMsg");
+					msg.innerHTML = "试卷类型未选择！";
+					return false;
+				}
+				return true;
+			}
 		</script>
 		<!--Bootstrap-->
 		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
