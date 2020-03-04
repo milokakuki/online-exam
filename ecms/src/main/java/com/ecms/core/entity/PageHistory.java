@@ -68,6 +68,9 @@ public class PageHistory implements Serializable {
 
 	@Column(name = "end_time")
 	private Date endTime;
+	
+	@Column(name = "mark_time")
+	private Date markTime;
 
 	@Column(name = "status")
 	private Integer status;
@@ -126,6 +129,14 @@ public class PageHistory implements Serializable {
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+
+	public Date getMarkTime() {
+		return markTime;
+	}
+
+	public void setMarkTime(Date markTime) {
+		this.markTime = markTime;
 	}
 
 	public Integer getStatus() {
