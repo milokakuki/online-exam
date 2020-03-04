@@ -72,12 +72,12 @@ public class AdminController {
 	@PostMapping("/login")
 	public String login(String username,String password,String validateCode,Model model) {
 		Session session = SecurityUtils.getSubject().getSession();
-		String validate_code = (String)session.getAttribute(Const.CHECK_CODE);
-		if(validateCode == null || validateCode.trim().equals("")||!validateCode.trim().equalsIgnoreCase(validate_code)) {
-			model.addAttribute("msg", "验证码不正确！");
-			return "admin/login";
-		}
-		session.removeAttribute(Const.CHECK_CODE);
+		//String validate_code = (String)session.getAttribute(Const.CHECK_CODE);
+		//if(validateCode == null || validateCode.trim().equals("")||!validateCode.trim().equalsIgnoreCase(validate_code)) {
+		//	model.addAttribute("msg", "验证码不正确！");
+		//	return "admin/login";
+		//}
+		//session.removeAttribute(Const.CHECK_CODE);
 		Subject currUser = SecurityUtils.getSubject();
 		if(!currUser.isAuthenticated()) {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -88,20 +88,20 @@ public class AdminController {
 			}catch(UnknownAccountException uaex) {
 				model.addAttribute("msg", "用户名或密码不正确")
 				.addAttribute("firstName", username)
-				.addAttribute("password", password)
-				.addAttribute("validateCode", validateCode);
+				.addAttribute("password", password);
+				//.addAttribute("validateCode", validateCode);
 				return "admin/login";
 			}catch(LockedAccountException laex) {
 				model.addAttribute("msg", username+"已被锁定")
 				.addAttribute("firstName", username)
-				.addAttribute("password", password)
-				.addAttribute("validateCode", validateCode);
+				.addAttribute("password", password);
+				//.addAttribute("validateCode", validateCode);
 				return "admin/login";
 			}catch(AuthenticationException aex) {
 				model.addAttribute("msg", "用户名或密码不正确")
 				.addAttribute("firstName", username)
-				.addAttribute("password", password)
-				.addAttribute("validateCode", validateCode);
+				.addAttribute("password", password);
+				//.addAttribute("validateCode", validateCode);
 				return "admin/login";
 			}
 		}

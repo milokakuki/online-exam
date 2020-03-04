@@ -61,11 +61,11 @@ public class KnowledgePoint implements Serializable {
 	@Column(name = "status")
 	private int status;
 
-	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Question.class)
-	@JoinTable(name = "ECMS_QUSETION_KNOWLEDGE_POINT", joinColumns = {
-			@JoinColumn(name = "knowledge_point_id") }, inverseJoinColumns = { @JoinColumn(name = "question_id") })
-	private Set<Question> questions = new HashSet<>();
+	//@JsonIgnore
+	//@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = Question.class)
+	//@JoinTable(name = "ECMS_QUSETION_KNOWLEDGE_POINT", joinColumns = {
+	//		@JoinColumn(name = "knowledge_point_id") }, inverseJoinColumns = { @JoinColumn(name = "question_id") })
+	//private Set<Question> questions = new HashSet<>();
 
 	public KnowledgePoint() {
 		super();
@@ -78,7 +78,7 @@ public class KnowledgePoint implements Serializable {
 		this.field = field;
 		this.memo = memo;
 		this.status = status;
-		this.questions = questions;
+		//this.questions = questions;
 	}
 
 	public Integer getId() {
@@ -121,12 +121,12 @@ public class KnowledgePoint implements Serializable {
 		this.status = status;
 	}
 
-	public Set<Question> getQuestions() {
-		return questions;
-	}
+	//public Set<Question> getQuestions() {
+	//	return questions;
+	//}
 
-	public void setQuestions(Set<Question> questions) {
-		this.questions = questions;
-	}
+	//public void setQuestions(Set<Question> questions) {
+	//	this.questions = questions;
+	//}
 
 }

@@ -10,9 +10,13 @@ package com.ecms.core.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
+import com.ecms.core.entity.Field;
 import com.ecms.core.entity.Page;
 import com.ecms.core.entity.Question;
 import com.ecms.core.entity.QuestionPage;
+import com.ecms.core.entity.QuestionType;
 import com.ecms.core.service.base.SimpleService;
 
 /**
@@ -29,5 +33,7 @@ public interface QuestionPageService extends SimpleService<QuestionPage, Integer
 	void updata(QuestionPage po);
 
 	QuestionPage findByPageAndQuestion(Page page, Question question);
+	
+	org.springframework.data.domain.Page<QuestionPage> findByPagep(Page page,Pageable pageable);
 
 }

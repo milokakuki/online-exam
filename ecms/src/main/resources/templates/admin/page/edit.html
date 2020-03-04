@@ -39,157 +39,67 @@
 					<div class="box">
 						<h1 style="margin-left: 15px;"><i class="fa fa-file-text"></i> 修改试卷 </h1>
 						<hr>
-						<div class="box-header with-border">
-							<i class="fa fa-send"></i>${page.name}
-						</div>
-						<div class="box-body">
-							
-							<a class="btn" id="single" onclick="listQuestion(1)">单选题[${single?size}]</a>
-							<a class="btn" id="multiple" onclick="listQuestion(2)">多选题[${multiple?size}]</a>
-							<a class="btn" id="judge" onclick="listQuestion(3)">判断题[${judge?size}]</a>
-							<a class="btn" id="fill" onclick="listQuestion(4)">填空题[${fill?size}]</a>
-							<br>
-							<form action="/admin/page/updata" method="post">
-								<input type="hidden" id="id" name="id" value="${page.id}"/>
-								<h4>&nbsp;&nbsp;&nbsp;试卷总分：${page.totalPoint}&nbsp;&nbsp;&nbsp;
-								<a id="add-more" class="btn" onclick="openlayer()">
-									<i class="small-icon fa fa-plus-square" title="添加选项"></i>
-									<span style="font-size:18px">增加更多题目</span>
-								</a></h4>
-								<h4>&nbsp;&nbsp;&nbsp;及格分数：<input type="text" value="${page.passPoint}" id="point" name="point"/>&nbsp;&nbsp;&nbsp;</h4>
-							
-							<div class="form-group" id="single_list" style="display: none;">
-								<#list single as view>
-									<div class="form-group">
-										<div class="bg-gray disabled color-palette">
-											<h4>
-												【${view.questionType.name}】
-												(<span class="question-point" onclick="points(${view.id},${page.id})">${view.points}</span>分)
-												<a class="tmp-ques-remove" href="/admin/page/deleteQuestion?qid=${view.id}&pid=${page.id}">删除</a>
-											</h4>
-											
-										</div>
-							            <button class="btn-xs btn-info">题目</button>&nbsp;&nbsp;&nbsp;${view.title!}<br><br>
-							            <#if view.titleImg?? && view.titleImg!="">
-								           <img class="img-responsive pad" src="${path}/${view.titleImg}" alt="Photo">
-							            </#if>
-							
-							            <p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${view.content}</p>
-										<#list view.choiceList?keys as ca>
-							                <div class="box-comment">
-								                <div class="comment-text">
-									                <hr>
-									                <label>
-												      <input type="radio" value="${ca}" name="r{view.id}" class="flat-red">
-									                  <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${view.choiceList[ca]}</span>
-									                </label>
-								                	<#if view.choiceImgList[ca]?? && view.choiceImgList[ca]!="">
-										                <!-- Title image -->
-										                <img class="margin" style="height: 100px;width: 150px;" src="${view.choiceImgList[ca]}" alt="Attachment Image">
-													</#if>
-								                </div>
-							                </div>
-						                </#list>
+						
+						
+						<form action="${path}/admin/page/editforupdate/" id="form-field-add" method="POST" onsubmit='return verifyInput();' class="col-md-12">
+							<div class="box box-solid">
+								<div class="box-body">
+									<div class="form-horizontal">
+									
+										<div class="row">
+											 
+												<div class="form-group">
+													<label for="name" class="col-sm-2 control-label"><small class="text-red">*</small> 试卷名称(必填)</label>
+													<div class="col-sm-5 add-name">
+														<input type="hidden" name="id" value="${page.id}"/>
+														<input  type="text" class="form-control" name="name" id="name" value="${(page.name)!}" placeholder="请输入试卷名称" />
+													<span class="form-message"></span>
+													</div>
+												</div>
+												
+											 
+												<div class="form-group">
+													<label for="status" class="col-sm-2 control-label">状态</label>
+													<div class="col-sm-5">
+														<select id="state" class="form-control" name="status">
+															<#list status as state>
+																<#if page.status?? && page.status = state.value()>
+																	<option value="${state.value()}" selected="selected">${state}</option>
+																<#else>
+																	<option value="${state.value()}" >${state}</option>
+																</#if>
+															</#list>
+														</select>
+													</div>
+												</div>
+											 
+												<div class="form-group">
+													<label for="name" class="col-sm-2 control-label"><small class="text-red">*</small> 时长(分钟)(必填)</label>
+													<div class="col-sm-5 add-duration">
+														<input  type="text" class="form-control" name="duration" id="duration" value="${(page.duration)!}" placeholder="请输入考试时长（如：120）" />
+													    <span class="form-message"></span>
+													</div>
+												</div>
+												
+											</div>
+									 
 									</div>
-									<hr>
-								</#list>
-							</div>
-							<div class="form-group" id="multiple_list" style="display: none;">
-								<#list multiple as view>
-									<div class="form-group">
-										<div class="bg-gray disabled color-palette">
-											<h4>
-												【${view.questionType.name}】
-												(<span class="question-point" onclick="points(${view.id},${page.id})">${view.points}</span>分)
-												<a class="tmp-ques-remove" href="/admin/page/deleteQuestion?qid=${view.id}&pid=${page.id}">删除</a>
-											</h4>
-											
-										</div>
-							            <button class="btn-xs btn-info">题目</button>&nbsp;&nbsp;&nbsp;${view.title!}<br><br>
-							            <#if view.titleImg?? && view.titleImg!="">
-								           <img class="img-responsive pad" src="${path}/${view.titleImg}" alt="Photo">
-							            </#if>
-							
-							            <p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${view.content}</p>
-										<#list view.choiceList?keys as ca>
-							                <div class="box-comment">
-								                <div class="comment-text">
-								                	<hr>
-									                <label>
-												      <input type="checkbox" value="${ca}" name="r{view.id}" class="flat-red">
-									                  <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${view.choiceList[ca]}</span>
-									                </label>
-									              	<#if view.choiceImgList[ca]?? && view.choiceImgList[ca]!="">
-										                <!-- Title image -->
-										                <img class="margin" style="height: 100px;width: 150px;" src="${view.choiceImgList[ca]}" alt="Attachment Image">
-													</#if>
-								                </div>
-							                </div>
-						                </#list>
+									<!--  <div class="form-horizontal">
+										
+										<div class="row margin-bottom">-->
+										<div class="form-group">
+											<div class="col-md-6">
+												<div style="float: left;">
+													<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i> 修改</button>
+													<button type="button" onclick="history.back(-1);" class="btn btn-info btn-sm"><i class="fa fa-reply"></i> 返回</button>
+												</div>	
+											</div>
+										<!--</div>
+									</div>-->
 									</div>
-								</#list>
+								</div>
 							</div>
-							<div class="form-group" id="judge_list" style="display: none;">
-								<#list judge as view>
-									<div class="form-group">
-										<div class="bg-gray disabled color-palette">
-											<h4>
-												【${view.questionType.name}】
-												(<span class="question-point" onclick="points(${view.id},${page.id})">${view.points}</span>分)
-												<a class="tmp-ques-remove" href="/admin/page/deleteQuestion?qid=${view.id}&pid=${page.id}">删除</a>
-											</h4>
-											
-										</div>
-							            <button class="btn-xs btn-info">题目</button>&nbsp;&nbsp;&nbsp;${view.title!}<br><br>
-							            <#if view.titleImg?? && view.titleImg!="">
-								           <img class="img-responsive pad" src="${path}/${view.titleImg}" alt="Photo">
-							            </#if>
-							
-							            <p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${view.content}</p>
-						                <div class="box-comment">
-							                <div class="comment-text">
-							                	<hr>
-								                <input type="button" value="√" id="btnDa11">&nbsp &nbsp &nbsp 
-												<input type="button" value="×" id="btnDa12">
-							                </div>
-						                </div>
-									</div>
-									<hr>
-								</#list>
-							</div>
-							<div class="form-group" id="fill_list" style="display: none;">
-								<#list fill as view>
-									<div class="form-group">
-										<div class="bg-gray disabled color-palette">
-											<h4>
-												【${view.questionType.name}】
-												(<span class="question-point" onclick="points(${view.id},${page.id})">${view.points}</span>分)
-												<a class="tmp-ques-remove" href="/admin/page/deleteQuestion?qid=${view.id}&pid=${page.id}">删除</a>
-											</h4>
-											
-										</div>
-							            <button class="btn-xs btn-info">题目</button>&nbsp;&nbsp;&nbsp;${view.title!}<br><br>
-							            <#if view.titleImg?? && view.titleImg!="">
-								           <img class="img-responsive pad" src="${path}/${view.titleImg}" alt="Photo">
-							            </#if>
-							
-							            <p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${view.content}</p>
-						                <div class="box-comment">
-							                <div class="comment-text">
-							                	<hr>
-								                <input type="text" class="form-control" placeholder="Enter ...">
-								                <hr>
-							                </div>
-						                </div>
-									</div>
-									<hr>
-								</#list>
-							</div>
-						</div>
-						<div class="box-footer">
-							<button class="btn btn-info pull-right" type="submit">保存试卷</button>
-						</div>
-						</form>
+						</form>	
 					</div>
 				</section>
 			</div>
@@ -207,6 +117,52 @@
 		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
 		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
 		<script type="text/javascript" src="${path}/plugins/iCheck/icheck.min.js"></script>
+		<script type="text/javascript">
+		function verifyInput() {
+				var result = true;
+				var r_checkName = checkName();
+				var r_checkDuration = checkDuration();
+				
+				result = r_checkName && r_checkDuration;
+				console.log(result);
+				return result;
+			}
+			
+			function checkName() {
+				var name = $("#name").val();
+				if (name == "") {
+					$(".add-name .form-message").text("请输入试卷名称");
+					$("#name").focus();
+					$("#name").addClass("has-error");
+					return false;
+				} else if (name.length > 20) {
+					$(".add-name .form-message").text("内容过长，请保持在20个字符以内");
+					$("#name").focus();
+					$("#name").addClass("has-error");
+					return false;
+				} else {
+					return true;
+				}
+			}
+			function checkDuration() {
+				var duration = $("#duration").val();
+				if (duration == "") {
+					$(".add-duration .form-message").text("请输入考试时长（如：120）");
+					$("#duration").addClass("has-error");
+					return false;
+				} else if (isNaN(duration)) {
+					$(".add-duration .form-message").text("请输入数字");
+					$("#duration").addClass("has-error");
+					return false;
+				} else if (!(duration > 19 && duration < 301)) { 
+					$(".add-duration .form-message").text("数字范围无效，考试的时长必须设置在20到300的范围内");
+					$("#duration").addClass("has-error");
+					return false;
+				} else {
+					return true;
+				}
+			}
+			</script>
 		<script type="text/javascript">
 			var pid = ${page.id};
 			function openlayer(){
@@ -264,6 +220,8 @@
 			      checkboxClass: 'icheckbox_flat-green',
 			      radioClass   : 'iradio_flat-green'
 			})
+			
+			
 		</script>
 	</body>
 </html>

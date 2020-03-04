@@ -9,7 +9,7 @@
 	        		<i class="fa fa-tv"></i> <span>工作台</span>
 	        	</a>
 	        </li>
-	       
+	       <!-- 
 	        <li class="treeview">
 		        <a href="#">
 			        <i class="fa fa-user"></i> <span>用户管理</span>
@@ -24,10 +24,10 @@
 	         	<li class="active"><a href="${path}/admin/user/pwd.html"><i class="fa fa-user-secret"></i>安全设置</a></li>
 	        </ul>
 	        </li>
-	        
-	        	        <li class="treeview">
+	        -->
+	       <li class="treeview">
 		        <a href="#">
-			        <i class="fa fa-user"></i> <span>一览界面</span>
+			        <i class="fa fa-user"></i> <span>管理界面</span>
 			        <span class="pull-right-container">
 			        	<i class="fa fa-angle-left pull-right"></i>
 			        </span>
@@ -40,35 +40,11 @@
 							</a>
 					</li>
 				</#if>
-	         	<li class="active"><a href="#"><i class="fa fa-user-secret"></i>试卷管理</a></li>
+	         	<li class="active"><a href="${path}/admin/page/list"><i class="fa fa-user-secret"></i>试卷管理</a></li>
 	         	<li class="active"><a href="#"><i class="fa fa-user-secret"></i>阅卷管理</a></li>
 	        </ul>
 	        </li>
-	        
-	        <#if login_admin.typeName?? && (login_admin.typeName="ADMIN" )>
-				<li class="treeview">
-					<a href="#">
-						<i class="glyphicon glyphicon-th"></i>
-						<span>试题管理</span>
-						<span class="pull-right-container">
-							<i class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-					<ul class="treeview-menu">
-						<#if login_admin.typeName?? && (login_admin.typeName="ADMIN" || login_admin.typeName="TEACHER")>
-							<li>
-								<a href="${path}/admin/question/list-0-0-0.html">
-									<i class="glyphicon glyphicon-th-large"></i> 试题列表
-								</a>
-							</li>
-							<li>
-								<a href="${path}/admin/question/add">
-									<i class="fa fa-plus"></i> 添加试题</a>
-							</li>
-						</#if>
-					</ul>
-				</li>
-			</#if>
+			<!-- 
 			<#if login_admin.typeName?? && (login_admin.typeName="ADMIN" || login_admin.typeName="TEACHER")>
 				<li class="treeview">
 					<a href="#">
@@ -95,7 +71,8 @@
 					</ul>
 				</li>
 			</#if>
-			<#if login_admin.typeName?? && (login_admin.typeName="STUDENT")>
+			-->
+		 	  <#if login_admin.typeName?? && (login_admin.typeName="STUDENT")>
 				<li class="treeview">
 					<a href="#">
 						<i class="glyphicon glyphicon-book"></i><span>我的考试</span><span class="pull-right-container">
@@ -108,10 +85,9 @@
 								<i class="glyphicon glyphicon-bookmark" id="mytestMenu"></i> 考试列表
 							</a>
 						</li>
-						
 					</ul>
 				</li>
-			</#if>
+			</#if> 
     	</ul>
 	</section>
 </aside>
