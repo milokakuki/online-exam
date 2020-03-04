@@ -15,12 +15,18 @@ question_add = {
 			this.bindAddAnswer();
 			this.bindRemoveAnswer();
 			
+			
+			
 			this.bindSubmit();
 			this.composeEntity();
+			
+			
 		},
 		bindSubmit : function bindSubmit() {
 			$("#btn-save").click(function() {
+				if ( question_add.verifyInput()== true) {
 					var question_entity = question_add.composeEntity();
+					var pid = $(".question-pageid input").val();
 					console.log(question_entity);
 					$.ajax({
 						headers : {
@@ -28,23 +34,27 @@ question_add = {
 							'Content-Type' : 'application/json'
 						},
 						type : "POST",
-						url : "/admin/question/add",
+						url : "/admin/question/add/"+pid,
 						data : JSON.stringify(question_entity),
 						success : function(message) {
 							console.log(message);
 							if (message.result == "success") {
 								layer.msg("操作成功！", {icon:6,time:1000});
-								document.location.href = "/admin/question/list-0-0-0.html";
+								document.location.href = "/admin/question/list-0-0-0-"+pid;
 							} else {
-								layer.msg("客官，请稍后重试！", {icon:5,time:1000});
+								layer.msg("操作失败，请联系管理员！", {icon:5,time:1000});
 							}
 
 						},
 						error : function(message) {
-							layer.msg("客官，请稍后重试！", {icon:5,time:1000});
+							layer.msg("操作失败，请联系管理员！", {icon:5,time:1000});
 						}
 					});
 
+			}
+				else{
+					alert("带星号项目为必填项目，请输入必填项！");
+				}
 			});
 		},
 		/**
@@ -63,6 +73,85 @@ question_add = {
 			messagebox.height(messagebox.height() - 1);
 			return false;
 
+		},
+		
+		verifyInput : function verifyInput(){
+			var result = true;
+			var r_checkName = question_add.checkTitle();
+			var r_checkContent = question_add.checkContent();
+			 var r_checkChoise = question_add.checkChoise();
+			
+			result = r_checkName && r_checkContent && r_checkChoise;
+			
+			return result;
+		},
+		
+		checkTitle : function checkTitle() {
+			var title = $(".question-title input").val();
+			if (title == "") {
+				$(".question-title .form-message").text("请输入题目");
+				$("#title").focus();
+				$("#title").addClass("has-error");
+				return false;
+			} else {
+				return true;
+			}
+		},
+	 
+		checkContent : function checkContent() {
+			var content = $(".question-content textarea").val();
+			var titleImg = $("#titleImg");
+
+			if (content == "" && titleImg.val()=="") {
+				$(".question-content .form-message").text("请输入内容");
+				$("#content").focus();
+				$("#content").addClass("has-error");
+
+			} else {
+				return true;
+			}
+		},
+		
+
+		checkChoise : function checkChoise() {
+			var resultc=true;
+			if ($(".question-type select").val() ==1){
+			var add_opt_items = $(".add-opt-item");
+
+			for (var i = 0; i < add_opt_items.length; i++) {
+				var add_opt_item = $(add_opt_items[i]);
+				//选项标签
+				var opt_img = add_opt_item.find(".display-opt-img");
+				//alert(  "opt_img.length:"+ opt_img.length);
+				//if (opt_img.length > 0) {
+				//	alert(  "URL:"+ opt_img.data("url"));
+				//}
+				
+				if (opt_img.length<=0 && add_opt_item.children("input").val()==""){
+					  resultc= false;
+					  $(".add-opt-item .form-message").text("请输入选项内容");
+						 
+				}
+				 
+			}
+			}
+			if ($(".question-type select").val() ==2){
+				var add_opt_items = $(".add-opt-item");
+
+				for (var i = 0; i < add_opt_items.length; i++) {
+					var add_opt_item = $(add_opt_items[i]);
+					//选项标签
+					var opt_img = add_opt_item.find(".display-opt-img");
+					//alert(  "opt_img.length:"+ opt_img.length);
+					//if (opt_img.length > 0) {
+					//	alert(  "URL:"+ opt_img.data("url"));
+					//}
+					if (opt_img.length<=0 && add_opt_item.children("input").val()==""){
+						  resultc= false;
+					}
+				}
+				}
+			return resultc
 		},
 		
 		bindChangeQuestionType : function changeQuestionType() {
@@ -154,30 +243,35 @@ question_add = {
 //			console.log(questionType.id);
 			question_entity.questionType = questionType;
 			
-			var field = new Object();
-			field.id = $(".question-field select").val();
-			question_entity.field = field;
+			//var field = new Object();
+			//field.id = $(".question-field select").val();
+			//question_entity.field = field;
 //			console.log($(".question-field select").val());
 //			console.log(field.id);
 			
 			
-			var pointList = new Array();
-			var pointOpts = new Array();
+			//var pointList = new Array();
+			//var pointOpts = new Array();
 			
-			var pointOpts = $(".question-points select").val();
+			//var pointOpts = $(".question-points select").val();
 			//console.log($(".question-points select").val());
 			//console.log(pointOpts);
 			
-			for (var i = 0; i < pointOpts.length; i++) {
-				var point = new Object();
-				point.id = pointOpts[i];
-				pointList.push(point);
-			}
+			//for (var i = 0; i < pointOpts.length; i++) {
+			//	var point = new Object();
+			//	point.id = pointOpts[i];
+			//	pointList.push(point);
+			//}
 			
-			question_entity.knowledgePoint = pointList;
+			//question_entity.knowledgePoint = pointList;
+			
+			//var page = new Object();
+			//page.id = $(".question-pageid input").val();
+
+			//question_entity.page = page;
 			
 			question_entity.title = $(".question-title input").val();
-
+			
 			if (1 == question_entity.questionType.id) {
 				question_entity.answer = $(".form-question-answer1 select").val();
 			} else if (2 == question_entity.questionType.id) {

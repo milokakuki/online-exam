@@ -28,56 +28,58 @@
 
 	<body class="hold-transition skin-blue sidebar-mini">
 		<div class="wrapper">
-			<#include "/admin/include/header.html"/>
-			<#include "/admin/include/left_menu.html"/>
+			 <#include "/admin/include/header.html"/>
+			 <#include "/admin/include/left_menu.html"/>
 			<div class="content-wrapper">
 				<!-- content-header -->
 				<!-- /.content-header -->
 				<section class="content">
+				<h1 style="margin-left: 15px;"><i class="fa fa-file-text"></i> 添加试卷 </h1>
+						<hr>
 					<div class="row">
 						<div class="nav-tabs-custom">
-							<ul class="nav nav-tabs">
+							<!-- <ul class="nav nav-tabs">
 				              <li class="active"><a href="#manual" data-toggle="tab" aria-expanded="true">手动组卷</a></li>
 				              <li class=""><a href="#self-motion" data-toggle="tab" aria-expanded="false">自动组卷</a></li>
-				            </ul>
+				            </ul> -->
 				            <div class="tab-content">
 				            	<div class="tab-pane active" id="manual">
 				            		<form class="form-horizontal" action="/admin/page/add" method="post" onsubmit='return verifyInput();'>
 				            			<div class="form-group">
-						                    <label for="name" class="col-sm-2 control-label"><small class="text-red">*</small> 试卷名称</label>
+						                    <label for="name" class="col-sm-2 control-label"><small class="text-red">*</small> 试卷名称(必填)</label>
 						                    <div class="col-sm-5 add-name">
-					                       		<input type="text" class="form-control" id="name" name="name" placeholder="Page Name">
+					                       		<input type="text"  class="form-control" id="name" name="name" placeholder="请输入试卷名称">
 					            				<span class="form-message"></span>
 				            				</div>
 				            			</div>
 				            			<div class="form-group">
-						                    <label for="pageType" class="col-sm-2 control-label"><small class="text-red">*</small> 试卷类型</label>
-						                    <div class="col-sm-5 add-type">
-					                       		<select class="form-control select2" name="pageType" id="pageType" style="width: 100%;" required="required">
-	                                              <#list pageTypes as type>
-	                                                  <option value="${type.id}">${type.name}</option>
-	                                              </#list>
-	                                            </select>
-	                                            <span class="form-message"></span>
-				            				</div>
-				            			</div>
+											<label for="status" class="col-sm-2 control-label">状态</label>
+											<div class="col-sm-5">
+												<select id="state" class="form-control" name="status">
+													<#list status as state>
+														<option value="${state.value()}">${state}</option>
+													</#list>
+												 </select>
+											</div>
+										</div>
+											 
 				            			<div class="form-group">
-						                    <label for="duration" class="col-sm-2 control-label"><small class="text-red">*</small> 时长(分钟)</label>
+						                    <label for="duration" class="col-sm-2 control-label"><small class="text-red">*</small> 时长(分钟)(必填)</label>
 						                    <div class="col-sm-5 add-duration">
-					                       		<input type="text" class="form-control" id="duration" name="duration" placeholder="Duration">
+					                       		<input type="text" class="form-control"  id="duration" name="duration" placeholder="请输入考试时长（如：120）">
 				            					<span class="form-message"></span>
 				            				</div>
 				            			</div>
 				            			<div class="form-group">
 						            		<div class="col-sm-6">
-							            		<button type="submit" class="btn btn-info pull-right"> 下一步</button>
+							            		<!--  <button type="submit" class="btn btn-info pull-right"> 下一步</button>-->
+							            		<button  type="submit"  class="btn btn-sm btn-primary"> 添加</button>
+												<button type="button" onclick="history.back(-1);" class="btn btn-info btn-sm"><i class="fa fa-reply"></i> 返回</button>
 						            		</div>
 				            			</div>
 				            		</form>
 				            	</div>
-				            	<div class="tab-pane" id="self-motion">
-				            		2
-				            	</div>
+				            	
 				            </div>
 						</div>
 					</div>
@@ -98,6 +100,9 @@
 		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
 		<script type="text/javascript">
 			$('.select2').select2();
+			
+			
+			
 			/**
 			 * 检查输入合法性
 			 */
@@ -118,8 +123,8 @@
 					$("#name").focus();
 					$("#name").addClass("has-error");
 					return false;
-				} else if (name.length > 10) {
-					$(".add-name .form-message").text("内容过长，请保持在10个字符以内");
+				} else if (name.length > 20) {
+					$(".add-name .form-message").text("内容过长，请保持在20个字符以内");
 					$("#name").focus();
 					$("#name").addClass("has-error");
 					return false;
@@ -137,8 +142,8 @@
 					$(".add-duration .form-message").text("请输入数字");
 					$("#duration").addClass("has-error");
 					return false;
-				} else if (!(duration > 30 && duration < 241)) { 
-					$(".add-duration .form-message").text("数字范围无效，考试的时长必须设置在30到240的范围内");
+				} else if (!(duration > 19 && duration < 301)) { 
+					$(".add-duration .form-message").text("数字范围无效，考试的时长必须设置在20到300的范围内");
 					$("#duration").addClass("has-error");
 					return false;
 				} else {

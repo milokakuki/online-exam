@@ -9,6 +9,8 @@
 package com.ecms.core.admin.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -102,6 +104,7 @@ public class PageController {
 		List<QuestionPage> list = questionPageService.findByPage(id);
 		for (QuestionPage questionPage : list) {
 			questionPageService.delete(questionPage);
+			questionService.delete(questionPage.getQuestion());
 		}
 		if(page != null) {
 			pageService.delete(page);
@@ -140,6 +143,11 @@ public class PageController {
 
 		model.addAttribute("fileds", fields).addAttribute("knowledges", KnowledgePoints).addAttribute("pageTypes",
 				pageTypes);
+		
+		List<Status> status = new LinkedList<>();
+		status.add(Status.ACTIVED);
+		status.add(Status.LOCKED);
+		model.addAttribute("status", status);
 
 		return "admin/page/add";
 	}
@@ -149,8 +157,10 @@ public class PageController {
 	public String add(Page page, HttpSession session) {
 		User user = (User)session.getAttribute(Const.LOGIN_ADMIN);
 		page.setCreator(user.getUsername());
+		page.setCreateTime(new Date());
 		pageService.saveAndFlush(page);
-		return "redirect:/admin/page/edit/" + page.getId();
+		//return "redirect:/admin/page/edit/" + page.getId();
+		return "redirect:/admin/page/list";
 	}
 
 	@RequiresRoles(value = {"ADMIN","TEACHER"}, logical= Logical.OR)
@@ -185,6 +195,11 @@ public class PageController {
 			}
 			total += questionPage.getPoints();
 		}
+		
+		List<Status> status = new LinkedList<>();
+		status.add(Status.ACTIVED);
+		status.add(Status.LOCKED);
+		model.addAttribute("status", status);
 		page.setTotalPoint(total);
 		pageService.saveAndFlush(page);
 		model.addAttribute("single", single);
@@ -194,49 +209,65 @@ public class PageController {
 		model.addAttribute("page", page);
 		return "admin/page/edit";
 	}
+	@RequiresRoles(value = {"ADMIN","TEACHER"}, logical= Logical.OR)
+	@PostMapping("/editforupdate")
+	public String edit(Page page,HttpSession session){
+		User user = (User)session.getAttribute(Const.LOGIN_ADMIN);
+		page.setCreator(user.getUsername());
+		pageService.saveAndFlush(page);
+		return "redirect:/admin/page/list";
+	}
 
 	@RequiresRoles(value = {"ADMIN","TEACHER"}, logical= Logical.OR)
 	@GetMapping("/addQuestion-{fieldId}-{knowledge}-{questionType}-{pid}")
 	public String question(@PathVariable("fieldId") Integer fieldId, @PathVariable("knowledge") Integer knowledge,
 			@PathVariable("questionType") Integer questionType, @PathVariable("pid") Integer pid,
 			RequestElement element, Model model) {
-		Sort sort = new Sort(Direction.DESC, "createTime");
+		Sort sort = new Sort(Direction.DESC, "id");
 		Pageable pageable = new PageRequest(element.getPageNo() - 1, element.getPageSize(), sort);
-		Field field = fieldService.findById(fieldId);
-		QuestionType qType = questionTypeService.findById(questionType);
-		org.springframework.data.domain.Page<Question> questions = questionService
-				.findByFieldAndKnowledgePointAndQuestionType(field, knowledge, qType, pageable);
-		int total = questions.getTotalPages();
+		//Field field = fieldService.findById(fieldId);
+		//QuestionType qType = questionTypeService.findById(questionType);
+		Page pagep = pageService.findById(pid);
+		//org.springframework.data.domain.Page<Question> questions = questionService
+		//		.findByFieldAndKnowledgePointAndQuestionType(field, knowledge, qType,pageable);
+		//org.springframework.data.domain.Page<Question> questions = questionService
+		//		.findByFieldAndKnowledgePointAndQuestionType(pagep,pageable);
+		
+		org.springframework.data.domain.Page<QuestionPage> questionPages = questionPageService.findByPagep(pagep, pageable);
+				
+		int total = questionPages.getTotalPages();
 		int start = element.getPageNo() - 3 > 0 ? element.getPageNo() - 3 : 1;
 		int end = element.getPageNo() + 3 < total ? element.getPageNo() + 3 : total;
 
-		List<Field> fields = fieldService.findAll();
-		model.addAttribute("fields", fields);
-		model.addAttribute("fieldId", fieldId);
+		//List<Field> fields = fieldService.findAll();
+		//model.addAttribute("fields", fields);
+		//model.addAttribute("fieldId", fieldId);
 
-		List<KnowledgePoint> knowledgePoints = new ArrayList<>();
-		if (fieldId == 0) {
-			knowledgePoints = knowledgePointService.findAll();
-		} else {
-			knowledgePoints.addAll(knowledgePointService.getKnowledgePointByField(field));
-		}
-		model.addAttribute("knowledgePoints", knowledgePoints);
-		model.addAttribute("knowledge", knowledge);
+		//List<KnowledgePoint> knowledgePoints = new ArrayList<>();
+		//if (fieldId == 0) {
+		//	knowledgePoints = knowledgePointService.findAll();
+		//} else {
+		//	knowledgePoints.addAll(knowledgePointService.getKnowledgePointByField(field));
+		//}
+		//model.addAttribute("knowledgePoints", knowledgePoints);
+		//model.addAttribute("knowledge", knowledge);
 
 		List<QuestionType> questionTypes = questionTypeService.findAll();
 		model.addAttribute("questionTypes", questionTypes);
 		model.addAttribute("questionType", questionType);
-
-		List<QuestionPage> questionPages = questionPageService.findByPage(pid);
+		
+		//List<QuestionPage> questionPages = questionPageService.findByPage(pid);
 		List<Integer> ids = new ArrayList<>();
 		for (QuestionPage questionPage : questionPages) {
 			ids.add(questionPage.getQuestion().getId());
 		}
-
+		
 		model.addAttribute("ids", ids);
 		model.addAttribute("pid", pid);
-		model.addAttribute("page", questions).addAttribute("start", start).addAttribute("end", end);
-		return "admin/page/add_qustion";
+		model.addAttribute("page", questionPages).addAttribute("start", start).addAttribute("end", end);
+		
+		//return "admin/page/add_qustion";
+		return "admin/question/list";
 	}
 
 	@RequiresRoles(value = {"ADMIN","TEACHER"}, logical= Logical.OR)

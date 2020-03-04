@@ -40,8 +40,8 @@
 			          <div class="box box-widget">
 			            <div class="box-header with-border">
 			              <div class="user-block">
-			                <span class="username"><i class="fa fa-user"></i> 作者：${view.creator}</a></span>
-			                <span class="description"><i class="fa fa-edit"></i> 发布于：${(view.createTime?string("yyyy年MM月dd日 HH:mm:ss"))!}</span>
+			                <span class="username"><i class="fa fa-user"></i> </span>
+			                <span class="description"><i class="fa fa-edit"></i> </span>
 			              </div>
 		              	  <div class="box-tools pull-right">
 		              		  <button type="button" class="btn btn-box-tool" onclick="javascript:window.close();"><i class="fa fa-times"></i> 关闭页面</button>
@@ -50,26 +50,27 @@
 			            <!-- /.box-header -->
 			            <div class="box-body">
 			              <h4>【${view.questionType.name}】${view.title!}</h4>
+			              
+			              <p>&nbsp &nbsp &nbsp ${view.content}</p>
 			              <#if view.titleImg?? && view.titleImg!="">
 				              <img class="img-responsive pad" src="${path}/${view.titleImg}" alt="Photo">
 			              </#if>
-			
-			              <p>&nbsp &nbsp &nbsp ${view.content}</p>
-			            </div>
-			            <!-- /.box-body -->
-			            <div class="box-footer box-comments">
+			           <!--  </div>
+			             
+			            <div class="box-footer box-comments"> -->
 			            	<#if view.questionType.id = 1>
 					            <div class="form-group">
 									<#list view.choiceList?keys as ca>
 						                <div class="box-comment">
-							              	<#if view.choiceImgList[ca]?? && view.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${view.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
 							                <div class="comment-text">
 								                <label>
 											      <input type="radio" value="${ca}" name="r3" class="flat-red">
 								                  <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${view.choiceList[ca]}</span>
+								                  <#if view.choiceImgList[ca]?? && view.choiceImgList[ca]!="">
+								                <img class="attachment-img" src="${view.choiceImgList[ca]}" alt="Attachment Image"  >
+								                
+								              <!--   <img class="img-responsive pad" src="${view.choiceImgList[ca]}" alt="Photo">-->
+											</#if>
 								                </label>
 							                </div>
 						                </div>
@@ -80,14 +81,16 @@
 								<div class="form-group">
 									<#list view.choiceList?keys as ca>
 										<div class="box-comment">
-											<#if view.choiceImgList[ca]?? && view.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${view.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
+											
 											<div class="comment-text">
 								                <label>
 								                  <input type="checkbox" name="r3" class="flat-red" >
 								                   <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${view.choiceList[ca]}</span>
+								                   <#if view.choiceImgList[ca]?? && view.choiceImgList[ca]!="">
+								                <!-- Title image -->
+								                <img class="img-responsive pad" src="${view.choiceImgList[ca]}" alt="Photo">
+								                
+											</#if>
 								                </label>
 							                </div>
 						                </div>
@@ -109,7 +112,7 @@
 									<div class="box-comment">
 										<div class="comment-text col-xs-6">
 											<br/>
-											<input type="text" class="form-control" placeholder="Enter ...">
+											 
 										</div>
 									</div>
 					            </div>
@@ -119,7 +122,7 @@
 			            <div class="box-footer">
 			            	<h4>正确答案：${view.answer}</h4>
 			            	<hr>
-			            	<strong><i class="fa fa-paw"></i> 来源</strong>
+			            	<strong><i class="fa fa-paw"></i> 关键字</strong>
 			            	<p>
 			            	&nbsp &nbsp ${view.keyword}
 			            	</p>
@@ -129,19 +132,7 @@
 			            	&nbsp &nbsp ${view.analysis}
 			            	</p>
 			            	<hr>
-			            	<strong><i class="fa fa-bookmark"></i> 考点</strong>
-			            	<p>
-			            	&nbsp &nbsp ${view.field.name} >
-			            	<#if knowledgePoint??>
-				            	<#list knowledgePoint as key>
-				            		<#if key_index=0>
-				            			${key.name}
-				            		<#else>
-				            			, ${key.name}
-				            		</#if>
-				            	</#list>
-			            	</#if>
-			            	</p>
+			            	
 			            </div>
 			            <!-- /.box-footer -->
 			          </div>

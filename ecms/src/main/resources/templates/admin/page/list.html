@@ -42,7 +42,7 @@
 					<div class="row" style="padding: 0 15px 10px 15px;">
 						<div style="float: left;">
 							<a href="${path}/admin/page/add" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> 添加试卷</a>
-							<button type="button" class="btn btn-danger btn-sm" onclick="deleteBatch()"><i class="fa fa-trash"></i> Delete</button>
+							<!-- <button type="button" class="btn btn-danger btn-sm" onclick="deleteBatch()"><i class="fa fa-trash"></i> Delete</button> -->
 						</div>
 						<div class="pull-right">
 							<button type="button" class="btn btn-default btn-sm btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
@@ -53,11 +53,10 @@
 							<table class="table table-hover text-center">
 								<thead>
 									<tr>
-										<td width="20"><input id="check-all" type="checkbox"/></td>
+										<!-- <td width="20"><input id="check-all" type="checkbox"/></td> -->
 										<th>编号</th>
 										<th>试卷名称</th>
 										<th>时长</th>
-										<th>类别</th>
 										<th>创建人</th>
 										<th>状态</th>
 										<th>操作</th>
@@ -67,8 +66,9 @@
 									<#if page.getContent()??>
 										<#list page.getContent() as point>
 											<tr>
-												<td><input value="${point.id}" type="checkbox"/></td>
-												<td>${point.id}</td>
+												<!--<td><input value="${point.id}" type="checkbox"/></td>-->
+												<!--<td>${point.id}</td>-->
+												<td>${(point_index+1+page.getNumber()*page.getSize())!}</td>
 												<td><span class="hot_title">${point.name!}</span></td>
 												<td>${point.duration!}</td>
 												<td>${point.creator!}</td>
@@ -83,14 +83,17 @@
 												</td>
 												<td>
 													<a href="${path}/admin/page/edit/${point.id}" class="text-info"><i class="fa fa-edit"></i> 编辑</a>&nbsp;
-													<#switch point.status>
+													<!--  <#switch point.status>
 														<#case 1>
 															<a href="javascript:void(0);" id="locked-user" onclick="lockedPage(this,${point.id})" class="text-yellow"><i class="fa fa-lock"></i> 锁定</a>&nbsp;
 															<#break>
 														<#default>
 															<a href="javascript:void(0);" id="locked-user" onclick="lockedPage(this,${point.id})" class="text-success"><i class="fa fa-unlock"></i> 解锁</a>&nbsp;
 													</#switch>
+													-->
 													<a href="javascript:void(0);" id="delete-point" class="text-red" onclick="delete_point(this,${point.id})"><i class="fa  fa-trash"></i> 删除</a> 
+												<!--  <a class="btn" onclick="openlayer(${point.id})" ><i class="fa fa-edit"></i> 试题登录</a>&nbsp;-->
+												<a href="${path}/admin/page/addQuestion-0-0-0-${point.id}" class="text-info"><i class="fa fa-edit"></i> 试题登录</a>&nbsp;
 												</td>
 											</tr>
 										</#list>
@@ -118,8 +121,24 @@
 		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
 		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
+		
 		<script type="text/javascript">
 		
+		function openlayer(pid){
+		    reload = false;
+		    layer.open({
+		        type:2,
+		        title:'添加试题',
+		        shadeClose:true,
+		        shade:0.85,
+		        area:['70%','85%'],
+		        //content:'/admin/page/addQuestion-'+0+'-'+0+'-'+0+"-"+pid,
+		        content:'/admin/page/addQuestion-'+0+'-'+0+'-'+0+"-"+pid,
+		       // end:function(){
+		        //	location.reload();
+		        //}
+		    });
+		}
 			/* 修改用户状态 */
 			function lockedPage(obj,id){
 				var offset = $(obj).offset();

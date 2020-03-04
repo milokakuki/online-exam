@@ -8,6 +8,8 @@
  */
 package com.ecms.core.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -26,8 +28,7 @@ import com.ecms.core.entity.Student;
  */
 public interface PageHistoryDao extends JpaRepository<PageHistory, Integer>, JpaSpecificationExecutor<PageHistory>{
 	PageHistory findByPageAndStudent(Page page,Student student);
-	PageHistory findByStudent(Student student);
+	List<PageHistory> findByStudent(Student student);
    PageHistory findByPageAndStudentAndStatus(Page page, Student student, Integer status);
    List<Page> findPageByStudentAndStatus(Student student, Integer status);
-
 }

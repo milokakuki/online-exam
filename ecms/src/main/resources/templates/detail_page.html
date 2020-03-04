@@ -64,28 +64,32 @@
 		            	<#list questions as index>
 							<div class="bg-gray disabled color-palette">
 								<h4>【${index.questionType.name}】${index.title!}</h4>
+								
 							</div>
+							
+							<hr>
+							<p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${index.content}</p>
 							<#if index.titleImg?? && index.titleImg!="">
 					              <img class="img-responsive pad" src="${path}/${index.titleImg}" alt="Photo">
 				            </#if>
-							<hr>
-							<p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${index.content}</p>
 							<hr>
 							<#if index.questionType.id = 1>
 					            <div class="form-group single">
 					                <input id="qId" value="${index.id}" type="hidden" />
 									<#list index.choiceList?keys as ca>
 						                <div class="box-comment">
-							              	<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
+							              	
 							                <div class="comment-text">
 								                <label>
 											      <input type="radio" value="${ca}" name="r${index.id}" class="flat-red">
 								                  <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
+								                  <#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
+								                <!-- Title image -->
+								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
+											</#if>
 								                </label>
 							                </div>
+							                
 						                </div>
 					                </#list>
 								</div>
@@ -95,16 +99,17 @@
 									<input id="qId" value="${index.id}" type="hidden" />
 									<#list index.choiceList?keys as ca>
 										<div class="box-comment">
-											<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
+											
 											<div class="comment-text">
 								                <label>
 								                   <input type="checkbox" value="${ca}" name="r${index.id}" class="flat-red" >
 								                   <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
 								                </label>
 							                </div>
+							                <#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
+								                <!-- Title image -->
+								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
+											</#if>
 						                </div>
 					                </#list>
 					            </div>
@@ -156,7 +161,7 @@
 			<hr>
 			<div class="container">
 			    <h4>
-			    	<strong>Copyright © 2018 <a href="#">新日铁's online examination system</a>.</strong> All rights reserved.
+			    	<strong>Copyright © 2020 <a href="#">Nssol online examination system</a>.</strong> All rights reserved.
 				    <div class="pull-right">
 				      <b>Version</b> 1.0.0
 				    </div>

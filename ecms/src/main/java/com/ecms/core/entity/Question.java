@@ -93,10 +93,10 @@ public class Question implements Serializable {
 	@Column(name = "analysis", columnDefinition = "longtext COMMENT '问题分析'", nullable = true)
 	private String analysis;
 
-	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = KnowledgePoint.class)
-	@JoinTable(name = "ECMS_QUSETION_KNOWLEDGE_POINT", joinColumns = {
-	@JoinColumn(name = "question_id") }, inverseJoinColumns = { @JoinColumn(name = "knowledge_point_id") })
-	private Set<KnowledgePoint> knowledgePoint = new HashSet<>();
+	//@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, targetEntity = KnowledgePoint.class)
+	//@JoinTable(name = "ECMS_QUSETION_KNOWLEDGE_POINT", joinColumns = {
+	//@JoinColumn(name = "question_id") }, inverseJoinColumns = { @JoinColumn(name = "knowledge_point_id") })
+	//private Set<KnowledgePoint> knowledgePoint = new HashSet<>();
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	private Set<QuestionPage> questionPages = new HashSet<>();
@@ -211,13 +211,13 @@ public class Question implements Serializable {
 		this.analysis = analysis;
 	}
 
-	public Set<KnowledgePoint> getKnowledgePoint() {
-		return knowledgePoint;
-	}
+	//public Set<KnowledgePoint> getKnowledgePoint() {
+	//	return knowledgePoint;
+	//}
 
-	public void setKnowledgePoint(Set<KnowledgePoint> knowledgePoint) {
-		this.knowledgePoint = knowledgePoint;
-	}
+	//public void setKnowledgePoint(Set<KnowledgePoint> knowledgePoint) {
+	//	this.knowledgePoint = knowledgePoint;
+	//}
 
 	public String getCreator() {
 		return creator;
