@@ -111,8 +111,9 @@ div.container div.row div {
 										
 										<div>
 											<div style="float: right; padding-right:15px;">
+												<a href="${path}/admin/student/add" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-plus"></i> 新登陆</a>
 											    <button type="submit" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-search"></i> 检索</button>
-												<a href="${path}/admin/student/search" class="btn btn-sm btn-primary" onclick="clear()" style="margin-left:10px;width:88px;"> <i class="fa fa-eraser"></i>清除条件</a>
+												<a href="${path}/admin/student/search" class="btn btn-sm btn-primary" onclick="clear()" style="width:88px;"> <i class="fa fa-eraser"></i>清除条件</a>
 											</div>
 										</div>
 									</div>
@@ -128,7 +129,6 @@ div.container div.row div {
 							<div class="form-horizontal">
 									<div class="row" style="padding: 0 15px 10px 15px;">
 										<div style="float: left;margin-left: 7px;">
-											<a href="${path}/admin/student/add" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-plus"></i> 新登陆</a>
 											<button type="button" class="btn btn-danger btn-sm" onclick="deleteBatch()" style="width:88px;"><i class="fa fa-trash"></i> Delete</button>
 										</div>
 										<div class="pull-right" style="margin-right: 7px;">
@@ -147,7 +147,6 @@ div.container div.row div {
 															<th>邮箱</th>
 															<th>电话</th>
 															<th>学校</th>
-															<th>考试时间</th>
 															<th>备考</th>
 															<th>操作</th>
 														</tr>
@@ -161,8 +160,7 @@ div.container div.row div {
 																	<td>${(student.name)!}</td>
 																	<td>${(student.email)!}</td>
 																	<td>${(student.phone)!}</td>
-																	<td>${(student.school)!}</td>
-																	<td>${(student.birthdate)!}</td>	
+																	<td>${(student.school)!}</td>	
 																	<td>${(student.remark)!}</td>	
 																	<td>
 																		<a href="${path}/admin/student/edit/${student.studentid}" class="text-info"><i class="fa fa-edit"></i> 编辑</a>&nbsp;
