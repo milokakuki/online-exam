@@ -214,6 +214,10 @@
 					var msg = document.getElementById("testMsg");
 					msg.innerHTML = "试卷类型未选择！";
 					return false;
+				}else if(value1 == value2){
+					var msg = document.getElementById("testMsg");
+					msg.innerHTML = "请选择不同类型的试卷!";
+					return false;
 				}
 				return true;
 			}

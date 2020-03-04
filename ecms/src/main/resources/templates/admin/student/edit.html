@@ -47,7 +47,7 @@
 				<!-- /.content-header -->
 				<section class="content">
 					<div class="row">
-						<form action="${path}/admin/student/edit" name="form1" id="form-user-add" method="POST" class="col-md-12" onsubmit="return check()">
+						<form action="" name="form1" id="form-user-add" method="POST" class="col-md-12" onsubmit="return check()">
 							<div class="box box-solid">
 								<div class="box-body">
 									<div class="form-horizontal">
@@ -194,7 +194,7 @@
 				alert("请不要离开当前界面");
 			}; */
  			$('#generate').click(function(){
- 				document.form1.action = "${path}/admin/student/generate";
+ 				document.form1.action = "${path}/admin/student/editGenerate";
  				//document.form1.submit();
 				var value1 = $("#testType1").val();
 				var value2 = $("#testType2").val();		
@@ -214,6 +214,10 @@
 				if(value1 == "" && value2 == ""){
 					var msg = document.getElementById("testMsg");
 					msg.innerHTML = "试卷类型未选择！";
+					return false;
+				}else if(value1 == value2){
+					var msg = document.getElementById("testMsg");
+					msg.innerHTML = "请选择不同类型的试卷!";
 					return false;
 				}
 				return true;

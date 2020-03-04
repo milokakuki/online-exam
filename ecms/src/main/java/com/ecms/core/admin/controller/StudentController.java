@@ -321,6 +321,11 @@ public class StudentController {
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@PostMapping("/generate")
 	public String save2(Student student,@RequestParam("pageType1")String pageType1,@RequestParam("pageType2")String pageType2,@RequestParam("link")String link, Model model) {
+		/**
+		 * 添加试卷信息
+		 */
+		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		model.addAttribute("testPages", testPages);
 		Student tmp = studentService.findByName(student.getName());
 		Student tmp2 = studentService.findByEmail(student.getEmail());
 		student.setCreateTime(new Date());
@@ -354,11 +359,6 @@ public class StudentController {
 				String strLink = "http://localhost:8081/admin/student/list?studentid="+studentid+"?email="+email;
 				System.out.println("******************strLink = "+strLink+"*****************************");
 				model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
-				/**
-				 * 添加试卷信息
-				 */
-				List<com.ecms.core.entity.Page> testPages = pageService.findAll();
-				model.addAttribute("testPages", testPages);
 			    return "admin/student/add";
 			}else {
 				model.addAttribute("msg", "邮箱已用!").addAttribute("student", student);
@@ -371,5 +371,67 @@ public class StudentController {
 		}
 		
 	}
+	
+	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
+	@PostMapping("/editGenerate")
+	public String edit2(Student student,@RequestParam("pageType1")String pageType1,@RequestParam("pageType2")String pageType2,@RequestParam("link")String link, Model model) {
+		Student s = studentService.findByStudentId(student.getStudentid());
+		List<PageHistory> pageHistories = pageHistoryService.findByStudent(s);
+		if (s != null && pageHistories != null) {
+			Integer pType1 = 0; 
+			Integer pType2 = 0;
+			boolean flag = true;
+			for(PageHistory pHistory:pageHistories) {
+				if(pageType1 != "" && flag == true) {
+					pType1 = Integer.parseInt(pageType1);
+					s.setName(student.getName());
+					s.setPhone(student.getPhone());
+					s.setSchool(student.getSchool());
+					s.setMajor(student.getMajor());
+					s.setBirthdate(student.getBirthdate());
+					s.setDegree(student.getDegree());
+					s.setUpdateTime(new Date());
+					pHistory.setStudent(s);
+					com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
+					p1.setId(pType1);
+					pHistory.setPage(p1);
+					pageHistoryService.upDate(pHistory);
+					flag = false;
+				}
+				
+				if(pageType2 != "" && flag == true) {
+					pType2 = Integer.parseInt(pageType2);
+					s.setName(student.getName());
+					s.setPhone(student.getPhone());
+					s.setSchool(student.getSchool());
+					s.setMajor(student.getMajor());
+					s.setBirthdate(student.getBirthdate());
+					s.setDegree(student.getDegree());
+					s.setUpdateTime(new Date());
+					pHistory.setStudent(s);
+					com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
+					p2.setId(pType2);
+					pHistory.setPage(p2);
+					pageHistoryService.upDate(pHistory);
+					flag = false;
+				}
+				
+			}
+			int studentid = student.getStudentid();
+			String email = student.getEmail();
+			String strLink = "http://localhost:8081/admin/student/list?studentid="+studentid+"?email="+email;
+			System.out.println("******************strLink = "+strLink+"*****************************");
+			model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
+			/**
+			 * 添加试卷信息
+			 */
+			List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+			model.addAttribute("testPages", testPages);
+		    return "admin/student/edit";
+		}
+		return "admin/student/edit";
+	}
+	
+		
 	
 }
