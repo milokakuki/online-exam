@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
     <link rel="stylesheet" type="text/css" href="${path}/css/detail.css" />
+    <script type="text/javascript" >
+        function preventBack(){window.history.forward();}
+         setTimeout("preventBack()", 0);
+         window.onunload=function(){null};
+     </script>
 </head>
 
 <body>

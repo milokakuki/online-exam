@@ -27,7 +27,7 @@ import com.ecms.core.entity.Student;
 public interface PageHistoryDao extends JpaRepository<PageHistory, Integer>, JpaSpecificationExecutor<PageHistory>{
 	PageHistory findByPageAndStudent(Page page,Student student);
 	PageHistory findByStudent(Student student);
-   PageHistory findByPageAndStudentAndStatus(Page page, Student student, Boolean flag);
-   List<Page> findPageByStudentAndStatus(Student student, Boolean flag);
+   PageHistory findByPageAndStudentAndStatus(Page page, Student student, Integer status);
+   List<Page> findPageByStudentAndStatus(Student student, Integer status);
 
 }

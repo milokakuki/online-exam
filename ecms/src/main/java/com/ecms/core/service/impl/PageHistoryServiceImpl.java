@@ -111,41 +111,12 @@ public class PageHistoryServiceImpl implements PageHistoryService {
 	}
 
 	@Override
-	public List<PageHistory> findAllByPageAndUserAndStatus(com.ecms.core.entity.Page page, User user, Boolean flag) {
-		List<PageHistory> pageHistories = historyDao.findAll((root, query, builder) -> {
-
-			List<Order> orders = new ArrayList<>();
-
-			orders.add(builder.asc(root.<Long>get("id")));
-
-			Predicate predicate = builder.conjunction();
-
-			if (page != null && page.getId() > 0) {
-				predicate.getExpressions().add(
-						builder.equal(root.get("page").as(com.ecms.core.entity.Page.class), page));
-			}
-			
-			if (user != null && user.getId() > 0) {
-				predicate.getExpressions().add(
-						builder.equal(root.get("user").as(User.class), user));
-			}
-			
-			predicate.getExpressions().add(
-					builder.equal(root.get("status").as(Boolean.class), flag));
-			
-			query.orderBy(orders);
-			return predicate;
-		});
-		return pageHistories;
-	}
-	
-	@Override
-	public PageHistory findByPageAndStudentAndStatus(com.ecms.core.entity.Page page, Student student, Boolean flag) {
-		return historyDao.findByPageAndStudentAndStatus(page, student, flag);
+	public PageHistory findByPageAndStudentAndStatus(com.ecms.core.entity.Page page, Student student, Integer status) {
+		return historyDao.findByPageAndStudentAndStatus(page, student, status);
 	}
 
 	@Override
-	public List<PageHistory> findAllByPageAndStudentAndStatus(com.ecms.core.entity.Page page, Student student, Boolean flag) {
+	public List<PageHistory> findAllByPageAndStudentAndStatus(com.ecms.core.entity.Page page, Student student, Integer status) {
 		List<PageHistory> pageHistories = historyDao.findAll((root, query, builder) -> {
 
 			List<Order> orders = new ArrayList<>();
@@ -165,7 +136,7 @@ public class PageHistoryServiceImpl implements PageHistoryService {
 			}
 			
 			predicate.getExpressions().add(
-					builder.equal(root.get("status").as(Boolean.class), flag));
+					builder.equal(root.get("status").as(Integer.class), status));
 			
 			query.orderBy(orders);
 			return predicate;
@@ -174,7 +145,7 @@ public class PageHistoryServiceImpl implements PageHistoryService {
 	}
 
 	@Override
-	public List<PageHistory> findAllByStudentAndStatus(Student student, Boolean flag) {
+	public List<PageHistory> findAllByStudentAndStatus(Student student, Integer status) {
 		List<PageHistory> pageHistories = historyDao.findAll((root, query, builder) -> {
 
 			List<Order> orders = new ArrayList<>();
@@ -189,7 +160,7 @@ public class PageHistoryServiceImpl implements PageHistoryService {
 			}
 			
 			predicate.getExpressions().add(
-					builder.equal(root.get("status").as(Boolean.class), flag));
+					builder.equal(root.get("status").as(Integer.class), status));
 			
 			query.orderBy(orders);
 			return predicate;

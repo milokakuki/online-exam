@@ -9,6 +9,7 @@
 package com.ecms.web.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -78,6 +79,7 @@ public class IndexController {
 		if (student == null){
 			return "error/common_error";
 		}
+
 		model.addAttribute("name", student.getName());
 		model.addAttribute("email", email);
 		model.addAttribute("id", id);
@@ -142,8 +144,8 @@ public class IndexController {
 	@ResponseBody
 	public Integer get_page(Student student, HttpSession session, Model model) {
 
-			// 查找该学生应做试卷
-			List<PageHistory> phList = pageHistoryService.findAllByStudentAndStatus(student, true);
+			// 查找该学生该做试卷
+			List<PageHistory> phList = pageHistoryService.findAllByStudentAndStatus(student, 0);
 
 			if(phList == null || phList.size() == 0){
 				return null;
@@ -158,10 +160,16 @@ public class IndexController {
 
 	@PostMapping("/detail_page")
 	public String detail_page(Integer phid, HttpSession session, Model model) {
+
 		PageHistory po = pageHistoryService.findById(phid);
-		if (po == null || po.getStatus() == false){
+		if (po == null || po.getStatus() != 0){
 			return "error/common_error";
 		}
+
+		// 学生状态更新
+		Student student = po.getStudent();
+		student.setStatus(1); 
+		studentService.saveAndFlush(student);
 
 		Page page = po.getPage();
 		Integer pageid = page.getId();
@@ -186,8 +194,8 @@ public class IndexController {
 			time = 0;
 		}
 
-		// 设置该pageHistory为不可再开始
-		po.setStatus(false);
+		po.setStartTime(Calendar.getInstance().getTime());
+		po.setStatus(1); // 开始答卷
 		pageHistoryService.saveAndFlush(po);
 
 		model.addAttribute("time", String.valueOf(time));
@@ -198,43 +206,49 @@ public class IndexController {
 
 	}
 	
-
-
 	@GetMapping("/submit_page")
 	@ResponseBody
 	Data submit_page(PageHistory pageHistory) {
 
 		PageHistory po = pageHistoryService.findById(pageHistory.getId());
-		po.setAnswers(pageHistory.getAnswers());
-		float counts = 0;
 
-		for (Integer key : po.getAnswers().keySet()) {
-			Question question = questionService.findById(key);
-			String answer = po.getAnswers().get(key);
-			if (answer.equals(question.getAnswer())) {
-				QuestionPage questionPage = questionPageService.findByPageAndQuestion(po.getPage(), question);
-				counts += questionPage.getPoints();
-			}
+		if(po == null || po.getStatus() != 1){
+			return Data.failured("无法提交");
 		}
-		po.setCounts(counts);
-		po.setStatus(false);
+
+		po.setAnswers(pageHistory.getAnswers());
+
+		// 算分逻辑（不要）
+		//float counts = 0;
+		// for (Integer key : po.getAnswers().keySet()) {
+		// 	Question question = questionService.findById(key);
+		// 	String answer = po.getAnswers().get(key);
+		// 	if (answer.equals(question.getAnswer())) {
+		// 		QuestionPage questionPage = questionPageService.findByPageAndQuestion(po.getPage(), question);
+		// 		counts += questionPage.getPoints();
+		// 	}
+		// }
+		//po.setCounts(counts);
+
+		po.setEndTime(Calendar.getInstance().getTime());
+		po.setStatus(2); // 已交卷
 		pageHistoryService.saveAndFlush(po);
 
 		return Data.success(Data.NOOP);
 	}
 	
-	@GetMapping("/user_page")
-	public String user_page(Model model, HttpSession session) {
-		User user = (User) session.getAttribute(Const.LOGIN_ADMIN);
-		if (user == null) {
-			return "redirect:/admin/login";
-		}
-		user = userService.findByUsername(user.getUsername());
-		List<PageHistory> pageHistories = pageHistoryService.findAllByPageAndUserAndStatus(null, user, false);
+	// @GetMapping("/user_page")
+	// public String user_page(Model model, HttpSession session) {
+	// 	User user = (User) session.getAttribute(Const.LOGIN_ADMIN);
+	// 	if (user == null) {
+	// 		return "redirect:/admin/login";
+	// 	}
+	// 	user = userService.findByUsername(user.getUsername());
+	// 	List<PageHistory> pageHistories = pageHistoryService.findAllByPageAndUserAndStatus(null, user, false);
 
-		model.addAttribute("list", pageHistories);
-		return "user_page";
-	}
+	// 	model.addAttribute("list", pageHistories);
+	// 	return "user_page";
+	// }
 
 	@GetMapping(value = { "/finish" })
 	public String finish(Model model) {

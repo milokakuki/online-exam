@@ -5,6 +5,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<#include "/admin/include/title.html"/>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+		<meta http-equiv="Expires" CONTENT="0"> 
+		<meta http-equiv="Cache-Control" CONTENT="no-cache"> 
+		<meta http-equiv="Pragma" CONTENT="no-cache">
 		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
 		<!--Font Awesome-->
 		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
@@ -123,13 +126,25 @@
 								<div class="form-group fill">
 									<input id="qId" value="${index.id}" type="hidden" />
 									<div class="box-comment">
-										<div class="comment-text col-xs-6">
+										<div class="comment-text">
 											<br/>
 											<input type="text" class="form-control" placeholder="Enter ...">
+											<br/>
 										</div>
 									</div>
 					            </div>
-								<br><br><br><br>
+							</#if>
+							<#if index.questionType.id = 5>
+								<div class="form-group appl">
+									<input id="qId" value="${index.id}" type="hidden" />
+									<div class="box-comment">
+										<div class="comment-text">
+											<br/>
+											<textarea class="form-control"></textarea>
+											<br/>
+										</div>
+									</div>
+					            </div>
 							</#if>
 						</#list>
 					</div>
@@ -228,6 +243,19 @@
 					}
 					map[a]=b;
 				}
+				var tmp =  $(".appl");
+				for (var i = 0; i < tmp.length; i++) {
+					var qId = tmp.find("#qId");
+					var a = qId[i].value;
+					var answer = tmp.find(".comment-text textarea");
+					var b;
+					if(answer[i] == null){
+						b="";
+					}else{
+						b = answer[i].value;
+					}
+					map[a]=b;
+				}
 				// console.log(map);
 				po.id = id;
 				po.answers = map;				
@@ -247,11 +275,11 @@
 								getPage(${student.studentid});
 							});
 						}else{
-							alert("系统出错啦！请向管理员反应。")
+							alert(msg.message);
 						}
 					},
 					error:function(msg){
-						alert("系统出错啦！请向管理员反应。")
+						alert("系统出错啦！请向管理员反应。");
 					}
 				});
 			}
@@ -277,6 +305,7 @@
 								document.write("</form>");
 								document.form1.submit();
 							} else {
+								window.onbeforeunload = null;
 								layer.alert("所有试题已经做完，现在跳转界面。", function (index) {
 									window.location.href = "${path}/finish";
 								});

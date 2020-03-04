@@ -57,17 +57,20 @@ public class PageHistory implements Serializable {
 	@JoinColumn(name = "page_id", nullable = true)
 	private Page page;
 
-	@Column(name = "answers")
+	@Column(name = "answers", columnDefinition = "mediumblob")
 	private HashMap<Integer, String> answers;
 
 	@Column(name = "counts")
 	private Float counts;
 
-	@Column(name = "create_time")
-	private Date createTime;
+	@Column(name = "start_time")
+	private Date startTime;
+
+	@Column(name = "end_time")
+	private Date endTime;
 
 	@Column(name = "status")
-	private Boolean status;
+	private Integer status;
 
 	public Integer getId() {
 		return id;
@@ -109,19 +112,27 @@ public class PageHistory implements Serializable {
 		this.counts = counts;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
+	public Date getStartTime() {
+		return startTime;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
 	}
 
-	public Boolean getStatus() {
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
