@@ -128,11 +128,11 @@ div.container div.row div {
 							<div class="form-horizontal">
 									<div class="row" style="padding: 0 15px 10px 15px;">
 										<div style="float: left;margin-left: 7px;">
-											<a href="${path}/admin/student/add" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> 新登陆</a>
-											<button type="button" class="btn btn-danger btn-sm" onclick="deleteBatch()"><i class="fa fa-trash"></i> Delete</button>
+											<a href="${path}/admin/student/add" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-plus"></i> 新登陆</a>
+											<button type="button" class="btn btn-danger btn-sm" onclick="deleteBatch()" style="width:88px;"><i class="fa fa-trash"></i> Delete</button>
 										</div>
 										<div class="pull-right" style="margin-right: 7px;">
-											<button type="button" class="btn btn-default btn-sm btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
+											<button type="button" class="btn btn-default btn-sm btn-refresh" style="width:88px;"><i class="fa fa-refresh"></i> Refresh</button>
 										</div>
 									</div>
 									<div class="bottom">
@@ -157,7 +157,7 @@ div.container div.row div {
 															<#list page.getContent() as student>
 																<tr>
 																	<td><input value="${student.studentid}" type="checkbox"/></td>
-																	<td>${(student_index)!}</td>
+																	<td>${(student_index + 1)!}</td>
 																	<td>${(student.name)!}</td>
 																	<td>${(student.email)!}</td>
 																	<td>${(student.phone)!}</td>

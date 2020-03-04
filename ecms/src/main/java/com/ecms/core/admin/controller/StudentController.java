@@ -171,6 +171,7 @@ public class StudentController {
 					pType1 = Integer.parseInt(pageType1);
 					pageHistory.setCreateTime(new Date());
 					pageHistory.setStudent(student);
+					pageHistory.setStatus(0);
 					com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
 					p1.setId(pType1);
 					pageHistory.setPage(p1);
@@ -182,6 +183,7 @@ public class StudentController {
 					pType2 = Integer.parseInt(pageType2);
 					pageHistory2.setCreateTime(new Date());
 					pageHistory2.setStudent(student);
+					pageHistory2.setStatus(0);
 					com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
 					p2.setId(pType2);
 					pageHistory2.setPage(p2);
@@ -337,6 +339,7 @@ public class StudentController {
 					pType1 = Integer.parseInt(pageType1);
 					pageHistory.setCreateTime(new Date());
 					pageHistory.setStudent(student);
+					pageHistory.setStatus(0);
 					com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
 					p1.setId(pType1);
 					pageHistory.setPage(p1);
@@ -348,6 +351,7 @@ public class StudentController {
 					pType2 = Integer.parseInt(pageType2);
 					pageHistory2.setCreateTime(new Date());
 					pageHistory2.setStudent(student);
+					pageHistory2.setStatus(0);
 					com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
 					p2.setId(pType2);
 					pageHistory2.setPage(p2);
@@ -356,7 +360,7 @@ public class StudentController {
 				//studentService.saveAndFlush(student);
 				int studentid = student.getStudentid();
 				String email = student.getEmail();
-				String strLink = "http://localhost:8081/admin/student/list?studentid="+studentid+"?email="+email;
+				String strLink = "http://localhost:8081/?id="+studentid+"&email="+email;
 				System.out.println("******************strLink = "+strLink+"*****************************");
 				model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
 			    return "admin/student/add";
@@ -392,6 +396,7 @@ public class StudentController {
 					s.setDegree(student.getDegree());
 					s.setUpdateTime(new Date());
 					pHistory.setStudent(s);
+					pHistory.setStatus(0);
 					com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
 					p1.setId(pType1);
 					pHistory.setPage(p1);
@@ -419,7 +424,7 @@ public class StudentController {
 			}
 			int studentid = student.getStudentid();
 			String email = student.getEmail();
-			String strLink = "http://localhost:8081/admin/student/list?studentid="+studentid+"?email="+email;
+			String strLink = "http://localhost:8081/?id="+studentid+"&email="+email;
 			System.out.println("******************strLink = "+strLink+"*****************************");
 			model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
 			/**

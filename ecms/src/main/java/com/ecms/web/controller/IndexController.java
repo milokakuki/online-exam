@@ -197,7 +197,7 @@ public class IndexController {
 				model.addAttribute("pageHistory", po);
 			} else {
 				PageHistory pageHistory = new PageHistory();
-				pageHistory.setStatus(true);
+				pageHistory.setStatus(1);
 				pageHistory.setPage(page);
 				pageHistory.setStudent(student);
 				pageHistory.setCreateTime(new Date());
@@ -239,7 +239,7 @@ public class IndexController {
 			}
 		}
 		po.setCounts(counts);
-		po.setStatus(false);
+		po.setStatus(0);
 		pageHistoryService.saveAndFlush(po);
 
 		return Data.success(Data.NOOP);
