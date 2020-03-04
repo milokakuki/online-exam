@@ -94,16 +94,20 @@ public class PageHistoryServiceImpl implements PageHistoryService {
 	public Page<PageHistory> findAll(Pageable pageable) {
 		return historyDao.findAll(pageable);
 	}
-
-	/*
-	 * @Override public PageHistory
-	 * findByPageAndUserAndStatus(com.ecms.core.entity.Page page, User user, Boolean
-	 * flag) { return historyDao.findByPageAndUserAndStatus(page, user, flag); }
-	 */
 	
 	@Override
 	public PageHistory findByPageAndStudent(com.ecms.core.entity.Page page, Student student) {
 		return historyDao.findByPageAndStudent(page, student);
+	}
+
+	@Override
+	public PageHistory findByStudent(Student student) {
+		return historyDao.findByStudent(student);
+	}
+
+	@Override
+	public PageHistory upDate(PageHistory pageHistory) {
+		return historyDao.save(pageHistory);
 	}
 
 	@Override
@@ -134,15 +138,63 @@ public class PageHistoryServiceImpl implements PageHistoryService {
 		});
 		return pageHistories;
 	}
-
+	
 	@Override
-	public PageHistory findByStudent(Student student) {
-		return historyDao.findByStudent(student);
+	public PageHistory findByPageAndStudentAndStatus(com.ecms.core.entity.Page page, Student student, Boolean flag) {
+		return historyDao.findByPageAndStudentAndStatus(page, student, flag);
 	}
 
 	@Override
-	public PageHistory upDate(PageHistory pageHistory) {
-		return historyDao.save(pageHistory);
+	public List<PageHistory> findAllByPageAndStudentAndStatus(com.ecms.core.entity.Page page, Student student, Boolean flag) {
+		List<PageHistory> pageHistories = historyDao.findAll((root, query, builder) -> {
+
+			List<Order> orders = new ArrayList<>();
+
+			orders.add(builder.asc(root.<Long>get("id")));
+
+			Predicate predicate = builder.conjunction();
+
+			if (page != null && page.getId() > 0) {
+				predicate.getExpressions().add(
+						builder.equal(root.get("page").as(com.ecms.core.entity.Page.class), page));
+			}
+			
+			if (student != null && student.getStudentid() > 0) {
+				predicate.getExpressions().add(
+						builder.equal(root.get("student").as(Student.class), student));
+			}
+			
+			predicate.getExpressions().add(
+					builder.equal(root.get("status").as(Boolean.class), flag));
+			
+			query.orderBy(orders);
+			return predicate;
+		});
+		return pageHistories;
+	}
+
+	@Override
+	public List<PageHistory> findAllByStudentAndStatus(Student student, Boolean flag) {
+		List<PageHistory> pageHistories = historyDao.findAll((root, query, builder) -> {
+
+			List<Order> orders = new ArrayList<>();
+
+			orders.add(builder.asc(root.<Long>get("id")));
+
+			Predicate predicate = builder.conjunction();
+			
+			if (student != null && student.getStudentid() > 0) {
+				predicate.getExpressions().add(
+						builder.equal(root.get("student").as(Student.class), student));
+			}
+			
+			predicate.getExpressions().add(
+					builder.equal(root.get("status").as(Boolean.class), flag));
+			
+			query.orderBy(orders);
+			return predicate;
+		});
+		return pageHistories;
 	}
 
 }

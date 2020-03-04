@@ -163,6 +163,11 @@
 		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
 		<!--<script type="text/javascript" src="${path}/dist/js/pages/dashboard.js" ></script>-->
 		<script type="text/javascript">
+			window.onbeforeunload = function() { 
+				// 离开画面前警告
+				return "Your work will be lost."; 
+			};
+
 			$('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
 		      checkboxClass: 'icheckbox_flat-green',
 		      radioClass   : 'iradio_flat-green'
@@ -223,7 +228,7 @@
 					}
 					map[a]=b;
 				}
-				console.log(map);
+				// console.log(map);
 				po.id = id;
 				po.answers = map;				
 				$.ajax({
@@ -238,15 +243,51 @@
 					success:function(msg){
 						if(msg.code==0){
 							layer.alert("恭喜您，提交成功!", function (index) { 
-								window.location.href = "${path}/admin/index";
+								// 判断是否有其他试题
+								getPage(${student.studentid});
 							});
+						}else{
+							alert("系统出错啦！请向管理员反应。")
 						}
 					},
 					error:function(msg){
-						
+						alert("系统出错啦！请向管理员反应。")
 					}
 				});
 			}
+
+			function getPage(id) {
+					var student = new Object();
+					student.studentid = id;
+					$.ajax({
+						url: "${path}/get_page",
+						type: 'get',
+						headers: {
+							'Accept': 'application/json',
+							'Content-Type': 'application/json'
+						},
+						data: student,
+						cache: false,
+						success: function (phid) {
+							if (phid) {
+								//window.location.href = "${path}/detail_page?phid="+phid;
+								// 避免参数暴露在url中，采取post方式
+								document.write("<form action=detail_page method=post name=form1 style='display:none'>");
+								document.write("<input type=hidden name=phid value='" + phid + "'/>");
+								document.write("</form>");
+								document.form1.submit();
+							} else {
+								layer.alert("所有试题已经做完，现在跳转界面。", function (index) {
+									window.location.href = "${path}/finish";
+								});
+							}
+						},
+						error: function () {
+							alert("系统出错啦！请向管理员反应。")
+						}
+					});
+				}
+
 			$(function(){
 				startTimer();
 			});

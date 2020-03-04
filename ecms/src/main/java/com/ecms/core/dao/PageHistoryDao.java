@@ -11,10 +11,11 @@ package com.ecms.core.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
+
 import com.ecms.core.entity.Page;
 import com.ecms.core.entity.PageHistory;
 import com.ecms.core.entity.Student;
-import com.ecms.core.entity.User;
 
 /**
  * @author 沙文
@@ -24,8 +25,9 @@ import com.ecms.core.entity.User;
  * @desc [用一句话描述改文件的功能]
  */
 public interface PageHistoryDao extends JpaRepository<PageHistory, Integer>, JpaSpecificationExecutor<PageHistory>{
-
-	//PageHistory findByPageAndUserAndStatus(Page page, User user, Boolean flag);
 	PageHistory findByPageAndStudent(Page page,Student student);
 	PageHistory findByStudent(Student student);
+   PageHistory findByPageAndStudentAndStatus(Page page, Student student, Boolean flag);
+   List<Page> findPageByStudentAndStatus(Student student, Boolean flag);
+
 }

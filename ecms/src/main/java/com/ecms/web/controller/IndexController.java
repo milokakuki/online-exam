@@ -15,10 +15,13 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ecms.core.entity.Field;
@@ -70,7 +73,14 @@ public class IndexController {
 
 
 	@GetMapping(value = { "/", "/index" })
-	public String index(Model model) {
+	public String index(Integer id, String email, Model model) {
+		Student student = studentService.findByStudentidAndEmailAndStatus(id, email, 0); // 查询是否待考考生
+		if (student == null){
+			return "error/common_error";
+		}
+		model.addAttribute("name", student.getName());
+		model.addAttribute("email", email);
+		model.addAttribute("id", id);
 		return "index";
 	}
 
@@ -115,7 +125,7 @@ public class IndexController {
 			return "list_page";
 		}
 	}
-	
+
 	@GetMapping("/test_page1")
 	public String test_page1(Model model, HttpSession session) {
 		User user = (User) session.getAttribute(Const.LOGIN_ADMIN);
@@ -128,100 +138,68 @@ public class IndexController {
 		}
 	}
 
-//	@GetMapping("/detail_page")
-//	public String detail_page(Integer id, HttpSession session, Model model) {
-//		//User user = (User) session.getAttribute(Const.LOGIN_ADMIN);
-//		Student student = (Student)session.getAttribute(Const.LOGIN_ADMIN);
-//		if (student == null) {
-//			return "redirect:/admin/login";
-//		} else {
-//			student = studentService.findByName(student.getName());
-//			Page page = pageService.findById(id);
-//			List<QuestionPage> questionPages = questionPageService.findByPage(id);
-//			List<Question> questions = new ArrayList<>();
-//			for (QuestionPage questionPage : questionPages) {
-//				questions.add(questionPage.getQuestion());
-//			}
-//
-//			PageHistory po = pageHistoryService.findByPageAndUserAndStatus(page, student, true);
-//
-//			long time = 0;
-//			if (po != null) {
-//				time = page.getDuration() * 60 *1000 + po.getCreateTime().getTime() - new Date().getTime();
-//				model.addAttribute("pageHistory", po);
-//			} else {
-//				PageHistory pageHistory = new PageHistory();
-//				pageHistory.setStatus(true);
-//				pageHistory.setPage(page);
-//				pageHistory.setUser(user);
-//				pageHistory.setCreateTime(new Date());
-//				pageHistoryService.saveAndFlush(pageHistory);
-//
-//				time = page.getDuration() * 60 * 1000 + pageHistory.getCreateTime().getTime() - new Date().getTime();
-//				model.addAttribute("pageHistory", pageHistory);
-//
-//			}
-//			time = time - time%1000;
-//			if(time>0){
-//				time /= 1000;
-//			}else{
-//				time = 0;
-//			}
-//			model.addAttribute("time", String.valueOf(time));
-//			model.addAttribute("questions", questions);
-//			model.addAttribute("page", page);
-//			return "detail_page";
-//		}
-//	}
-	
-	@GetMapping("/detail_page")
-	public String detail_page(Integer id, HttpSession session, Model model) {
-		//User user = (User) session.getAttribute(Const.LOGIN_ADMIN);
-		Student student = (Student)session.getAttribute(Const.LOGIN_ADMIN);
-		if (student == null) {
-			return "redirect:/admin/login";
-		} else {
-			student = studentService.findByName(student.getName());
-			Page page = pageService.findById(id);
-			List<QuestionPage> questionPages = questionPageService.findByPage(id);
-			List<Question> questions = new ArrayList<>();
-			for (QuestionPage questionPage : questionPages) {
-				questions.add(questionPage.getQuestion());
+	@GetMapping("/get_page")
+	@ResponseBody
+	public Integer get_page(Student student, HttpSession session, Model model) {
+
+			// 查找该学生应做试卷
+			List<PageHistory> phList = pageHistoryService.findAllByStudentAndStatus(student, true);
+
+			if(phList == null || phList.size() == 0){
+				return null;
 			}
 
-			PageHistory po = pageHistoryService.findByPageAndStudent(page, student);
+			PageHistory ph = phList.get(0);
+			
+			// 返回pagehistoryID
+			return ph.getId();
 
-			long time = 0;
-			if (po != null) {
-				time = page.getDuration() * 60 *1000 + po.getCreateTime().getTime() - new Date().getTime();
-				model.addAttribute("pageHistory", po);
-			} else {
-				PageHistory pageHistory = new PageHistory();
-				pageHistory.setStatus(true);
-				pageHistory.setPage(page);
-				pageHistory.setStudent(student);
-				pageHistory.setCreateTime(new Date());
-				pageHistoryService.saveAndFlush(pageHistory);
+	}
 
-				time = page.getDuration() * 60 * 1000 + pageHistory.getCreateTime().getTime() - new Date().getTime();
-				model.addAttribute("pageHistory", pageHistory);
-
-			}
-			time = time - time%1000;
-			if(time>0){
-				time /= 1000;
-			}else{
-				time = 0;
-			}
-			model.addAttribute("time", String.valueOf(time));
-			model.addAttribute("questions", questions);
-			model.addAttribute("page", page);
-			return "detail_page";
+	@PostMapping("/detail_page")
+	public String detail_page(Integer phid, HttpSession session, Model model) {
+		PageHistory po = pageHistoryService.findById(phid);
+		if (po == null || po.getStatus() == false){
+			return "error/common_error";
 		}
+
+		Page page = po.getPage();
+		Integer pageid = page.getId();
+
+		List<QuestionPage> questionPages = questionPageService.findByPage(pageid);
+		List<Question> questions = new ArrayList<>();
+		for (QuestionPage questionPage : questionPages) {
+			questions.add(questionPage.getQuestion());
+		}
+		
+		long time = 0;
+
+		// time = page.getDuration() * 60 *1000 + po.getCreateTime().getTime() - new
+		// Date().getTime();
+		time = page.getDuration() * 60 * 1000;
+		model.addAttribute("pageHistory", po);
+
+		time = time - time % 1000;
+		if (time > 0) {
+			time /= 1000;
+		} else {
+			time = 0;
+		}
+
+		// 设置该pageHistory为不可再开始
+		po.setStatus(false);
+		pageHistoryService.saveAndFlush(po);
+
+		model.addAttribute("time", String.valueOf(time));
+		model.addAttribute("questions", questions);
+		model.addAttribute("page", page);
+		model.addAttribute("student", po.getStudent());
+		return "detail_page";
+
 	}
 	
-	
-	
+
+
 	@GetMapping("/submit_page")
 	@ResponseBody
 	Data submit_page(PageHistory pageHistory) {
@@ -256,5 +234,10 @@ public class IndexController {
 
 		model.addAttribute("list", pageHistories);
 		return "user_page";
+	}
+
+	@GetMapping(value = { "/finish" })
+	public String finish(Model model) {
+		return "finish";
 	}
 }

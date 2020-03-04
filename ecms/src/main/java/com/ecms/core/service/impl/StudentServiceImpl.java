@@ -112,5 +112,10 @@ public class StudentServiceImpl implements StudentService{
 	public Student findByEmail(String email) {
 		return studentDao.findByEmail(email);
 	}
+
+	@Override
+	public Student findByStudentidAndEmailAndStatus(Integer studentId, String email, Integer status) {
+		return studentDao.findByStudentidAndEmailAndStatus(studentId, email, status);
+	}
 		
 }

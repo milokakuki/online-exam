@@ -18,4 +18,5 @@ public interface StudentService extends SimpleService<Student, Integer>{
 	Student findByEmail(String email);
 	Student findByStudentId(Integer studentId);
 	Student upDate(Student student);
+	Student findByStudentidAndEmailAndStatus(Integer studentId,  String email, Integer status);
 }
