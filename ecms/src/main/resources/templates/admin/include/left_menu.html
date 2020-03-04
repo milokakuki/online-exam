@@ -24,6 +24,27 @@
 	         	<li class="active"><a href="${path}/admin/user/pwd.html"><i class="fa fa-user-secret"></i>安全设置</a></li>
 	        </ul>
 	        </li>
+	        
+	        	        <li class="treeview">
+		        <a href="#">
+			        <i class="fa fa-user"></i> <span>一览界面</span>
+			        <span class="pull-right-container">
+			        	<i class="fa fa-angle-left pull-right"></i>
+			        </span>
+		        </a>
+	        <ul class="treeview-menu">
+				<#if login_admin.typeName?? && (login_admin.typeName="ADMIN") >
+					<li class="active">
+							<a href="${path}/admin/student/init">
+							    <i class="glyphicon glyphicon-bookmark" id="testPage1"></i>考生管理
+							</a>
+					</li>
+				</#if>
+	         	<li class="active"><a href="#"><i class="fa fa-user-secret"></i>试卷管理</a></li>
+	         	<li class="active"><a href="#"><i class="fa fa-user-secret"></i>阅卷管理</a></li>
+	        </ul>
+	        </li>
+	        
 	        <#if login_admin.typeName?? && (login_admin.typeName="ADMIN" )>
 				<li class="treeview">
 					<a href="#">
@@ -87,6 +108,7 @@
 								<i class="glyphicon glyphicon-bookmark" id="mytestMenu"></i> 考试列表
 							</a>
 						</li>
+						
 					</ul>
 				</li>
 			</#if>

@@ -26,6 +26,7 @@ import com.ecms.core.entity.Page;
 import com.ecms.core.entity.PageHistory;
 import com.ecms.core.entity.Question;
 import com.ecms.core.entity.QuestionPage;
+import com.ecms.core.entity.Student;
 import com.ecms.core.entity.User;
 import com.ecms.core.entity.util.Data;
 import com.ecms.core.service.FieldService;
@@ -33,6 +34,7 @@ import com.ecms.core.service.PageHistoryService;
 import com.ecms.core.service.PageService;
 import com.ecms.core.service.QuestionPageService;
 import com.ecms.core.service.QuestionService;
+import com.ecms.core.service.StudentService;
 import com.ecms.core.service.UserService;
 import com.ecms.web.bind.Const;
 
@@ -45,6 +47,8 @@ import com.ecms.web.bind.Const;
  */
 @Controller
 public class IndexController {
+	@Autowired
+	private StudentService studentService;
 
 	@Autowired
 	private UserService userService;
@@ -111,14 +115,73 @@ public class IndexController {
 			return "list_page";
 		}
 	}
-
-	@GetMapping("/detail_page")
-	public String detail_page(Integer id, HttpSession session, Model model) {
+	
+	@GetMapping("/test_page1")
+	public String test_page1(Model model, HttpSession session) {
 		User user = (User) session.getAttribute(Const.LOGIN_ADMIN);
 		if (user == null) {
+			return "error/login_error";
+		} else {
+			List<Page> pages = pageService.findByStatus(1);
+			model.addAttribute("list", pages);
+			return "test_page1";
+		}
+	}
+
+//	@GetMapping("/detail_page")
+//	public String detail_page(Integer id, HttpSession session, Model model) {
+//		//User user = (User) session.getAttribute(Const.LOGIN_ADMIN);
+//		Student student = (Student)session.getAttribute(Const.LOGIN_ADMIN);
+//		if (student == null) {
+//			return "redirect:/admin/login";
+//		} else {
+//			student = studentService.findByName(student.getName());
+//			Page page = pageService.findById(id);
+//			List<QuestionPage> questionPages = questionPageService.findByPage(id);
+//			List<Question> questions = new ArrayList<>();
+//			for (QuestionPage questionPage : questionPages) {
+//				questions.add(questionPage.getQuestion());
+//			}
+//
+//			PageHistory po = pageHistoryService.findByPageAndUserAndStatus(page, student, true);
+//
+//			long time = 0;
+//			if (po != null) {
+//				time = page.getDuration() * 60 *1000 + po.getCreateTime().getTime() - new Date().getTime();
+//				model.addAttribute("pageHistory", po);
+//			} else {
+//				PageHistory pageHistory = new PageHistory();
+//				pageHistory.setStatus(true);
+//				pageHistory.setPage(page);
+//				pageHistory.setUser(user);
+//				pageHistory.setCreateTime(new Date());
+//				pageHistoryService.saveAndFlush(pageHistory);
+//
+//				time = page.getDuration() * 60 * 1000 + pageHistory.getCreateTime().getTime() - new Date().getTime();
+//				model.addAttribute("pageHistory", pageHistory);
+//
+//			}
+//			time = time - time%1000;
+//			if(time>0){
+//				time /= 1000;
+//			}else{
+//				time = 0;
+//			}
+//			model.addAttribute("time", String.valueOf(time));
+//			model.addAttribute("questions", questions);
+//			model.addAttribute("page", page);
+//			return "detail_page";
+//		}
+//	}
+	
+	@GetMapping("/detail_page")
+	public String detail_page(Integer id, HttpSession session, Model model) {
+		//User user = (User) session.getAttribute(Const.LOGIN_ADMIN);
+		Student student = (Student)session.getAttribute(Const.LOGIN_ADMIN);
+		if (student == null) {
 			return "redirect:/admin/login";
 		} else {
-			user = userService.findByUsername(user.getUsername());
+			student = studentService.findByName(student.getName());
 			Page page = pageService.findById(id);
 			List<QuestionPage> questionPages = questionPageService.findByPage(id);
 			List<Question> questions = new ArrayList<>();
@@ -126,7 +189,7 @@ public class IndexController {
 				questions.add(questionPage.getQuestion());
 			}
 
-			PageHistory po = pageHistoryService.findByPageAndUserAndStatus(page, user, true);
+			PageHistory po = pageHistoryService.findByPageAndStudent(page, student);
 
 			long time = 0;
 			if (po != null) {
@@ -136,7 +199,7 @@ public class IndexController {
 				PageHistory pageHistory = new PageHistory();
 				pageHistory.setStatus(true);
 				pageHistory.setPage(page);
-				pageHistory.setUser(user);
+				pageHistory.setStudent(student);
 				pageHistory.setCreateTime(new Date());
 				pageHistoryService.saveAndFlush(pageHistory);
 
@@ -156,6 +219,8 @@ public class IndexController {
 			return "detail_page";
 		}
 	}
+	
+	
 	
 	@GetMapping("/submit_page")
 	@ResponseBody

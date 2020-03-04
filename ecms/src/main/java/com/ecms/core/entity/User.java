@@ -84,8 +84,10 @@ public class User implements Serializable {
 	@Column(name = "province")
 	private String province;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-	private Set<PageHistory> pageHistories = new HashSet<>();
+	/*
+	 * @OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH, fetch =
+	 * FetchType.LAZY) private Set<PageHistory> pageHistories = new HashSet<>();
+	 */
 
 	public User() {
 		super();
@@ -199,11 +201,10 @@ public class User implements Serializable {
 		return username + salt;
 	}
 
-	public Set<PageHistory> getPageHistories() {
-		return pageHistories;
-	}
-
-	public void setPageHistories(Set<PageHistory> pageHistories) {
-		this.pageHistories = pageHistories;
-	}
+	/*
+	 * public Set<PageHistory> getPageHistories() { return pageHistories; }
+	 * 
+	 * public void setPageHistories(Set<PageHistory> pageHistories) {
+	 * this.pageHistories = pageHistories; }
+	 */
 }

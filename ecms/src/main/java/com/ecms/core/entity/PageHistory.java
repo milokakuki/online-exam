@@ -44,9 +44,14 @@ public class PageHistory implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@ManyToOne(cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY, optional = true)
-	@JoinColumn(name = "user_id", nullable = true)
-	private User user;
+//	@ManyToOne(cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY, optional = true)
+//	@JoinColumn(name = "user_id", nullable = true)
+//	private User user;
+	
+	@ManyToOne(cascade = { CascadeType.PERSIST }, fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "student_id", nullable = true)
+	private Student student;
+	
 
 	@ManyToOne(cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY, optional = true)
 	@JoinColumn(name = "page_id", nullable = true)
@@ -72,12 +77,12 @@ public class PageHistory implements Serializable {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public Student getStudent() {
+		return student;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 	public Page getPage() {

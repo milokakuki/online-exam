@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import com.ecms.core.dao.PageHistoryDao;
 import com.ecms.core.entity.PageHistory;
+import com.ecms.core.entity.Student;
 import com.ecms.core.entity.User;
 import com.ecms.core.service.PageHistoryService;
 
@@ -94,9 +95,15 @@ public class PageHistoryServiceImpl implements PageHistoryService {
 		return historyDao.findAll(pageable);
 	}
 
+	/*
+	 * @Override public PageHistory
+	 * findByPageAndUserAndStatus(com.ecms.core.entity.Page page, User user, Boolean
+	 * flag) { return historyDao.findByPageAndUserAndStatus(page, user, flag); }
+	 */
+	
 	@Override
-	public PageHistory findByPageAndUserAndStatus(com.ecms.core.entity.Page page, User user, Boolean flag) {
-		return historyDao.findByPageAndUserAndStatus(page, user, flag);
+	public PageHistory findByPageAndStudent(com.ecms.core.entity.Page page, Student student) {
+		return historyDao.findByPageAndStudent(page, student);
 	}
 
 	@Override
@@ -127,4 +134,15 @@ public class PageHistoryServiceImpl implements PageHistoryService {
 		});
 		return pageHistories;
 	}
+
+	@Override
+	public PageHistory findByStudent(Student student) {
+		return historyDao.findByStudent(student);
+	}
+
+	@Override
+	public PageHistory upDate(PageHistory pageHistory) {
+		return historyDao.save(pageHistory);
+	}
+
 }

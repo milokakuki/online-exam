@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<#include "/admin/include/title.html"/>
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!--Bootstrap 3.3.7-->
+		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+		<!--Font Awesome-->
+		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
+		<!--Ionicons-->
+		<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
+		<!--Theme style-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
+		<!--AdminLTE Skins-->
+		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js" ></script>
+			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js" ></script>	
+		<![endif]-->
+		<!--Google Font-->
+		<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+	</head>
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+			<#include "/admin/include/header.html"/>
+			<!-- /.main-header -->
+			<#include "/admin/include/left_menu.html"/>
+
+			<!--Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<!-- content-header -->
+				<section class="content-header">
+					<h1>
+			        <small style="color:#737373;">
+			        	<a href="${path}/admin/index"><i class="fa fa-home"></i></a> 
+			        	<i class="fa fa-angle-double-right"></i> 考生管理
+			        	<i class="fa fa-angle-double-right"></i> 考生信息录入 
+			        </small>
+				</section>
+				<!-- /.content-header -->
+				<section class="content">
+					<div class="row">
+						<form action="${path}/admin/student/edit" id="form-user-add" method="POST" class="col-md-12">
+							<div class="box box-solid">
+								<div class="box-body">
+									<div class="form-horizontal">
+										<h4>联系信息</h4>
+										<hr />
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="name" class="col-md-3 control-label">姓名</label>
+													<div class="col-md-8">
+														<input type="hidden" name="studentid" value="${student.studentid}"/>
+														<input type="text" class="form-control" name="name" id="name" value="${(student.name)!}" placeholder="请输入姓名" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="phone" class="col-md-3 control-label">电话</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" name="phone" id="phone" value="${(student.phone)!}" placeholder="请输入联系电话" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="email" class="col-md-3 control-label">邮箱</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" name="email" id="email" value="${(student.email)!}" placeholder="请输入联系邮箱" readonly="readonly"/>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="birthdate" class="col-md-3 control-label">出生年月</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" name="birthdate" id="birthdate" value="${(student.birthdate)!}" placeholder="请输入出生年月" />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="major" class="col-md-3 control-label">专业</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" name="major" id="major" value="${(student.major)!}" placeholder="请输入专业" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="school" class="col-md-3 control-label">学校</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" name="school" id="school" value="${(student.school)!}" placeholder="请输入学校" />
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="degree" class="col-md-3 control-label">学位</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" name="degree" id="degree" value="${(student.degree)!}" placeholder="请输入学位" />
+													</div>
+												</div>
+												<!-- <div class="form-group">
+													<label for="email" class="col-md-3 control-label">籍贯</label>
+													<div class="col-md-8">
+														<input type="text" class="form-control" name="email" id="email" value="${(user.email)!}" placeholder="请输入籍贯" />
+													</div>
+												</div> -->
+											</div>
+										</div>
+									</div>
+									<div class="form-horizontal">
+										<h4>考试邀请URL生成</h4>
+										<hr />
+										<div class="row margin-bottom">
+											<div class="col-md-12">
+												<div style="float: left;">
+													<button type="submit" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-bolt"></i> 生成</button>
+													<input type="text" name="name" size="12" readonly="readonly" style="border:none; border-color: #878787;border-bottom:1px solid;outline: none;width:300px;margin-left:20px;" >
+												</div>	
+												<div style="float:right;clear:both;padding-right:15px;">
+													<button type="submit" class="btn btn-warning btn-sm" style="width:88px;"><i class="fa fa-check-square-o" ></i> 登录</button>
+													<button type="button" onclick="history.back(-1);" class="btn btn-info btn-sm" style="margin-left:10px;width:88px;"><i class="fa fa-reply"></i> 返回</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>	
+					</div>
+					
+				</section>
+			</div>
+			<!-- / content wrapper-->
+
+			<!-- footer -->
+			<#include "/admin/include/footer.html"/>
+		</div>
+		<!-- /.wrapper -->
+
+		<!--jQuery-->
+		<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
+		<!--jQuery UI-->
+		<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+			/* window.onblur = function(e) {
+				alert("请不要离开当前界面");
+			}; */
+		</script>
+		<!--Bootstrap-->
+		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+
+		<!--AdminLTE App-->
+		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
+		<script type="text/javascript">
+		</script>
+	</body>
+</html>
