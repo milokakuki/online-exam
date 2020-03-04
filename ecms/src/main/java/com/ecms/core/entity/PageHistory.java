@@ -57,7 +57,7 @@ public class PageHistory implements Serializable {
 	@JoinColumn(name = "page_id", nullable = true)
 	private Page page;
 
-	@Column(name = "answers")
+	@Column(name = "answers", columnDefinition = "longblob")
 	private HashMap<Integer, String> answers;
 
 	@Column(name = "counts")

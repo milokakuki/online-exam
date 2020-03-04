@@ -23,5 +23,6 @@ import com.ecms.core.service.base.SimpleService;
 public interface PageService extends SimpleService<Page, Integer>{
 
 	List<Page> findByStatus(int i);
+	
 
 }

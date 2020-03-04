@@ -36,16 +36,14 @@
 					<div class="row">
 						<div class="box box-solid">
 							<div class="box-body">
-								<form id="question-add-form">
+								<form id="question-add-form" >
 									<div class="page-header">
 										<h1><i class="fa fa-pencil-square-o"></i> 添加试题</h1>
 									</div>
 									<div class="col-md-12">
 										<!-- 试题类型选择 -->
 										<div class="form-group">
-	                                        <span class="col-sm-2 control-label" style="top:8px">
-	                                        	<small class="text-red">*</small>  试题类型
-	                                        </span>
+	                                        <span class="col-sm-2 control-label" ><small class="text-red">*</small>试题类型(必选):</span>
 	                                        <div class="col-sm-2 question-type" id="question-type">
 	                                            <select class="form-control select2" name="questionType" id="questionType" style="width: 100%;">
 	                                              <#list questionTypes as type>
@@ -54,49 +52,29 @@
 	                                            </select><span class="form-message"></span>
 	                                        </div>
 	                                    </div> <br>
-	                                    <div class="form-group">
-	                                        <span class="col-sm-2 control-label" style="top:8px">
-	                                        	<small class="text-red">*</small>  选择题库
-	                                        </span>
-	                                        <div class="col-sm-3 question-field" id="aq-course1">
-	                                            <select class="form-control select2" name="field" id="field" style="width: 100%;">
-	                                              <#if fields??>
-		                                              <#list fields as type>
-		                                                  <option value="${type.id}">${type.name}</option>
-		                                              </#list>
-	                                              </#if>
-	                                            </select><span class="form-message"></span>
-	                                        </div>
-	                                    </div> <br>
-	                                    <div class="form-group">
-	                                        <span class="col-sm-2 control-label" style="top:8px">
-	                                        	<small class="text-red">*</small>  选择知识点
-	                                        </span>
-	                                        <div class="col-sm-3 question-points" id="aq-course2">
-	                                            <select class="form-control select2" name="knowledgePoint" id="knowledgePoint" required="required" multiple="multiple" style="width: 100%;">
-	                                             	<#if knowledges??>
-		                                              <#list knowledges as type>
-		                                                  <option value="${type.id}">${type.name}</option>
-		                                              </#list>
-	                                              	</#if>
-	                                            </select><span class="form-message"></span>
-	                                        </div>
-	                                    </div> <br> <br> <br> <br>
 	                                    <div class="form-group question-title">
-											<span class="col-sm-1 control-label"><small class="text-red">*</small> 题目:</span>
+											<span class="col-sm-2 control-label"><small class="text-red">*</small>题目(必填):</span>
 											<div class="col-sm-2">
 												<input required="required" type="text" class="form-control" name="title" id="title" value="" placeholder="请输入题目信息" />
 											</div>
 											<span class="form-message"></span>
-										</div><br><br><br><br>
+										</div><br>
+										
+										<div class="form-group question-pageid" style="display:none;">
+											
+											<div class="col-sm-2">
+												<input  type="text" class="form-control" name="pageid" id="pageid" value="${pid}"  />
+											</div>
+											<span class="form-message"></span>
+										</div>
 	
 	                                    <!-- 试题内容 -->
 	                                    <div class="form-group question-content">
 	                                     	<span class="col-sm-2 control-label" style="top:8px">
-	                                     		<span class="text-red">*</span>试题内容：
+	                                     		<span class="text-red">*</span>试题内容(必填):
 	                                     	</span>
 	                                     	<div class="col-sm-8">
-												<textarea class="add-question-ta" required="required"></textarea>
+												<textarea class="add-question-ta" required="required" placeholder="请输入试题内容"></textarea>
 											</div><br><br><br>
 											<span class="add-img add-opt-img" onclick="uploadThumbnail(0)">添加图片</span>
 											<input type="hidden" name="titleImg" value="" id="titleImg" />
@@ -106,17 +84,19 @@
                                     	<!-- 选择题 -->
 	                                	<div class="form-line form-question-opt" style="display: block;">
 											<span class="form-label">
-											<small class="text-red">*</small>选项：</span>
+											<small class="text-red">*</small>选项(必填):</span>
 											<div class="add-opt-items">
 												<span class="add-opt-item optionsA">
 													<label class="que-opt-no">A</label>
 													<input type="text" class="df-input-narrow form-question-opt-item" required="required">
 													<span class="add-img add-opt-img" onclick="uploadThumbnail(1)">添加图片</span>
+													<span class="form-message"></span>
 												</span>
 												<span class="add-opt-item">
 													<label class="que-opt-no optionsB">B</label>
 													<input type="text" class="df-input-narrow form-question-opt-item" required="required">
 													<span class="add-img add-opt-img" onclick="uploadThumbnail(2)">添加图片</span>
+													<span class="form-message"></span>
 												</span>
 												<span class="add-opt-item">
 													<label class="que-opt-no optionsC">C</label>
@@ -125,6 +105,7 @@
 													<span>
 														<i class="small-icon ques-remove-opt fa fa-minus-square" title="删除此选项"></i>
 													</span> 
+													<span class="form-message"></span>
 												</span>
 												<span class="add-opt-item">
 													<label class="que-opt-no optionsD">D</label>
@@ -133,6 +114,7 @@
 													<span>
 														<i class="small-icon ques-remove-opt fa fa-minus-square" title="删除此选项"></i>
 													</span>
+													<span class="form-message"></span>
 												</span>
 											</div>
 											<span id="ques-add-opt">
@@ -143,7 +125,7 @@
 										
 										<!-- 单选 -->
 										<div class="form-line form-question-answer1 correct-answer" style="display: block;">
-											<span class="form-label"><small class="text-red">*</small>正确答案：</span>
+											<span class="form-label">正确答案：</span>
 											<select class="df-input-narrow">
 												<option value="A">A</option>
 												<option value="B">B</option>
@@ -155,7 +137,7 @@
 										
 										<!-- 多选 -->
 										<div class="form-line form-question-answer-muti correct-answer" style="display: none;">
-											<span class="form-label"><span class="text-red">*</span>正确答案：</span>
+											<span class="form-label">正确答案：</span>
 			
 											<span class="muti-opt-item">
 												<input type="checkbox" value="A">
@@ -178,7 +160,7 @@
 										
 										<!-- 判断题 -->
 										<div class="form-line form-question-answer-boolean correct-answer" style="display: none;">
-											<span class="form-label"><span class="text-red">*</span>正确答案：</span>
+											<span class="form-label">正确答案：</span>
 											<select class="df-input-narrow">
 												<option value="T">正确</option>
 												<option value="F">错误</option>
@@ -187,11 +169,11 @@
 										
 										<!-- 填空题 -->
 										<div class="form-line correct-answer form-question-answer-text" style="display: none;">
-											<span id="ques-add-answer"><i class="small-icon fa fa-plus-square" title="添加备选答案"></i></span>
+											<!--  <span id="ques-add-answer"><i class="small-icon fa fa-plus-square" title="添加备选答案"></i></span>-->
 											<span class="fill-answer-opt">
-												<span class="form-label form-question-answer-more">
-												<span class="text-red">*</span>备选答案：</span>
+												<span class=" form-label form-question-answer-more">备选答案：</span>
 												<input type="text" class="add-question-fill" size="40">
+
 											</span>
 											<span class="form-message"></span>
 										</div>
@@ -202,18 +184,19 @@
 												<input required="required" type="text" class="form-control" name="keyword" id="keyword" value="" placeholder="请输入关键字信息" />
 											</div>
 											<span class="form-message"></span>
-										</div><br><br><br><br>
-										
+										</div><br>
+										<br>
 										<div class="form-group form-question-analysis">
 											<span class="col-sm-1 control-label"><span class="text-red"></span>  题目解析:</span>
 											<div class="col-sm-10">
 												<textarea class="add-question-ta"></textarea>
 											</div>
 											<span class="form-message"></span>
-										</div><br><br><br><br><br><br><br><br>
+										</div><br>
 									</div>
 									<div class="form-line">
-										<input id="btn-save" value="保存" type="button" class="df-submit">
+										<input id="btn-save" value="保存" type="button" class="df-submit" >
+										<input  value="返回" type="button" class="df-submit" onclick="history.back(-1);">
 									</div>
 								</form>
 							</div>
@@ -251,6 +234,46 @@
 					}
 				});
 			}
+			
+			/**
+			 * 检查输入合法性
+			 */
+			function verifyInput() {
+				var result = true;
+				var r_checkTitle = checkTitle();
+				var checkContent = checkContent();
+				
+				result = r_checkTitle && checkContent;
+				console.log(result);
+				return result;
+			}
+			
+			function checkTitle() {
+				var name = $("#title").val();
+				if (name == "") {
+					$(".question-title .form-message").text("请输入题目");
+					$("#title").focus();
+					$("#title").addClass("has-error");
+					return false;
+				} else {
+					return true;
+				}
+			}
+		 
+			
+			function checkContent() {
+				var name = $("#content").val();
+				if (name == "") {
+					$(".question-content .form-message").text("请输入内容");
+					$("#content").focus();
+					$("#content").addClass("has-error");
+					return false;
+				} else {
+					return true;
+				}
+			}
+			
+			
 		</script>
 	</body>
 </html>
