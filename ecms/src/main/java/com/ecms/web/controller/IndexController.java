@@ -139,8 +139,10 @@ public class IndexController {
 
 	@GetMapping("/get_page")
 	@ResponseBody
-	public Integer get_page(Student student, HttpSession session, Model model) {
+	public Integer get_page(Integer id, HttpSession session, Model model) {
 
+		Student student = studentService.findById(id);
+		
 		// 查找待做试卷（途中）
 		List<PageHistory> phList = pageHistoryService.findAllByStudentAndStatus(student, 1);
 		if(phList != null & phList.size() > 0){

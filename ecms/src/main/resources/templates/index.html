@@ -40,8 +40,6 @@
 <script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
     function confirm(id) {
-        var student = new Object();
-        student.studentid = id;
         $.ajax({
             url: "${path}/get_page",
             type: 'get',
@@ -49,7 +47,7 @@
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            data: student,
+            data: { id : parseInt(id) },
             cache: false,
             success: function (phid) {
                 if (phid) {

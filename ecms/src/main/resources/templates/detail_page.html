@@ -290,8 +290,6 @@
 			}
 
 			function getPage(id) {
-					var student = new Object();
-					student.studentid = id;
 					$.ajax({
 						url: "${path}/get_page",
 						type: 'get',
@@ -299,7 +297,7 @@
 							'Accept': 'application/json',
 							'Content-Type': 'application/json'
 						},
-						data: student,
+						data: { id : parseInt(id) },
 						cache: false,
 						success: function (phid) {
 							if (phid) {
