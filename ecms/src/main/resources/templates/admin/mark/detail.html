@@ -5,9 +5,6 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<#include "/admin/include/title.html"/>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-		<meta http-equiv="Expires" CONTENT="0"> 
-		<meta http-equiv="Cache-Control" CONTENT="no-cache"> 
-		<meta http-equiv="Pragma" CONTENT="no-cache">
 		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
 		<!--Font Awesome-->
 		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
@@ -36,26 +33,6 @@
 			<div class="col-md-3">
 				<div class="def-bk" id="bk-exam-control">
 
-					<div class="def-bk-content" id="exam-control">
-
-						<div id="question-time" class="question-time-normal">
-							<div style="height:140px;text-align: center;">
-								<i id="time-icon" class="fa fa-clock-o"> </i>
-							</div>
-
-							<span style="margin-right:10px;color: #B8B8B8;">剩余时间</span>
-							<span id="exam-clock"></span>
-							<span id="exam-timestamp" style="display:none;">${time}</span>
-							<div id="answer-save-info"></div>
-
-						</div>
-						<div id="question-submit">
-							<button class="btn-success btn" style="width:100%;" onclick="submit_answer(${pageHistory.id})">
-								交卷
-							</button>
-						</div>
-					</div>
-
 				</div>
 			</div>
 			<div class="col-md-9">
@@ -64,32 +41,28 @@
 		            	<#list questions as index>
 							<div class="bg-gray disabled color-palette">
 								<h4>【${index.questionType.name}】${index.title!}</h4>
-								
 							</div>
-							
-							<hr>
-							<p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${index.content}</p>
 							<#if index.titleImg?? && index.titleImg!="">
 					              <img class="img-responsive pad" src="${path}/${index.titleImg}" alt="Photo">
 				            </#if>
+							<hr>
+							<p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${index.content}</p>
 							<hr>
 							<#if index.questionType.id = 1>
 					            <div class="form-group single">
 					                <input id="qId" value="${index.id}" type="hidden" />
 									<#list index.choiceList?keys as ca>
 						                <div class="box-comment">
-							              	
+							              	<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
+								                <!-- Title image -->
+								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
+											</#if>
 							                <div class="comment-text">
 								                <label>
 											      <input type="radio" value="${ca}" name="r${index.id}" class="flat-red">
 								                  <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
-								                  <#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
 								                </label>
 							                </div>
-							                
 						                </div>
 					                </#list>
 								</div>
@@ -99,17 +72,16 @@
 									<input id="qId" value="${index.id}" type="hidden" />
 									<#list index.choiceList?keys as ca>
 										<div class="box-comment">
-											
+											<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
+								                <!-- Title image -->
+								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
+											</#if>
 											<div class="comment-text">
 								                <label>
 								                   <input type="checkbox" value="${ca}" name="r${index.id}" class="flat-red" >
 								                   <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
 								                </label>
 							                </div>
-							                <#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
 						                </div>
 					                </#list>
 					            </div>
@@ -131,25 +103,13 @@
 								<div class="form-group fill">
 									<input id="qId" value="${index.id}" type="hidden" />
 									<div class="box-comment">
-										<div class="comment-text">
+										<div class="comment-text col-xs-6">
 											<br/>
 											<input type="text" class="form-control" placeholder="Enter ...">
-											<br/>
 										</div>
 									</div>
 					            </div>
-							</#if>
-							<#if index.questionType.id = 5>
-								<div class="form-group appl">
-									<input id="qId" value="${index.id}" type="hidden" />
-									<div class="box-comment">
-										<div class="comment-text">
-											<br/>
-											<textarea class="form-control"></textarea>
-											<br/>
-										</div>
-									</div>
-					            </div>
+								<br><br><br><br>
 							</#if>
 						</#list>
 					</div>
@@ -161,7 +121,7 @@
 			<hr>
 			<div class="container">
 			    <h4>
-			    	<strong>Copyright © 2020 <a href="#">Nssol online examination system</a>.</strong> All rights reserved.
+			    	<strong>Copyright © 2018 <a href="#">新日铁's online examination system</a>.</strong> All rights reserved.
 				    <div class="pull-right">
 				      <b>Version</b> 1.0.0
 				    </div>
@@ -183,11 +143,6 @@
 		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
 		<!--<script type="text/javascript" src="${path}/dist/js/pages/dashboard.js" ></script>-->
 		<script type="text/javascript">
-			window.onbeforeunload = function() { 
-				// 离开画面前警告
-				return "Your work will be lost."; 
-			};
-
 			$('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
 		      checkboxClass: 'icheckbox_flat-green',
 		      radioClass   : 'iradio_flat-green'
@@ -248,20 +203,7 @@
 					}
 					map[a]=b;
 				}
-				var tmp =  $(".appl");
-				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
-					var a = qId[i].value;
-					var answer = tmp.find(".comment-text textarea");
-					var b;
-					if(answer[i] == null){
-						b="";
-					}else{
-						b = answer[i].value;
-					}
-					map[a]=b;
-				}
-				// console.log(map);
+				console.log(map);
 				po.id = id;
 				po.answers = map;				
 				$.ajax({
@@ -276,52 +218,15 @@
 					success:function(msg){
 						if(msg.code==0){
 							layer.alert("恭喜您，提交成功!", function (index) { 
-								// 判断是否有其他试题
-								getPage(${student.studentid});
+								window.location.href = "${path}/admin/index";
 							});
-						}else{
-							alert(msg.message);
 						}
 					},
 					error:function(msg){
-						alert("系统出错啦！请向管理员反应。");
+						
 					}
 				});
 			}
-
-			function getPage(id) {
-					var student = new Object();
-					student.studentid = id;
-					$.ajax({
-						url: "${path}/get_page",
-						type: 'get',
-						headers: {
-							'Accept': 'application/json',
-							'Content-Type': 'application/json'
-						},
-						data: student,
-						cache: false,
-						success: function (phid) {
-							if (phid) {
-								//window.location.href = "${path}/detail_page?phid="+phid;
-								// 避免参数暴露在url中，采取post方式
-								document.write("<form action=detail_page method=post name=form1 style='display:none'>");
-								document.write("<input type=hidden name=phid value='" + phid + "'/>");
-								document.write("</form>");
-								document.form1.submit();
-							} else {
-								window.onbeforeunload = null;
-								layer.alert("所有试题已经做完，现在跳转界面。", function (index) {
-									window.location.href = "${path}/finish";
-								});
-							}
-						},
-						error: function () {
-							alert("系统出错啦！请向管理员反应。")
-						}
-					});
-				}
-
 			$(function(){
 				startTimer();
 			});

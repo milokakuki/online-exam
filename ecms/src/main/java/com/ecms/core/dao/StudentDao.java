@@ -18,4 +18,5 @@ public interface StudentDao extends  JpaRepository<Student, Integer> , JpaSpecif
 	Student findByName(String name);
 	Student findByEmail(String email);
 	Student findByStudentid(Integer studentId);
+	Student findByStudentidAndEmailAndStatus(Integer studentId, String email, Integer status);
 }

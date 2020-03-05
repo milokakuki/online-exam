@@ -174,7 +174,7 @@ public class StudentController {
 				if(pageType1 != "") {
 					PageHistory pageHistory = new PageHistory();
 					pType1 = Integer.parseInt(pageType1);
-					pageHistory.setCreateTime(new Date());
+					//pageHistory.setCreateTime(new Date());
 					pageHistory.setStudent(student);
 					pageHistory.setStatus(0);
 					com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
@@ -186,7 +186,7 @@ public class StudentController {
 				if(pageType2 != "") {
 					PageHistory pageHistory2 = new PageHistory();
 					pType2 = Integer.parseInt(pageType2);
-					pageHistory2.setCreateTime(new Date());
+					//pageHistory2.setCreateTime(new Date());
 					pageHistory2.setStudent(student);
 					pageHistory2.setStatus(0);
 					com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
@@ -342,7 +342,7 @@ public class StudentController {
 				if(pageType1 != "") {
 					PageHistory pageHistory = new PageHistory();
 					pType1 = Integer.parseInt(pageType1);
-					pageHistory.setCreateTime(new Date());
+					//pageHistory.setCreateTime(new Date());
 					pageHistory.setStudent(student);
 					pageHistory.setStatus(0);
 					com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
@@ -354,7 +354,7 @@ public class StudentController {
 				if(pageType2 != "") {
 					PageHistory pageHistory2 = new PageHistory();
 					pType2 = Integer.parseInt(pageType2);
-					pageHistory2.setCreateTime(new Date());
+					//pageHistory2.setCreateTime(new Date());
 					pageHistory2.setStudent(student);
 					pageHistory2.setStatus(0);
 					com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();

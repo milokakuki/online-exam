@@ -13,7 +13,6 @@ import java.util.List;
 import com.ecms.core.entity.Page;
 import com.ecms.core.entity.PageHistory;
 import com.ecms.core.entity.Student;
-import com.ecms.core.entity.User;
 import com.ecms.core.service.base.SimpleService;
 
 /**
@@ -24,10 +23,10 @@ import com.ecms.core.service.base.SimpleService;
  * @desc [用一句话描述改文件的功能]
  */
 public interface PageHistoryService extends SimpleService<PageHistory, Integer> {
-
-	//PageHistory findByPageAndUserAndStatus(Page page, User user, Boolean flag);
 	PageHistory findByPageAndStudent(Page page,Student student);
 	List<PageHistory> findByStudent(Student student);
 	PageHistory upDate(PageHistory pageHistory);
-	List<PageHistory> findAllByPageAndUserAndStatus(Page page, User user, Boolean flag);
+	PageHistory findByPageAndStudentAndStatus(Page page, Student student, Integer status);
+	List<PageHistory> findAllByPageAndStudentAndStatus(Page page, Student student, Integer status);
+	List<PageHistory> findAllByStudentAndStatus(Student student, Integer status);
 }

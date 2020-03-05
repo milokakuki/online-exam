@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<#include "/admin/include/title.html"/>
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<!--Bootstrap 3.3.7-->
+<link rel="stylesheet"
+	href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+<!--Font Awesome-->
+<link rel="stylesheet"
+	href="${path}/common/font-awesome/css/font-awesome.min.css" />
+<!--Ionicons-->
+<link rel="stylesheet"
+	href="${path}/common/Ionicons/css/ionicons.min.css" />
+<!--Theme style-->
+<link rel="stylesheet" type="text/css"
+	href="${path}/dist/css/AdminLTE.min.css" />
+<!--AdminLTE Skins-->
+<link rel="stylesheet" type="text/css"
+	href="${path}/dist/css/skins/skin-blue.min.css" />
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js" ></script>
+			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js" ></script>	
+		<![endif]-->
+<!--Google Font-->
+<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+<link rel="stylesheet"
+	href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+<!--Personal Css  -->
+<link rel="stylesheet" href="${path}/css/test_page1.css" />
+
+<style>
+div.container div.row div {
+	margin: 5px 0px;
+}
+
+div.container div.row div {
+	background-color: lightgray;
+	border: 1px solid gray;
+	text-align: center;
+}
+</style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<#include "/admin/include/header.html"/>
+		<!-- /.main-header -->
+		<#include "/admin/include/left_menu.html"/>
+
+		<!--Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- content-header -->
+			<section class="content-header">
+				<h1>
+					<small style="color: #737373;"> <a
+						href="${path}/admin/index"><i class="fa fa-home"></i></a> <i
+						class="fa fa-angle-double-right"></i> 阅卷管理 <i
+						class="fa fa-angle-double-right"></i> 答卷一览
+					</small>
+			</section>
+			<!-- /.content-header -->
+			<section class="content">
+				<div class="row">
+					<form action="${path}/admin/mark/search" id="form-mark-list"
+						method="POST" class="col-md-12">
+						<div class="box box-solid">
+							<div class="box-body">
+								<div class="form-horizontal">
+									<h4>检索条件</h4>
+									<hr />
+									<div class="top">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="name" class="col-md-3 control-label">姓名</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" name="name"
+														id="name" placeholder="请输入姓名" />
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="school" class="col-md-3 control-label">学校</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" name="school"
+														id="school" placeholder="请输入学校" />
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="phone" class="col-md-3 control-label">电话</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" name="phone"
+														id="phone" placeholder="请输入联系电话" />
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="email" class="col-md-3 control-label">邮箱</label>
+												<div class="col-md-8">
+													<input type="text" class="form-control" name="email"
+														id="email" placeholder="请输入联系邮箱" />
+												</div>
+											</div>
+										</div>
+
+										<div>
+											<div style="float: right; padding-right: 15px;">
+												<button type="submit" class="btn btn-sm btn-primary"
+													style="width: 88px;">
+													<i class="fa fa-search"></i> 检索
+												</button>
+												<a href="${path}/admin/mark/init" class="btn btn-sm btn-primary" onclick="clear()" style="width:88px;"> <i class="fa fa-eraser"></i>清除条件</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<#if flag>
+					<form action="#" id="form-page-mark" method="POST"
+						class="col-md-12">
+						<div class="box box-solid">
+							<div class="box-body">
+								<div class="form-horizontal">
+									<h4>&nbsp;</h4>
+									<hr />
+									<div class="bottom">
+										<div class="box box-solid">
+											<div class="box-body table-responsive no-padding">
+												<table class="table table-hover text-center">
+													<thead>
+														<tr>
+															<th>编号</th>
+															<th>姓名</th>
+															<th>邮箱</th>
+															<th>电话</th>
+															<th>学校</th>
+															<th>试卷名</th>
+															<th>成绩</th>
+															<th>开考时间</th>
+															<th>交卷时间</th>
+															<th>阅卷时间</th>									
+															<th>操作</th>
+														</tr>
+													</thead>
+													<tbody>
+														<#if page.getContent()??>
+															<#list page.getContent() as ph>
+																<tr>
+																	<td>${(ph_index+1)!}</td>
+																	<td>${(ph.student.name)!}</td>
+																	<td>${(ph.student.email)!}</td>
+																	<td>${(ph.student.phone)!}</td>
+																	<td>${(ph.student.school)!}</td>
+																	<td>${(ph.page.name)!}</td>	
+																	<td>${(ph.counts)!}</td>	
+																	<td>${(ph.startTime)!}</td>	
+																	<td>${(ph.endTime)!}</td>
+																	<td>${(ph.markTime)!}</td>	
+																	<td>
+																		<a href="${path}/admin/mark/manual/${ph.id}" class="text-info"><i class="fa fa-edit"></i> 阅卷</a>&nbsp;																	
+																	</td>	
+																</tr>
+															</#list>
+														</#if>
+													</tbody>
+												</table>
+											</div>
+											<div class="box-footer">
+												<div class="row">
+													<#assign url="admin/mark/list"> <#include "/admin/include/page_inc.html"/>
+												</div>
+											</div>
+										</div>
+									
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					</#if>
+				</div>
+
+			</section>
+		</div>
+		<!-- / content wrapper-->
+
+		<!-- footer -->
+		<#include "/admin/include/footer.html"/>
+	</div>
+	<!-- /.wrapper -->
+
+	<!--jQuery-->
+	<script type="text/javascript"
+		src="${path}/common/jquery/dist/jquery.min.js"></script>
+	<!--jQuery UI-->
+	<script type="text/javascript"
+		src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+	<script>
+		$.widget.bridge('uibutton', $.ui.button);
+	</script>
+	<!--Bootstrap-->
+	<script type="text/javascript"
+		src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!--AdminLTE App-->
+	<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+	<script type="text/javascript"
+		src="${path}/plugins/layer-v3.0.3/layer/layer.js"></script>
+	<script type="text/javascript">
+		function openDetail(id) {
+			document.location.href = "/detail_page?id=" + id;
+		};
+
+		function clear() {
+			var name = document.getElementById("name");
+			var school = document.getElementById("school");
+			var phone = document.getElementById("phone");
+			var email = document.getElementById("email");
+			name.innerHTML = "";
+			school.innerHTML = "";
+			phone = innerHTML = "";
+			email = innerHTML = "";
+		}
+
+	</script>
+</body>
+</html>

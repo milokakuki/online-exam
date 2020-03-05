@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <#include "/admin/include/title.html" />
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!--Bootstrap 3.3.7-->
+    <link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
+    <link rel="stylesheet" type="text/css" href="${path}/css/detail.css" />
+</head>
+
+<body>
+    <div class="container main-wrapper">
+        <div class="row">
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <h2>考试说明</h2><br>
+                    <p> 请仔细核对自己的姓名和邮箱，如有不符请勿开始考试 // TODO </p><br>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h4>姓名：<span style="color: red;">${name}</span></h4>
+                        </div>
+                        <div class="col-lg-4">
+                            <h4>邮箱：<span style="color: red;">${email}</span></h4>
+                        </div>
+                        <div class="col-lg-4">
+                            <button class="btn btn-primary" onclick="confirm(${id})">确认</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<!--jQuery-->
+<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    function confirm(id) {
+        var student = new Object();
+        student.studentid = id;
+        $.ajax({
+            url: "${path}/get_page",
+            type: 'get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data: student,
+            cache: false,
+            success: function (phid) {
+                if (phid) {
+                    //window.location.href = "${path}/detail_page?phid="+phid;
+                    // 避免参数暴露在url中，采取post方式
+                    document.write("<form action=detail_page method=post name=form1 style='display:none'>");
+                    document.write("<input type=hidden name=phid value='"+phid+"'/>");
+                    document.write("</form>");
+                    document.form1.submit();
+                }else{
+                    alert("没有待考试卷。")
+                }
+            },
+            error: function () {
+                alert("系统出错啦！请向管理员反应。")
+            }
+        });
+    }
+</script>
+
+<style>
+    .main-wrapper {
+        height: 90%;
+    }
+
+    .main-wrapper>.row {
+        height: 100%;
+    }
+
+    .box {
+        height: 100%;
+        display: flex;
+    }
+
+    .box-body {
+        text-align: center;
+        align-self: center;
+        width: 80%;
+        margin: auto;
+    }
+</style>
+
+</html>

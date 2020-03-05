@@ -63,8 +63,14 @@ public class PageHistory implements Serializable {
 	@Column(name = "counts")
 	private Float counts;
 
-	@Column(name = "create_time")
-	private Date createTime;
+	@Column(name = "start_time")
+	private Date startTime;
+
+	@Column(name = "end_time")
+	private Date endTime;
+	
+	@Column(name = "mark_time")
+	private Date markTime;
 
 	@Column(name = "status")
 	private Integer status;
@@ -109,12 +115,28 @@ public class PageHistory implements Serializable {
 		this.counts = counts;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
+	public Date getStartTime() {
+		return startTime;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public Date getMarkTime() {
+		return markTime;
+	}
+
+	public void setMarkTime(Date markTime) {
+		this.markTime = markTime;
 	}
 
 	public Integer getStatus() {
