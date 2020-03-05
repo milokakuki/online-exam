@@ -61,9 +61,6 @@ public class IndexController {
 	private FieldService fieldService;
 
 	@Autowired
-	private QuestionService questionService;
-
-	@Autowired
 	private PageService pageService;
 
 	@Autowired
@@ -144,17 +141,22 @@ public class IndexController {
 	@ResponseBody
 	public Integer get_page(Student student, HttpSession session, Model model) {
 
-			// 查找该学生该做试卷
-			List<PageHistory> phList = pageHistoryService.findAllByStudentAndStatus(student, 0);
+		// 查找待做试卷（途中）
+		List<PageHistory> phList = pageHistoryService.findAllByStudentAndStatus(student, 1);
+		if(phList != null & phList.size() > 0){
+			return phList.get(0).getId();
+		}
 
-			if(phList == null || phList.size() == 0){
-				return null;
-			}
+		// 查找待做试卷（未做）
+		List<PageHistory> phList2 = pageHistoryService.findAllByStudentAndStatus(student, 0);
+		if(phList2 != null && phList2.size() > 0){
+			return phList2.get(0).getId();
 
-			PageHistory ph = phList.get(0);
-			
-			// 返回pagehistoryID
-			return ph.getId();
+		}else{
+			student.setStatus(2); // 学生考试完毕
+			studentService.saveAndFlush(student);
+			return null;
+		}		
 
 	}
 
@@ -162,14 +164,14 @@ public class IndexController {
 	public String detail_page(Integer phid, HttpSession session, Model model) {
 
 		PageHistory po = pageHistoryService.findById(phid);
-		if (po == null || po.getStatus() != 0){
+		if (po == null || po.getStatus() == 2){ // 没有记录或者已交卷
 			return "error/common_error";
 		}
-
-		// 学生状态更新
+		
 		Student student = po.getStudent();
-		student.setStatus(1); 
-		studentService.saveAndFlush(student);
+		if(student == null){
+			return "error/common_error";
+		}
 
 		Page page = po.getPage();
 		Integer pageid = page.getId();
@@ -180,13 +182,13 @@ public class IndexController {
 			questions.add(questionPage.getQuestion());
 		}
 		
+		// 答题时间计算
 		long time = 0;
-
-		// time = page.getDuration() * 60 *1000 + po.getCreateTime().getTime() - new
-		// Date().getTime();
-		time = page.getDuration() * 60 * 1000;
-		model.addAttribute("pageHistory", po);
-
+		if(po.getStartTime() != null){
+			time = page.getDuration() * 60 *1000 + po.getStartTime().getTime() - new Date().getTime();
+		}else{
+			time = page.getDuration() * 60 * 1000;
+		}
 		time = time - time % 1000;
 		if (time > 0) {
 			time /= 1000;
@@ -194,9 +196,13 @@ public class IndexController {
 			time = 0;
 		}
 
-		po.setStartTime(Calendar.getInstance().getTime());
-		po.setStatus(1); // 开始答卷
-		pageHistoryService.saveAndFlush(po);
+		model.addAttribute("pageHistory", po);
+
+		if(po.getStatus() != 1){
+			po.setStartTime(Calendar.getInstance().getTime());
+			po.setStatus(1); // 开始答卷
+			pageHistoryService.saveAndFlush(po);
+		}
 
 		model.addAttribute("time", String.valueOf(time));
 		model.addAttribute("questions", questions);
