@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -49,140 +49,248 @@ div.container div.row div {
 </style>
 </head>
 
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<#include "/admin/include/header.html"/>
+		<!-- /.main-header -->
+		<#include "/admin/include/left_menu.html"/>
 
-<body>
-	<#include "/admin/include/title.html"/>
-	<div class="container">
-		<div class="col-md-3">
-			<div class="def-bk" id="bk-exam-control"></div>
-		</div>
-		<div class="col-md-9">
-			<div class="box box-primary">
-				<div class="box-body box-profile">
-					<#list questions as index >		
-					<div class="bg-gray disabled color-palette">
-						<h4>【${index.questionType.name}】${index.title!}</h4>
+		<!--Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- content-header -->
+			<section class="content-header">
+				<h1>
+					<small style="color: #737373;"> <a
+						href="${path}/admin/index"><i class="fa fa-home"></i></a> <i
+						class="fa fa-angle-double-right"></i> 阅卷管理 <i
+						class="fa fa-angle-double-right"></i> 答卷一览 <i
+						class="fa fa-angle-double-right"></i> 答卷详细（${student.name}）
+					</small>
+			</section>
+			<!-- /.content-header -->
+			<section class="content">
+				<div class="row">
+					<div class="container">
+						<div class="def-bk" id="bk-exam-control"></div>
 					</div>
-					<#if index.titleImg?? && index.titleImg!=""> <img
-						class="img-responsive pad" src="${path}/${index.titleImg}"
-						alt="Photo"> </#if>
-					<hr>
-					<p>
-						<button class="btn-xs btn-warning">内容</button>
-						&nbsp;&nbsp;&nbsp;${index.content}
-					</p>
-					<hr>
-					<#if index.questionType.id=1>
-					<div class="form-group single">
-						<input id="qId" value="${index.id}" type="hidden" />
-						<#list index.choiceList?keys as ca>
-						<div class="box-comment">
-							<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-							<!-- Title image --> <img class="attachment-img"
-								src="${index.choiceImgList[ca]}" alt="Attachment Image"> </#if>
-							<div class="comment-text">
-								<label> <input type="radio" value="${ca}"
-									name="r${index.id}" class="flat-red"> <span>&nbsp
-										&nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
-								</label>
+					<div class="col-md-9">
+						<div class="box box-primary">
+							<div class="box-body box-profile">
+								<#list answers as key,content> <#list questions as que>
+								<#if que.id == key>
+								<div class="bg-gray disabled color-palette">
+									<h4>【${que.questionType.name}】${que.title!}</h4>
+								</div>
+								<#if
+									que.titleImg?? && que.titleImg!="">
+								<img class="img-responsive pad"
+									src="${path}/${que.titleImg}" alt="Photo">
+								</#if>
+								<hr>
+								<p>
+									<button class="btn-xs btn-warning">内容</button>
+									&nbsp;&nbsp;&nbsp;${que.content}
+								</p>
+								<hr>
+								<#if que.questionType.id=1>
+								<div class="form-group single">
+									<input id="qId" value="${que.id}"
+										type="hidden" />
+									<#list que.choiceList?keys as ca> <#if
+										content== ca>
+									<div class="box-comment">
+										<#if
+											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
+										<!-- Title image --> <img class="attachment-img"
+											src="${que.choiceImgList[ca]}"
+											alt="Attachment Image"> </#if>
+										<div class="comment-text">
+											<label> <input type="radio" value="${ca}"
+												disabled="disabled" checked="checked"
+												name="r${que.id}" class="flat-red">
+												<span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp
+													&nbsp${que.choiceList[ca]}</span>
+											</label>
+										</div>
+									</div>
+									<#else>
+									<div class="box-comment">
+										<#if
+											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
+										<!-- Title image --> <img class="attachment-img"
+											src="${que.choiceImgList[ca]}"
+											alt="Attachment Image"> </#if>
+										<div class="comment-text">
+											<label> <input type="radio" value="${ca}"
+												disabled="disabled" name="r${que.id}"
+												class="flat-red"> <span>&nbsp &nbsp
+													&nbsp${ca}:&nbsp &nbsp
+													&nbsp${que.choiceList[ca]}</span>
+											</label>
+										</div>
+									</div></#if> </#list>
+								</div>
+								</#if> <#if que.questionType.id=2>
+								<div class="form-group multiple">
+									<input id="qId" value="${que.id}"
+										type="hidden" />
+									<#list que.choiceList?keys as ca> <#if
+										content ?contains(ca)>
+									<div class="box-comment">
+										<#if
+											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
+										<!-- Title image --> <img class="attachment-img"
+											src="${que.choiceImgList[ca]}"
+											alt="Attachment Image"> </#if>
+										<div class="comment-text">
+											<label> <input type="checkbox" value="${ca}"
+												disabled="disabled" checked="checked"
+												name="r${que.id}" class="flat-red">
+												<span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp
+													&nbsp${que.choiceList[ca]}</span>
+											</label>
+										</div>
+									</div>
+									<#else>
+									<div class="box-comment">
+										<#if
+											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
+										<!-- Title image --> <img class="attachment-img"
+											src="${que.choiceImgList[ca]}"
+											alt="Attachment Image"> </#if>
+										<div class="comment-text">
+											<label> <input type="checkbox" value="${ca}"
+												disabled="disabled" name="r${que.id}"
+												class="flat-red"> <span>&nbsp &nbsp
+													&nbsp${ca}:&nbsp &nbsp
+													&nbsp${que.choiceList[ca]}</span>
+											</label>
+										</div>
+									</div></#if> </#list>
+								</div>
+								</#if> <#if que.questionType.id=3>
+								<div class="form-group judge">
+									<input id="qId" value="${que.id}"
+										type="hidden" />
+									<#if content=="T">
+									<div class="box-comment">
+										<div class="comment-text">
+											<input type="radio" value="T"
+												name="r${que.id}" disabled="disabled"
+												checked="checked" class="flat-red"> <span>&nbsp
+												&nbsp &nbsp正确</span><br> <br> <input type="radio"
+												value="F" name="r${que.id}"
+												disabled="disabled" class="flat-red"> <span>&nbsp
+												&nbsp &nbsp错误</span>
+										</div>
+									</div>
+									<#elseif content=="F">
+									<div class="box-comment">
+										<div class="comment-text">
+											<input type="radio" value="T"
+												name="r${que.id}" disabled="disabled"
+												class="flat-red"> <span>&nbsp &nbsp &nbsp正确</span><br>
+											<br> <input type="radio" value="F"
+												name="r${que.id}" disabled="disabled"
+												checked="checked" class="flat-red"> <span>&nbsp
+												&nbsp &nbsp错误</span>
+										</div>
+									</div>
+									<#else>
+									<div class="box-comment">
+										<div class="comment-text">
+											<input type="radio" value="T"
+												name="r${que.id}" disabled="disabled"
+												class="flat-red"> <span>&nbsp &nbsp &nbsp正确</span><br>
+											<br> <input type="radio" value="F"
+												name="r${que.id}" disabled="disabled"
+												class="flat-red"> <span>&nbsp &nbsp &nbsp错误</span>
+										</div>
+									</div></#if>
+								</div>
+								</#if> <#if que.questionType.id=4>
+								<div class="form-group fill">
+									<input id="qId" value="${que.id}"
+										type="hidden" />
+									<div class="box-comment">
+										<div class="comment-text col-xs-6">
+											<br /> <input type="text" class="form-control" value="${content}"
+												disabled="disabled">
+										</div>
+									</div>
+								</div>
+								<br>
+								<br>
+								<br>
+								<br>
+								</#if> <#if que.questionType.id=5>
+								<div class="form-group appl">
+									<input id="qId" value="${index.id}" type="hidden" />
+									<div class="box-comment">
+										<div class="comment-text">
+											<br />
+											<textarea class="form-control" value="${content}"></textarea>
+											<br />
+										</div>
+									</div>
+								</div>
+								</#if> 
+								</#if></#list> </#list>
 							</div>
 						</div>
-						</#list>
-					</div>
-					</#if> <#if index.questionType.id=2>
-					<div class="form-group multiple">
-						<input id="qId" value="${index.id}" type="hidden" />
-						<#list index.choiceList?keys as ca>
-						<div class="box-comment">
-							<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-							<!-- Title image --> <img class="attachment-img"
-								src="${index.choiceImgList[ca]}" alt="Attachment Image"> </#if>
-							<div class="comment-text">
-								<label> <input type="checkbox" value="${ca}"
-									name="r${index.id}" class="flat-red"> <span>&nbsp
-										&nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
-								</label>
-							</div>
-						</div>
-						</#list>
-					</div>
-					</#if> <#if index.questionType.id=3>
-					<div class="form-group judge">
-						<input id="qId" value="${index.id}" type="hidden" />
-						<div class="box-comment">
-							<div class="comment-text">
-								<input type="radio" value="T" name="r${index.id}"
-									class="flat-red"> <span>&nbsp &nbsp &nbsp正确</span><br>
-								<br> <input type="radio" value="F" name="r${index.id}"
-									class="flat-red"> <span>&nbsp &nbsp &nbsp错误</span>
-							</div>
+						<div class="form-group">
+							<form action="${path}/admin/mark/manual/${pagehistoryid}/point"
+								id="form-mark-list" method="POST" class="col-md-12">
+								<div class="col-md-8">
+									<input type="text" class="form-control" name="point" id="point"
+										placeholder="请输入成绩" />
+								</div>
+								<button type="submit" class="btn btn-sm btn-primary">提交</button>
+							</form>
 						</div>
 					</div>
-					</#if> <#if index.questionType.id=4>
-					<div class="form-group fill">
-						<input id="qId" value="${index.id}" type="hidden" />
-						<div class="box-comment">
-							<div class="comment-text col-xs-6">
-								<br /> <input type="text" class="form-control"
-									placeholder="Enter ...">
-							</div>
-						</div>
-					</div>
-					<br>
-					<br>
-					<br>
-					<br>
-					</#if> 
-					</#list>
-					
 				</div>
-			</div>
-			<div class="form-group">
-				<form action="${path}/admin/mark/manual/${pagehistoryid}/point"
-					id="form-mark-list" method="POST" class="col-md-12">
-					<div class="col-md-8">
-						<input type="text" class="form-control" name="point" id="point"
-							placeholder="请输入成绩" />
-					</div>
-					<button type="submit" class="btn btn-sm btn-primary">提交</button>
-				</form>
-			</div>
-		</div>
-	</div>
+			</section>
+			<!-- / content wrapper-->
 
-	<footer class="footer bg-gray color-palette">
-		<hr>
-		<div class="container">
-			<h4>
-				<strong>Copyright © 2018 <a href="#">新日铁's online
-						examination system</a>.
-				</strong> All rights reserved.
-				<div class="pull-right">
-					<b>Version</b> 1.0.0
-				</div>
-			</h4>
+			<!-- footer -->
+
 		</div>
-	</footer>
-	<!--jQuery-->
-	<script type="text/javascript"
-		src="${path}/common/jquery/dist/jquery.min.js"></script>
-	<!--jQuery UI-->
-	<script type="text/javascript"
-		src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
-	<script>
-		$.widget.bridge('uibutton', $.ui.button);
-	</script>
-	<!--Bootstrap-->
-	<script type="text/javascript"
-		src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="${path}/plugins/iCheck/icheck.min.js"></script>
-	<script type="text/javascript"
-		src="${path}/plugins/layer-v3.0.3/layer/layer.js"></script>
-	<!--AdminLTE App-->
-	<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
-	<!--<script type="text/javascript" src="${path}/dist/js/pages/dashboard.js" ></script>-->
-	
+		<#include "/admin/include/footer.html"/>
+		<!-- /.wrapper -->
+
+		<!--jQuery-->
+		<script type="text/javascript"
+			src="${path}/common/jquery/dist/jquery.min.js"></script>
+		<!--jQuery UI-->
+		<script type="text/javascript"
+			src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<!--Bootstrap-->
+		<script type="text/javascript"
+			src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+
+		<!--AdminLTE App-->
+		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+		<script type="text/javascript"
+			src="${path}/plugins/layer-v3.0.3/layer/layer.js"></script>
+		<script type="text/javascript">
+			function openDetail(id) {
+				document.location.href = "/detail_page?id=" + id;
+			};
+
+			function clear() {
+				var name = document.getElementById("name");
+				var school = document.getElementById("school");
+				var phone = document.getElementById("phone");
+				var email = document.getElementById("email");
+				name.innerHTML = "";
+				school.innerHTML = "";
+				phone = innerHTML = "";
+				email = innerHTML = "";
+			}
+		</script>
 </body>
-
 </html>

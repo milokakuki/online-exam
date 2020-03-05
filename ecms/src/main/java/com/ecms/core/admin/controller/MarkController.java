@@ -144,6 +144,7 @@ public class MarkController {
 	        }
 			model.addAttribute("questions", questions);
 			model.addAttribute("answers",ph.getAnswers());
+			model.addAttribute("student", ph.getStudent());
 			System.out.println("测试是否可以取得答案数据:" + ph.getAnswers());
 		} else {
 			return "redirect:/admin/mark/list";
