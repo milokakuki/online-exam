@@ -118,10 +118,14 @@
 									                    <label for="pageType" class="col-sm-3 control-label">试卷选择1</label>
 									                    <div class="col-sm-5 add-type">
 								                       		<select class="form-control select2" name="pageType1" id="testType1" style="width: 100%;" >
-								                       		  <option selected="selected"></option>
-				                                              <#list testPages as testPage>
-																<option value="${testPage.id}">${testPage.name}</option>
-															  </#list>
+								                       			<option value=""></option>
+				                                             	<#list testPages as testPage>
+													                <#if page1?? && page1 = testPage.id>
+													                    <option value="${testPage.id}" selected="selected">${testPage.name}</option>
+													                <#else>
+													                    <option value="${testPage.id}">${testPage.name}</option>
+													                </#if>
+													             </#list>
 				                                            </select>
 				                                            <span class="form-message"></span>
 							            				</div>
@@ -136,10 +140,14 @@
 									                    <label for="pageType" class="col-sm-3 control-label"> 试卷选择2</label>
 									                    <div class="col-sm-5 add-type">
 								                       		<select class="form-control select2" name="pageType2" id="testType2" style="width: 100%;" >
-								                       		  <option selected="selected"></option>
+								                       			<option value=""></option>
 				                                              <#list testPages as testPage>
-																<option value="${testPage.id}">${testPage.name}</option>
-															  </#list>
+													                <#if page2?? && page2 = testPage.id>
+													                    <option value="${testPage.id}" selected="selected">${testPage.name}</option>
+													                <#else>
+													                    <option value="${testPage.id}">${testPage.name}</option>
+													                </#if>
+													             </#list>
 				                                            </select>
 				                                            <span class="form-message"></span>
 							            				</div>
