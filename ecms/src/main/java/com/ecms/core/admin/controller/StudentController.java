@@ -160,6 +160,11 @@ public class StudentController {
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@PostMapping("/add")
 	public String save(Student student,@RequestParam("pageType1")String pageType1,@RequestParam("pageType2")String pageType2, Model model) {
+		/**
+		 * 添加试卷信息
+		 */
+		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		model.addAttribute("testPages", testPages);
 		Student tmp = studentService.findByName(student.getName());
 		Student tmp2 = studentService.findByEmail(student.getEmail());
 		student.setCreateTime(new Date());
@@ -211,8 +216,21 @@ public class StudentController {
 		 */
 		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
 		model.addAttribute("testPages", testPages);
-		
 		Student student = studentService.findByStudentId(studentId);
+		List<PageHistory> pageHistories = pageHistoryService.findByStudent(student);
+		int index = 0;
+		for(int i = 0 ; i < pageHistories.size() ; i++) {
+			index++;
+			if(index == 1) {
+				int page1 = pageHistories.get(0).getPage().getId();
+				model.addAttribute("page1", page1);
+			}
+			if(index == 2) {
+				int page2 = pageHistories.get(1).getPage().getId();
+				model.addAttribute("page2", page2);
+			}
+		}
+		
 		if (student != null) {
 			model.addAttribute("student", student);
 		} else {
@@ -224,7 +242,11 @@ public class StudentController {
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@PostMapping("/edit")
 	public String edit(Student student,@RequestParam("pageType1")String pageType1,@RequestParam("pageType2")String pageType2,@RequestParam("link")String link, Model model) {
-		
+		/**
+		 * 添加试卷信息
+		 */
+		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		model.addAttribute("testPages", testPages);
 		Student s = studentService.findByStudentId(student.getStudentid());
 		List<PageHistory> pageHistories = pageHistoryService.findByStudent(s);
 		if (s != null && pageHistories != null) {
