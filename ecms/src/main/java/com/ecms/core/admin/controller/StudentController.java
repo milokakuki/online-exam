@@ -8,6 +8,8 @@
  */
 package com.ecms.core.admin.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
 
@@ -382,7 +384,13 @@ public class StudentController {
 				//studentService.saveAndFlush(student);
 				int studentid = student.getStudentid();
 				String email = student.getEmail();
-				String strLink = "http://localhost:8081/?id="+studentid+"&email="+email;
+				String ip = "localhost";
+				try {
+					ip = InetAddress.getLocalHost().getHostAddress();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+				String strLink = "http://"+ip+"/?id="+studentid+"&email="+email;
 				System.out.println("******************strLink = "+strLink+"*****************************");
 				model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
 			    return "admin/student/add";
@@ -446,7 +454,13 @@ public class StudentController {
 			}
 			int studentid = student.getStudentid();
 			String email = student.getEmail();
-			String strLink = "http://localhost:8081/?id="+studentid+"&email="+email;
+			String ip = "localhost";
+			try {
+				ip = InetAddress.getLocalHost().getHostAddress();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+			String strLink = "http://"+ip+"/?id="+studentid+"&email="+email;
 			System.out.println("******************strLink = "+strLink+"*****************************");
 			model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
 			/**
