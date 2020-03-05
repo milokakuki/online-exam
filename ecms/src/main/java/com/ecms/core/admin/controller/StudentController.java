@@ -411,6 +411,20 @@ public class StudentController {
 	public String edit2(Student student,@RequestParam("pageType1")String pageType1,@RequestParam("pageType2")String pageType2,@RequestParam("link")String link, Model model) {
 		Student s = studentService.findByStudentId(student.getStudentid());
 		List<PageHistory> pageHistories = pageHistoryService.findByStudent(s);
+		
+		int index = 0;
+		for(int i = 0 ; i < pageHistories.size() ; i++) {
+			index++;
+			if(index == 1) {
+				int page1 = pageHistories.get(0).getPage().getId();
+				model.addAttribute("page1", page1);
+			}
+			if(index == 2) {
+				int page2 = pageHistories.get(1).getPage().getId();
+				model.addAttribute("page2", page2);
+			}
+		}
+		
 		if (s != null && pageHistories != null) {
 			Integer pType1 = 0; 
 			Integer pType2 = 0;
