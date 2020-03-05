@@ -160,6 +160,11 @@ public class StudentController {
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@PostMapping("/add")
 	public String save(Student student,@RequestParam("pageType1")String pageType1,@RequestParam("pageType2")String pageType2, Model model) {
+		/**
+		 * 添加试卷信息
+		 */
+		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		model.addAttribute("testPages", testPages);
 		Student tmp = studentService.findByName(student.getName());
 		Student tmp2 = studentService.findByEmail(student.getEmail());
 		student.setCreateTime(new Date());
