@@ -1,5 +1,8 @@
 package com.ecms.core.admin.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -32,8 +35,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ecms.core.dao.PageHistoryDao;
 import com.ecms.core.dao.StudentDao;
 import com.ecms.core.entity.PageHistory;
+import com.ecms.core.entity.Question;
+import com.ecms.core.entity.QuestionPage;
 import com.ecms.core.entity.Student;
 import com.ecms.core.service.PageHistoryService;
+import com.ecms.core.service.QuestionPageService;
 import com.ecms.web.view.RequestElement;
 
 @Controller
@@ -42,9 +48,12 @@ public class MarkController {
 
 	@Autowired
 	private PageHistoryService pageHistoryService;
-	
+
 	@Autowired
 	private PageHistoryDao pageHistoryDao;
+	
+	@Autowired
+	private QuestionPageService questionPageService;
 
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@GetMapping("/init")
@@ -53,7 +62,7 @@ public class MarkController {
 		model.addAttribute("flag", flag);
 		return "admin/mark/list";
 	}
-	
+
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@GetMapping("/list")
 	public String list(RequestElement element, Model model) {
@@ -66,11 +75,11 @@ public class MarkController {
 		model.addAttribute("page", phs).addAttribute("start", start).addAttribute("end", end);
 		boolean flag = true;
 		model.addAttribute("flag", flag);
-		
-		//System.out.println(phs.toString());
+
+		// System.out.println(phs.toString());
 		return "admin/mark/list";
 	}
-	
+
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@PostMapping("/search")
 	public String search(RequestElement element, Model model, @RequestParam("name") String name,
@@ -100,40 +109,71 @@ public class MarkController {
 					condition3 = cb.like(join.get("phone"), "%%");
 				}
 				Predicate condition4 = null;
-				if(StringUtils.isNotBlank(email)) {
+				if (StringUtils.isNotBlank(email)) {
 					condition4 = cb.like(join.get("email"), "%" + email + "%");
-				}else {
+				} else {
 					condition4 = cb.like(join.get("email"), "%%");
 				}
-				query.where(condition1, condition2, condition3,condition4);
+				query.where(condition1, condition2, condition3, condition4);
 				return null;
 			}
 		};
 
 		Sort sort = new Sort(Direction.DESC, "endTime");
 		Pageable pageable = new PageRequest(element.getPageNo() - 1, element.getPageSize(), sort);
-		Page<PageHistory> phs = pageHistoryDao.findAll(sp,pageable);
+		Page<PageHistory> phs = pageHistoryDao.findAll(sp, pageable);
 		int total = phs.getTotalPages();
 		int start = element.getPageNo() - 3 > 0 ? element.getPageNo() - 3 : 1;
 		int end = element.getPageNo() + 3 < total ? element.getPageNo() + 3 : total;
 		model.addAttribute("page", phs).addAttribute("start", start).addAttribute("end", end);
 		boolean flag = true;
 		model.addAttribute("flag", flag);
-		
+
 		return "admin/mark/list";
 	}
-	
+
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@GetMapping("/manual/{pagehistoryid}")
 	public String edit(@PathVariable(name = "pagehistoryid") Integer pagehistoryId, Model model) {
-		PageHistory ph = pageHistoryService.findById(pagehistoryId);
+		PageHistory ph = pageHistoryService.findById(pagehistoryId);	
 		if (ph != null) {
-			model.addAttribute("questions", ph.getPage().getQuestionPages());
-			
-			System.out.println("测试是否可以取得数据:"+ph.getAnswers());
+			List<QuestionPage> questionPages = questionPageService.findByPage(ph.getPage().getId());
+			List<Question> questions = new ArrayList<>();
+	        for (QuestionPage questionPage : questionPages) {
+	                questions.add(questionPage.getQuestion());
+	        }
+			model.addAttribute("questions", questions);
+			model.addAttribute("answers",ph.getAnswers());
+			System.out.println("测试是否可以取得答案数据:" + ph.getAnswers());
 		} else {
 			return "redirect:/admin/mark/list";
 		}
 		return "admin/mark/detail";
+	}
+
+	/**
+	 * 登录分数
+	 * @param pagehistoryId
+	 * @param model
+	 * @param element
+	 * @param point
+	 * @return
+	 */
+	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
+	@PostMapping("/manual/{pagehistoryid}/point")
+	public String point(@PathVariable(name = "pagehistoryid") Integer pagehistoryId, Model model,RequestElement element,
+			@RequestParam("point") float point) {
+		PageHistory ph = pageHistoryService.findById(pagehistoryId);
+		boolean flag = true;
+		model.addAttribute("flag", flag);
+
+		if(ph!=null) {
+			ph.setCounts(point);
+			ph.setMarkTime((new Date()));
+			pageHistoryService.upDate(ph);
+		}else {
+			return "redirect:/admin/mark/list";
+		}
+		return "redirect:/admin/mark/list";
 	}
 }
