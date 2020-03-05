@@ -1,285 +1,188 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<#include "/admin/include/title.html"/>
-		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
-		<!--Font Awesome-->
-		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
-		<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
-		<!--Theme style-->
-		<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
-		<link rel="stylesheet" type="text/css" href="${path}/css/detail.css" />
-		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/_all-skins.min.css" />
-		<link rel="stylesheet" type="text/css" href="${path}/plugins/iCheck/all.css" />
-		<!--AdminLTE Skins-->
-		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
-		<!-- <link rel="icon" href="${path}/img/favicon.ico" type="image/x-icon" />
-		<link rel="shortcut icon" href="${path}/img/favicon.ico" type="image/x-icon"/> -->
-		<!--[if lt IE 9]>
-			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js}" ></script>
-			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js}" ></script>	
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<#include "/admin/include/title.html"/>
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<!--Bootstrap 3.3.7-->
+<link rel="stylesheet"
+	href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+<!--Font Awesome-->
+<link rel="stylesheet"
+	href="${path}/common/font-awesome/css/font-awesome.min.css" />
+<!--Ionicons-->
+<link rel="stylesheet"
+	href="${path}/common/Ionicons/css/ionicons.min.css" />
+<!--Theme style-->
+<link rel="stylesheet" type="text/css"
+	href="${path}/dist/css/AdminLTE.min.css" />
+<!--AdminLTE Skins-->
+<link rel="stylesheet" type="text/css"
+	href="${path}/dist/css/skins/skin-blue.min.css" />
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js" ></script>
+			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js" ></script>	
 		<![endif]-->
-		<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
-		<link rel="stylesheet" href="${path}/css/page-examing.css" />
-		<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
-	</head>
+<!--Google Font-->
+<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+<link rel="stylesheet"
+	href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+<!--Personal Css  -->
+<link rel="stylesheet" href="${path}/css/test_page1.css" />
 
-	<body>
-		<#include "/admin/include/title.html"/>
-		<div class="container">
-			<div class="col-md-3">
-				<div class="def-bk" id="bk-exam-control">
+<style>
+div.container div.row div {
+	margin: 5px 0px;
+}
 
-				</div>
-			</div>
-			<div class="col-md-9">
-				<div class="box box-primary">
-		            <div class="box-body box-profile">
-		            	<#list questions as index>
-							<div class="bg-gray disabled color-palette">
-								<h4>【${index.questionType.name}】${index.title!}</h4>
+div.container div.row div {
+	background-color: lightgray;
+	border: 1px solid gray;
+	text-align: center;
+}
+</style>
+</head>
+
+
+<body>
+	<#include "/admin/include/title.html"/>
+	<div class="container">
+		<div class="col-md-3">
+			<div class="def-bk" id="bk-exam-control"></div>
+		</div>
+		<div class="col-md-9">
+			<div class="box box-primary">
+				<div class="box-body box-profile">
+					<#list questions as index >		
+					<div class="bg-gray disabled color-palette">
+						<h4>【${index.questionType.name}】${index.title!}</h4>
+					</div>
+					<#if index.titleImg?? && index.titleImg!=""> <img
+						class="img-responsive pad" src="${path}/${index.titleImg}"
+						alt="Photo"> </#if>
+					<hr>
+					<p>
+						<button class="btn-xs btn-warning">内容</button>
+						&nbsp;&nbsp;&nbsp;${index.content}
+					</p>
+					<hr>
+					<#if index.questionType.id=1>
+					<div class="form-group single">
+						<input id="qId" value="${index.id}" type="hidden" />
+						<#list index.choiceList?keys as ca>
+						<div class="box-comment">
+							<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
+							<!-- Title image --> <img class="attachment-img"
+								src="${index.choiceImgList[ca]}" alt="Attachment Image"> </#if>
+							<div class="comment-text">
+								<label> <input type="radio" value="${ca}"
+									name="r${index.id}" class="flat-red"> <span>&nbsp
+										&nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
+								</label>
 							</div>
-							<#if index.titleImg?? && index.titleImg!="">
-					              <img class="img-responsive pad" src="${path}/${index.titleImg}" alt="Photo">
-				            </#if>
-							<hr>
-							<p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${index.content}</p>
-							<hr>
-							<#if index.questionType.id = 1>
-					            <div class="form-group single">
-					                <input id="qId" value="${index.id}" type="hidden" />
-									<#list index.choiceList?keys as ca>
-						                <div class="box-comment">
-							              	<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
-							                <div class="comment-text">
-								                <label>
-											      <input type="radio" value="${ca}" name="r${index.id}" class="flat-red">
-								                  <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
-								                </label>
-							                </div>
-						                </div>
-					                </#list>
-								</div>
-							</#if>
-							<#if index.questionType.id = 2>
-								<div class="form-group multiple">
-									<input id="qId" value="${index.id}" type="hidden" />
-									<#list index.choiceList?keys as ca>
-										<div class="box-comment">
-											<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
-											<div class="comment-text">
-								                <label>
-								                   <input type="checkbox" value="${ca}" name="r${index.id}" class="flat-red" >
-								                   <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
-								                </label>
-							                </div>
-						                </div>
-					                </#list>
-					            </div>
-							</#if>
-							<#if index.questionType.id = 3>
-								<div class="form-group judge">
-									<input id="qId" value="${index.id}" type="hidden" />
-									<div class="box-comment">
-										<div class="comment-text">
-											<input type="radio" value="T" name="r${index.id}" class="flat-red">
-											<span>&nbsp &nbsp &nbsp正确</span><br><br>
-											<input type="radio" value="F" name="r${index.id}" class="flat-red">
-											<span>&nbsp &nbsp &nbsp错误</span>
-										</div>
-									</div>
-					            </div>
-							</#if>
-							<#if index.questionType.id = 4>
-								<div class="form-group fill">
-									<input id="qId" value="${index.id}" type="hidden" />
-									<div class="box-comment">
-										<div class="comment-text col-xs-6">
-											<br/>
-											<input type="text" class="form-control" placeholder="Enter ...">
-										</div>
-									</div>
-					            </div>
-								<br><br><br><br>
-							</#if>
+						</div>
 						</#list>
 					</div>
+					</#if> <#if index.questionType.id=2>
+					<div class="form-group multiple">
+						<input id="qId" value="${index.id}" type="hidden" />
+						<#list index.choiceList?keys as ca>
+						<div class="box-comment">
+							<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
+							<!-- Title image --> <img class="attachment-img"
+								src="${index.choiceImgList[ca]}" alt="Attachment Image"> </#if>
+							<div class="comment-text">
+								<label> <input type="checkbox" value="${ca}"
+									name="r${index.id}" class="flat-red"> <span>&nbsp
+										&nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
+								</label>
+							</div>
+						</div>
+						</#list>
+					</div>
+					</#if> <#if index.questionType.id=3>
+					<div class="form-group judge">
+						<input id="qId" value="${index.id}" type="hidden" />
+						<div class="box-comment">
+							<div class="comment-text">
+								<input type="radio" value="T" name="r${index.id}"
+									class="flat-red"> <span>&nbsp &nbsp &nbsp正确</span><br>
+								<br> <input type="radio" value="F" name="r${index.id}"
+									class="flat-red"> <span>&nbsp &nbsp &nbsp错误</span>
+							</div>
+						</div>
+					</div>
+					</#if> <#if index.questionType.id=4>
+					<div class="form-group fill">
+						<input id="qId" value="${index.id}" type="hidden" />
+						<div class="box-comment">
+							<div class="comment-text col-xs-6">
+								<br /> <input type="text" class="form-control"
+									placeholder="Enter ...">
+							</div>
+						</div>
+					</div>
+					<br>
+					<br>
+					<br>
+					<br>
+					</#if> 
+					</#list>
+					
 				</div>
 			</div>
-		</div>
-		
-		<footer class="footer bg-gray color-palette">
-			<hr>
-			<div class="container">
-			    <h4>
-			    	<strong>Copyright © 2018 <a href="#">新日铁's online examination system</a>.</strong> All rights reserved.
-				    <div class="pull-right">
-				      <b>Version</b> 1.0.0
-				    </div>
-			    </h4>
+			<div class="form-group">
+				<form action="${path}/admin/mark/manual/${pagehistoryid}/point"
+					id="form-mark-list" method="POST" class="col-md-12">
+					<div class="col-md-8">
+						<input type="text" class="form-control" name="point" id="point"
+							placeholder="请输入成绩" />
+					</div>
+					<button type="submit" class="btn btn-sm btn-primary">提交</button>
+				</form>
 			</div>
-		</footer>
-		<!--jQuery-->
-		<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
-		<!--jQuery UI-->
-		<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
-		<script>
-			$.widget.bridge('uibutton', $.ui.button);
-		</script>
-		<!--Bootstrap-->
-		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="${path}/plugins/iCheck/icheck.min.js"></script>
-		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
-		<!--AdminLTE App-->
-		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
-		<!--<script type="text/javascript" src="${path}/dist/js/pages/dashboard.js" ></script>-->
-		<script type="text/javascript">
-			$('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-		      checkboxClass: 'icheckbox_flat-green',
-		      radioClass   : 'iradio_flat-green'
-		    })
-		    
-			function submit_answer(id){
-				var po = new Object();
-				var map = {}
-				var tmp =  $(".single");
-				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
-					var a = qId[i].value;
-					var answer = tmp.find(".checked input");
-					var b;
-					if(answer[i] == null){
-						b="";
-					}else{
-						b = answer[i].value;
-					}
-					map[a]=b;
-				}
-				tmp = $(".multiple");
-				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
-					var a = qId[i].value;
-					
-					var checkboxs = tmp.eq(i).find(".checked input");
-					var str = "";
-					for (var j = 0; j < checkboxs.length; j++) {
-						str = str + checkboxs[j].value;
-					}
-					
-					map[a]=str;
-				}
-				tmp =  $(".judge");
-				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
-					var a = qId[i].value;
-					var answer = tmp.find(".checked input");
-					var b;
-					if(answer[i] == null){
-						b="";
-					}else{
-						b = answer[i].value;
-					}
-					map[a]=b;
-				}
-				var tmp =  $(".fill");
-				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
-					var a = qId[i].value;
-					var answer = tmp.find(".comment-text input");
-					var b;
-					if(answer[i] == null){
-						b="";
-					}else{
-						b = answer[i].value;
-					}
-					map[a]=b;
-				}
-				console.log(map);
-				po.id = id;
-				po.answers = map;				
-				$.ajax({
-					url:"${path}/submit_page",
-					type:'get',
-					headers : {
-						'Accept' : 'application/json',
-						'Content-Type' : 'application/json'
-					},
-					data : po,
-					cache:false,
-					success:function(msg){
-						if(msg.code==0){
-							layer.alert("恭喜您，提交成功!", function (index) { 
-								window.location.href = "${path}/admin/index";
-							});
-						}
-					},
-					error:function(msg){
-						
-					}
-				});
-			}
-			$(function(){
-				startTimer();
-			});
-			/**
-			 * 开始倒计时
-			 */
-			function startTimer() {
-				var timestamp = parseInt($("#exam-timestamp").text());
-				var int = setInterval(function() {
-					$("#exam-timestamp").text(timestamp);
-					$("#exam-clock").text(toHHMMSS(timestamp));
-					if(timestamp < 600){
-						var exam_clock = $("#question-time");
-						exam_clock.removeClass("question-time-normal");
-						exam_clock.addClass("question-time-warning");
-					}
-					
-					timestamp-- || examTimeOut(int); 
-				}, 1000);
-			}
-			/**
-			 * 时间formater
-			 *
-			 * @param timestamp
-			 * @returns {String}
-			 */
-			function toHHMMSS(timestamp) {
-				var sec_num = parseInt(timestamp, 10);
-				var hours = Math.floor(sec_num / 3600);
-				var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-				var seconds = sec_num - (hours * 3600) - (minutes * 60);
+		</div>
+	</div>
 
-				if (hours < 10) {
-					hours = "0" + hours;
-				}
-				if (minutes < 10) {
-					minutes = "0" + minutes;
-				}
-				if (seconds < 10) {
-					seconds = "0" + seconds;
-				}
-				var time = hours + ':' + minutes + ':' + seconds;
-				return time;
-			}
-			/**
-			 * 考试时间到
-			 * @param int
-			 */
-			function examTimeOut (int){
-				clearInterval(int);
-				submit_answer(${pageHistory.id});
-			}
-		</script>
-	</body>
+	<footer class="footer bg-gray color-palette">
+		<hr>
+		<div class="container">
+			<h4>
+				<strong>Copyright © 2018 <a href="#">新日铁's online
+						examination system</a>.
+				</strong> All rights reserved.
+				<div class="pull-right">
+					<b>Version</b> 1.0.0
+				</div>
+			</h4>
+		</div>
+	</footer>
+	<!--jQuery-->
+	<script type="text/javascript"
+		src="${path}/common/jquery/dist/jquery.min.js"></script>
+	<!--jQuery UI-->
+	<script type="text/javascript"
+		src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+	<script>
+		$.widget.bridge('uibutton', $.ui.button);
+	</script>
+	<!--Bootstrap-->
+	<script type="text/javascript"
+		src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="${path}/plugins/iCheck/icheck.min.js"></script>
+	<script type="text/javascript"
+		src="${path}/plugins/layer-v3.0.3/layer/layer.js"></script>
+	<!--AdminLTE App-->
+	<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+	<!--<script type="text/javascript" src="${path}/dist/js/pages/dashboard.js" ></script>-->
+	
+</body>
 
 </html>
