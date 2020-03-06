@@ -37,6 +37,7 @@ import com.ecms.core.entity.Student;
 import com.ecms.core.service.PageHistoryService;
 import com.ecms.core.service.PageService;
 import com.ecms.core.service.StudentService;
+import com.ecms.web.bind.Const;
 import com.ecms.web.view.RequestElement;
 
 import net.sf.ehcache.search.expression.And;
@@ -376,13 +377,14 @@ public class StudentController {
 				//studentService.saveAndFlush(student);
 				int studentid = student.getStudentid();
 				String email = student.getEmail();
-				String ip = "localhost";
+				String ip = "";
 				try {
-					ip = InetAddress.getLocalHost().getHostAddress();
-				} catch (UnknownHostException e) {
+					//ip = InetAddress.getLocalHost().getHostAddress();
+					ip=Const.HttpClient.BASE_PATH;
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				String strLink = "http://"+ip+"/?id="+studentid+"&email="+email;
+				String strLink = ip+"/?id="+studentid+"&email="+email;
 				System.out.println("******************strLink = "+strLink+"*****************************");
 				model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
 			    return "admin/student/add";
@@ -460,13 +462,14 @@ public class StudentController {
 			}
 			int studentid = student.getStudentid();
 			String email = student.getEmail();
-			String ip = "localhost";
+			String ip = "";
 			try {
-				ip = InetAddress.getLocalHost().getHostAddress();
-			} catch (UnknownHostException e) {
+				//ip = InetAddress.getLocalHost().getHostAddress();
+				ip=Const.HttpClient.BASE_PATH;
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			String strLink = "http://"+ip+"/?id="+studentid+"&email="+email;
+			String strLink = ip+"/?id="+studentid+"&email="+email;
 			System.out.println("******************strLink = "+strLink+"*****************************");
 			model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
 			/**

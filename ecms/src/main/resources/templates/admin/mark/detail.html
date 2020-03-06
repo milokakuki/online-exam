@@ -83,17 +83,17 @@ div.container div.row div {
 								<div class="bg-gray disabled color-palette">
 									<h4>【${que.questionType.name}】${que.title!}</h4>
 								</div>
+								<p>
+									<button class="btn-xs btn-warning">内容</button>
+									&nbsp;&nbsp;&nbsp;${que.content}
+								</p>
 								<#if
 									que.titleImg?? && que.titleImg!="">
 								<img class="img-responsive pad"
 									src="${path}/${que.titleImg}" alt="Photo">
 								</#if>
 								<hr>
-								<p>
-									<button class="btn-xs btn-warning">内容</button>
-									&nbsp;&nbsp;&nbsp;${que.content}
-								</p>
-								<hr>
+								
 								<#if que.questionType.id=1>
 								<div class="form-group single">
 									<input id="qId" value="${que.id}"
