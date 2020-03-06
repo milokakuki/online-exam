@@ -25,14 +25,14 @@
 	        </ul>
 	        </li>
 	        -->
-	       <li class="treeview">
+	       <li class="treeview active" >
 		        <a href="#">
 			        <i class="fa fa-user"></i> <span>管理界面</span>
 			        <span class="pull-right-container">
 			        	<i class="fa fa-angle-left pull-right"></i>
 			        </span>
 		        </a>
-	        <ul class="treeview-menu">
+	        <ul class="treeview-menu active" >
 				<#if login_admin.typeName?? && (login_admin.typeName="ADMIN") >
 					<li class="active">
 							<a href="${path}/admin/student/init">
@@ -40,7 +40,7 @@
 							</a>
 					</li>
 				</#if>
-	         	<li class="active"><a href="${path}/admin/page/list"><i class="fa fa-user-secret"></i>试卷管理</a></li>
+	         	<li class="active"><a href="${path}/admin/page/list"><i class="fa fa-file-text"></i>试卷管理</a></li>
 	         	<li class="active"><a href="${path}/admin/mark/init"><i class="fa fa-user-secret"></i>阅卷管理</a></li>
 	        </ul>
 	        </li>
