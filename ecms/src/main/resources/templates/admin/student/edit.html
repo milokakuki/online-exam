@@ -63,13 +63,14 @@
 													<label for="province" class="col-md-3 control-label"><small class="text-red">*</small> 姓名（必填）</label>
 													<div class="col-md-8">
 														<input type="hidden" name="studentid" value="${student.studentid}"/>
-														<input type="text" class="form-control" name="name" id="name" value="${(student.name)!}" placeholder="请输入姓名" required="required" readonly="readonly"/>
+														<input type="text" class="form-control" name="name" id="name" value="${(student.name)!}" placeholder="请输入姓名" required="required" readonly="readonly"/>												
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="tel" class="col-md-3 control-label">电话</label>
 													<div class="col-md-8">
 														<input type="text" class="form-control" name="phone" id="phone" value="${(student.phone)!}" placeholder="请输入联系电话" />
+														<span id="phonemsg"></span>
 													</div>
 												</div>
 												<div class="form-group">
@@ -229,6 +230,28 @@
 					msg.innerHTML = "请选择不同类型的试卷!";
 					return false;
 				}
+				
+				// 判断电话号码是否合法
+                var phone = document.getElementById("phone").value;
+                var phoneMsg = document.getElementById("phonemsg");
+                var re = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(15[0-3]{1})|(15[4-9]{1})|(18[0-9]{1})|(199))+\d{8})$/;
+                if(!phone.match(/[\u0000-\u00ff]/g)){
+                	phoneMsg.innerHTML = "请使用半角输入";
+                	phoneMsg.style.color = "red";
+                    return false;
+                }else if(phone == ""){
+                	phoneMsg.innerHTML = "手机号输入为空";
+                	phoneMsg.style.color = "red";
+                    return false;
+                }else if(phone.length != 11){
+                	phoneMsg.innerHTML = "请输入11位手机号码！";
+                	phoneMsg.style.color = "red";
+                    return false;
+                }else if(!re.test(phone)){
+                	phoneMsg.innerHTML = "请输入正确的手机号码!";
+                	phoneMsg.style.color = "red";
+                    return false;
+                }
 				return true;
 			}
 		</script>

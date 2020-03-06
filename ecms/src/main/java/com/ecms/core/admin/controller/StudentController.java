@@ -193,12 +193,12 @@ public class StudentController {
 				//studentService.saveAndFlush(student);
 				return "redirect:/admin/student/list";
 			}else {
-				model.addAttribute("msg", "邮箱已用!").addAttribute("student", student);
+				model.addAttribute("emailmsg", "邮箱已用!").addAttribute("student", student);
 				return "admin/student/add";
 			}
 			
 		} else {
-			model.addAttribute("msg", "用户名已用!").addAttribute("student", student);
+			model.addAttribute("namemsg", "用户名已用!").addAttribute("student", student);
 			return "admin/student/add";
 		}
 		
@@ -406,12 +406,12 @@ public class StudentController {
 				
 			    return "admin/student/add";
 			}else {
-				model.addAttribute("msg", "邮箱已用!").addAttribute("student", student);
+				model.addAttribute("emailmsg", "邮箱已用!").addAttribute("student", student);
 				return "admin/student/add";
 			}
 			
 		} else {
-			model.addAttribute("msg", "用户名已用!").addAttribute("student", student);
+			model.addAttribute("namemsg", "用户名已用!").addAttribute("student", student);
 			return "admin/student/add";
 		}
 		
