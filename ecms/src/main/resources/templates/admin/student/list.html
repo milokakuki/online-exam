@@ -141,7 +141,7 @@ div.container div.row div {
 												<table class="table table-hover text-center">
 													<thead>
 														<tr>
-															<td width="20"><input id="check-all" type="checkbox"/></td>
+															<!-- <td width="20"><input id="check-all" type="checkbox"/></td> -->
 															<th>编号</th>
 															<th>姓名</th>
 															<th>邮箱</th>
@@ -155,7 +155,7 @@ div.container div.row div {
 														<#if page.getContent()??>
 															<#list page.getContent() as student>
 																<tr>
-																	<td><input value="${student.studentid}" type="checkbox"/></td>
+																	<!-- <td><input value="${student.studentid}" type="checkbox"/></td> -->
 																	<td>${(student_index + 1)!}</td>
 																	<td>${(student.name)!}</td>
 																	<td>${(student.email)!}</td>
