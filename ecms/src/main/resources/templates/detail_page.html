@@ -262,29 +262,29 @@
 				console.log(map);
 				po.id = id;
 				po.answers = map;				
-				// $.ajax({
-				// 	url:"${path}/submit_page",
-				// 	type:'get',
-				// 	headers : {
-				// 		'Accept' : 'application/json',
-				// 		'Content-Type' : 'application/json'
-				// 	},
-				// 	data : po,
-				// 	cache:false,
-				// 	success:function(msg){
-				// 		if(msg.code==0){
-				// 			layer.alert("恭喜您，提交成功!", function (index) { 
-				// 				// 判断是否有其他试题
-				// 				getPage(${student.studentid});
-				// 			});
-				// 		}else{
-				// 			alert(msg.message);
-				// 		}
-				// 	},
-				// 	error:function(msg){
-				// 		alert("系统出错啦！请向管理员反应。");
-				// 	}
-				// });
+				$.ajax({
+					url:"${path}/submit_page",
+					type:'get',
+					headers : {
+						'Accept' : 'application/json',
+						'Content-Type' : 'application/json'
+					},
+					data : po,
+					cache:false,
+					success:function(msg){
+						if(msg.code==0){
+							layer.alert("恭喜您，提交成功!", function (index) { 
+								// 判断是否有其他试题
+								getPage(${student.studentid});
+							});
+						}else{
+							alert(msg.message);
+						}
+					},
+					error:function(msg){
+						alert("系统出错啦！请向管理员反应。");
+					}
+				});
 			}
 
 			function getPage(id) {
