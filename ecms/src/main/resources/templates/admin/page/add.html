@@ -66,7 +66,7 @@
 				            			<div class="form-group">
 						                    <label for="duration" class="col-sm-2 control-label"><small class="text-red">*</small> 时长(分钟)(必填)</label>
 						                    <div class="col-sm-5 add-duration">
-					                       		<input type="text" class="form-control"  id="duration" name="duration" placeholder="请输入考试时长（如：120）">
+					                       		<input type="text" class="form-control"  id="duration" name="duration" placeholder="请输入考试时长（如：120）" oninput = "value=value.replace(/[^\d]/g,'')">
 				            					<span class="form-message"></span>
 				            				</div>
 				            			</div>
