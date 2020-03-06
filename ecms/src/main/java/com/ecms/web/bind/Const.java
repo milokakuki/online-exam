@@ -2,7 +2,6 @@ package com.ecms.web.bind;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -10,7 +9,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 /**
  * @author 沙文
  * @email  shaw053852@126.com 
- * @className UserService
+ * @className Const
  * @date   2018年3月16日上午9:56:21
  * @desc  [用一句话描述改文件的功能]
  */
