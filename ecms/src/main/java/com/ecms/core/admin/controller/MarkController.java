@@ -1,6 +1,5 @@
 package com.ecms.core.admin.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ecms.core.dao.PageHistoryDao;
-import com.ecms.core.dao.StudentDao;
 import com.ecms.core.entity.PageHistory;
 import com.ecms.core.entity.Question;
 import com.ecms.core.entity.QuestionPage;
@@ -76,7 +74,6 @@ public class MarkController {
 		boolean flag = true;
 		model.addAttribute("flag", flag);
 
-		// System.out.println(phs.toString());
 		return "admin/mark/list";
 	}
 
@@ -145,7 +142,7 @@ public class MarkController {
 			model.addAttribute("questions", questions);
 			model.addAttribute("answers",ph.getAnswers());
 			model.addAttribute("student", ph.getStudent());
-			System.out.println("测试是否可以取得答案数据:" + ph.getAnswers());
+			//System.out.println("测试是否可以取得答案数据:" + ph.getAnswers());
 		} else {
 			return "redirect:/admin/mark/list";
 		}

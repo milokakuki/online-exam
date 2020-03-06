@@ -76,7 +76,9 @@ div.container div.row div {
 					<div class="col-md-9">
 						<div class="box box-primary">
 							<div class="box-body box-profile">
-								<#list answers as key,content> <#list questions as que>
+							<#list questions as que>
+							<#if answers??>
+							 <#list answers as key,content> 
 								<#if que.id == key>
 								<div class="bg-gray disabled color-palette">
 									<h4>【${que.questionType.name}】${que.title!}</h4>
@@ -99,11 +101,6 @@ div.container div.row div {
 									<#list que.choiceList?keys as ca> <#if
 										content== ca>
 									<div class="box-comment">
-										<#if
-											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
-										<!-- Title image --> <img class="attachment-img"
-											src="${que.choiceImgList[ca]}"
-											alt="Attachment Image"> </#if>
 										<div class="comment-text">
 											<label> <input type="radio" value="${ca}"
 												disabled="disabled" checked="checked"
@@ -111,15 +108,15 @@ div.container div.row div {
 												<span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp
 													&nbsp${que.choiceList[ca]}</span>
 											</label>
-										</div>
-									</div>
-									<#else>
-									<div class="box-comment">
-										<#if
+											<#if
 											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
 										<!-- Title image --> <img class="attachment-img"
 											src="${que.choiceImgList[ca]}"
 											alt="Attachment Image"> </#if>
+										</div>
+									</div>
+									<#else>
+									<div class="box-comment">
 										<div class="comment-text">
 											<label> <input type="radio" value="${ca}"
 												disabled="disabled" name="r${que.id}"
@@ -127,6 +124,11 @@ div.container div.row div {
 													&nbsp${ca}:&nbsp &nbsp
 													&nbsp${que.choiceList[ca]}</span>
 											</label>
+											<#if
+											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
+										<!-- Title image --> <img class="attachment-img"
+											src="${que.choiceImgList[ca]}"
+											alt="Attachment Image"> </#if>
 										</div>
 									</div></#if> </#list>
 								</div>
@@ -137,11 +139,6 @@ div.container div.row div {
 									<#list que.choiceList?keys as ca> <#if
 										content ?contains(ca)>
 									<div class="box-comment">
-										<#if
-											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
-										<!-- Title image --> <img class="attachment-img"
-											src="${que.choiceImgList[ca]}"
-											alt="Attachment Image"> </#if>
 										<div class="comment-text">
 											<label> <input type="checkbox" value="${ca}"
 												disabled="disabled" checked="checked"
@@ -149,15 +146,15 @@ div.container div.row div {
 												<span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp
 													&nbsp${que.choiceList[ca]}</span>
 											</label>
-										</div>
-									</div>
-									<#else>
-									<div class="box-comment">
-										<#if
+											<#if
 											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
 										<!-- Title image --> <img class="attachment-img"
 											src="${que.choiceImgList[ca]}"
 											alt="Attachment Image"> </#if>
+										</div>
+									</div>
+									<#else>
+									<div class="box-comment">
 										<div class="comment-text">
 											<label> <input type="checkbox" value="${ca}"
 												disabled="disabled" name="r${que.id}"
@@ -165,6 +162,11 @@ div.container div.row div {
 													&nbsp${ca}:&nbsp &nbsp
 													&nbsp${que.choiceList[ca]}</span>
 											</label>
+											<#if
+											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
+										<!-- Title image --> <img class="attachment-img"
+											src="${que.choiceImgList[ca]}"
+											alt="Attachment Image"> </#if>
 										</div>
 									</div></#if> </#list>
 								</div>
@@ -223,19 +225,118 @@ div.container div.row div {
 								<br>
 								<br>
 								<br>
-								</#if> <#if que.questionType.id=5>
+								</#if> <#if que.questionType.id = 5>
 								<div class="form-group appl">
-									<input id="qId" value="${index.id}" type="hidden" />
+									<input id="qId" value="${que.id}" type="hidden" />
 									<div class="box-comment">
 										<div class="comment-text">
-											<br />
-											<textarea class="form-control" value="${content}"></textarea>
-											<br />
+											<br/>
+											<textarea class="form-control" disabled="disabled" style=" height:200px" >${content}</textarea>
+											<br/>
+										</div>
+									</div>
+					            </div>
+							</#if>
+								</#if></#list>
+								<#else>
+								<div class="bg-gray disabled color-palette">
+									<h4>【${que.questionType.name}】${que.title!}</h4>
+								</div>
+								<#if
+									que.titleImg?? && que.titleImg!="">
+								<img class="img-responsive pad"
+									src="${path}/${que.titleImg}" alt="Photo">
+								</#if>
+								<hr>
+								<p>
+									<button class="btn-xs btn-warning">内容</button>
+									&nbsp;&nbsp;&nbsp;${que.content}
+								</p>
+								<hr>
+								<#if que.questionType.id=1>
+								<div class="form-group single">
+									<input id="qId" value="${que.id}"
+										type="hidden" />
+									<#list que.choiceList?keys as ca> 
+									<div class="box-comment">
+										<div class="comment-text">
+											<label> <input type="radio" value="${ca}"
+												disabled="disabled" name="r${que.id}"
+												class="flat-red"> <span>&nbsp &nbsp
+													&nbsp${ca}:&nbsp &nbsp
+													&nbsp${que.choiceList[ca]}</span>
+											</label>
+										</div>
+										<#if
+											que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
+										<!-- Title image --> <img class="attachment-img"
+											src="${que.choiceImgList[ca]}"
+											alt="Attachment Image"> </#if>
+									</div> </#list>
+								</div>
+								</#if> <#if que.questionType.id = 2>
+								<div class="form-group multiple">
+									<input id="qId" value="${que.id}" type="hidden" />
+									<#list que.choiceList?keys as ca>
+										<div class="box-comment">
+											<div class="comment-text">
+								                <label>
+								                   <input type="checkbox" value="${ca}" name="r${que.id}" class="flat-red" disabled="disabled">
+								                   <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${que.choiceList[ca]}</span>
+								                </label>
+								                <#if que.choiceImgList[ca]?? && que.choiceImgList[ca]!="">
+								                <!-- Title image -->
+								                <img class="attachment-img" src="${que.choiceImgList[ca]}" alt="Attachment Image">
+											</#if>
+							                </div>
+							                
+						                </div>
+					                </#list>
+					            </div>
+							</#if><#if que.questionType.id=3>
+								<div class="form-group judge">
+									<input id="qId" value="${que.id}"
+										type="hidden" />
+									<div class="box-comment">
+										<div class="comment-text">
+											<input type="radio" value="T"
+												name="r${que.id}" disabled="disabled"
+												class="flat-red"> <span>&nbsp &nbsp &nbsp正确</span><br>
+											<br> <input type="radio" value="F"
+												name="r${que.id}" disabled="disabled"
+												class="flat-red"> <span>&nbsp &nbsp &nbsp错误</span>
 										</div>
 									</div>
 								</div>
+								</#if> <#if que.questionType.id=4>
+								<div class="form-group fill">
+									<input id="qId" value="${que.id}"
+										type="hidden" />
+									<div class="box-comment">
+										<div class="comment-text col-xs-6">
+											<br /> <input type="text" class="form-control" 
+												disabled="disabled">
+										</div>
+									</div>
+								</div>
+								<br>
+								<br>
+								<br>
+								<br>
+								</#if> <#if que.questionType.id = 5>
+								<div class="form-group appl">
+									<input id="qId" value="${que.id}" type="hidden" />
+									<div class="box-comment">
+										<div class="comment-text">
+											<br/>
+											<textarea class="form-control" disabled="disabled" style=" height:200px"></textarea>
+											<br/>
+										</div>
+									</div>
+					            </div>
+							</#if>
 								</#if> 
-								</#if></#list> </#list>
+								</#list>
 							</div>
 						</div>
 						<div class="form-group">
