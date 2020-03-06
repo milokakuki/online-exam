@@ -163,6 +163,7 @@ public class StudentController {
 		Student tmp = studentService.findByName(student.getName());
 		Student tmp2 = studentService.findByEmail(student.getEmail());
 		student.setCreateTime(new Date());
+		
 		if (tmp == null) {
 			if(tmp2 == null) {
 				Integer pType1 = 0; 
@@ -348,6 +349,7 @@ public class StudentController {
 		Student tmp = studentService.findByName(student.getName());
 		Student tmp2 = studentService.findByEmail(student.getEmail());
 		student.setCreateTime(new Date());
+		
 		if (tmp == null) {
 			if(tmp2 == null) {
 				Integer pType1 = 0; 
@@ -387,6 +389,21 @@ public class StudentController {
 				String strLink = ip+"/?id="+studentid+"&email="+email;
 				System.out.println("******************strLink = "+strLink+"*****************************");
 				model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
+				
+				List<PageHistory> pageHistories = pageHistoryService.findByStudent(student);
+				int index = 0;
+				for(int i = 0 ; i < pageHistories.size() ; i++) {
+					index++;
+					if(index == 1) {
+						int page1 = pageHistories.get(0).getPage().getId();
+						model.addAttribute("page1", page1);
+					}
+					if(index == 2) {
+						int page2 = pageHistories.get(1).getPage().getId();
+						model.addAttribute("page2", page2);
+					}
+				}
+				
 			    return "admin/student/add";
 			}else {
 				model.addAttribute("msg", "邮箱已用!").addAttribute("student", student);
@@ -482,6 +499,10 @@ public class StudentController {
 		return "admin/student/edit";
 	}
 	
-		
+	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
+	@GetMapping("/return")
+	public String back(Student student, Model model) {
+		return "redirect:/admin/student/list";
+	}
 	
 }

@@ -62,25 +62,25 @@
 												<div class="form-group">
 													<label for="province" class="col-md-3 control-label"><small class="text-red">*</small> 姓名（必填）</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" name="name" id="name" value="" placeholder="请输入姓名" required="required"/>
+														<input type="text" class="form-control" name="name" id="name" value="${(student.studentid)!}" placeholder="请输入姓名" required="required"/>
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="tel" class="col-md-3 control-label">电话</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" name="phone" id="phone" value="" placeholder="请输入联系电话" />
+														<input type="text" class="form-control" name="phone" id="phone" value="${(student.phone)!}" placeholder="请输入联系电话" />
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="email" class="col-md-3 control-label"><small class="text-red">*</small> 邮箱（必填）</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" name="email" id="email" value="" placeholder="请输入联系邮箱" required="required"/>
+														<input type="text" class="form-control" name="email" id="email" value="${(student.email)!}" placeholder="请输入联系邮箱" required="required"/>
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="email" class="col-md-3 control-label">备考</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" name="remark" id="remark" value="" placeholder="请输入备考信息" />
+														<input type="text" class="form-control" name="remark" id="remark" value="${(student.remark)!}" placeholder="请输入备考信息" />
 													</div>
 												</div>
 											</div>
@@ -88,19 +88,19 @@
 												<div class="form-group">
 													<label for="province" class="col-md-3 control-label">专业</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" name="major" id="major" value="" placeholder="请输入专业" />
+														<input type="text" class="form-control" name="major" id="major" value="${(student.major)!}" placeholder="请输入专业" />
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="tel" class="col-md-3 control-label">学校</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" name="school" id="school" value="" placeholder="请输入学校" />
+														<input type="text" class="form-control" name="school" id="school" value="${(student.school)!}" placeholder="请输入学校" />
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="email" class="col-md-3 control-label">学位</label>
 													<div class="col-md-8">
-														<input type="text" class="form-control" name="degree" id="degree" value="" placeholder="请输入学位" />
+														<input type="text" class="form-control" name="degree" id="degree" value="${(student.degree)!}" placeholder="请输入学位" />
 													</div>
 												</div>
 											</div>
@@ -117,10 +117,14 @@
 									                    <label for="pageType" class="col-sm-3 control-label">试卷选择1</label>
 									                    <div class="col-sm-5 add-type">
 								                       		<select class="form-control select2" name="pageType1" id="testType1" style="width: 100%;" >
-								                       		  <option selected="selected"></option>
-				                                              <#list testPages as testPage>
-																<option value="${testPage.id}">${testPage.name}</option>
-															  </#list>
+								                       		  <option value=""></option>
+				                                             	<#list testPages as testPage>
+													                <#if page1?? && page1 = testPage.id>
+													                    <option value="${testPage.id}" selected="selected">${testPage.name}</option>
+													                <#else>
+													                    <option value="${testPage.id}">${testPage.name}</option>
+													                </#if>
+													             </#list>
 				                                            </select>
 				                                            <span class="form-message"></span>
 							            				</div>
@@ -135,10 +139,14 @@
 									                    <label for="pageType" class="col-sm-3 control-label"> 试卷选择2</label>
 									                    <div class="col-sm-5 add-type">
 								                       		<select class="form-control select2" name="pageType2" id="testType2" style="width: 100%;" >
-								                       		  <option selected="selected"></option>
+								                       		  <option value=""></option>
 				                                              <#list testPages as testPage>
-																<option value="${testPage.id}">${testPage.name}</option>
-															  </#list>
+													                <#if page2?? && page2 = testPage.id>
+													                    <option value="${testPage.id}" selected="selected">${testPage.name}</option>
+													                <#else>
+													                    <option value="${testPage.id}">${testPage.name}</option>
+													                </#if>
+													            </#list>
 				                                            </select>
 				                                            <span class="form-message"></span>
 							            				</div>
@@ -164,7 +172,8 @@
 												</div>	
 												<div style="float:right;clear:both;padding-right:15px;">
 													<button type="submit" class="btn btn-warning btn-sm" style="width:88px;"><i class="fa fa-check-square-o" ></i> 登录</button>
-													<button type="button" onclick="history.back(-1);" class="btn btn-info btn-sm" style="margin-left:10px;width:88px;"><i class="fa fa-reply"></i> 返回</button>
+													<!-- <button type="button" onclick="" class="btn btn-info btn-sm" style="margin-left:10px;width:88px;"><i class="fa fa-reply"></i> 返回</button> -->
+													<a href="${path}/admin/student/return" class="btn btn-info btn-sm" style="margin-left:10px;width:88px;"><i class="fa fa-reply"></i> 返回</a>
 												</div>
 											</div>
 										</div>
@@ -219,6 +228,29 @@
 					msg.innerHTML = "请选择不同类型的试卷!";
 					return false;
 				}
+				
+				// 判断电话号码是否合法
+                var phone = document.getElementById("phone").value;
+                var msg = document.getElementById("testMsg");
+                var re = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(15[0-3]{1})|(15[4-9]{1})|(18[0-9]{1})|(199))+\d{8})$/;
+                if(!phone.match(/[\u0000-\u00ff]/g)){
+                    msg.innerHTML = "请使用半角输入";
+                    msg.style.color = "red";
+                    return false;
+                }else if(phone == ""){
+                    msg.innerHTML = "手机号输入为空";
+                    msg.style.color = "red";
+                    return false;
+                }else if(phone.length != 11){
+                    msg.innerHTML = "请输入11位手机号码！";
+                    msg.style.color = "red";
+                    return false;
+                }else if(!re.test(phone)){
+                    msg.innerHTML = "请输入正确的手机号码!";
+                    msg.style.color = "red";
+                    return false;
+                }
+
 				return true;
 			}
 		</script>
