@@ -197,47 +197,45 @@
 				var po = new Object();
 				var map = {}
 				var tmp =  $(".single");
+				var qId = tmp.find("#qId");
 				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
 					var a = qId[i].value;
-					var answer = tmp.find(".checked input");
+					var answer = tmp[i].querySelector(".checked input");
 					var b;
-					if(answer[i] == null){
+					if(!answer){
 						b="";
 					}else{
-						b = answer[i].value;
+						b = answer.value;
 					}
 					map[a]=b;
 				}
 				tmp = $(".multiple");
+				qId = tmp.find("#qId");
 				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
 					var a = qId[i].value;
-					
 					var checkboxs = tmp.eq(i).find(".checked input");
 					var str = "";
 					for (var j = 0; j < checkboxs.length; j++) {
 						str = str + checkboxs[j].value;
 					}
-					
 					map[a]=str;
 				}
 				tmp =  $(".judge");
+				qId = tmp.find("#qId");
 				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
 					var a = qId[i].value;
-					var answer = tmp.find(".checked input");
+					var answer = tmp[i].querySelector(".checked input");
 					var b;
-					if(answer[i] == null){
+					if(!answer){
 						b="";
 					}else{
-						b = answer[i].value;
+						b = answer.value;
 					}
 					map[a]=b;
 				}
-				var tmp =  $(".fill");
+				tmp =  $(".fill");
+				qId = tmp.find("#qId");
 				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
 					var a = qId[i].value;
 					var answer = tmp.find(".comment-text input");
 					var b;
@@ -248,9 +246,9 @@
 					}
 					map[a]=b;
 				}
-				var tmp =  $(".appl");
+				tmp =  $(".appl");
+				qId = tmp.find("#qId");
 				for (var i = 0; i < tmp.length; i++) {
-					var qId = tmp.find("#qId");
 					var a = qId[i].value;
 					var answer = tmp.find(".comment-text textarea");
 					var b;
@@ -261,32 +259,32 @@
 					}
 					map[a]=b;
 				}
-				// console.log(map);
+				console.log(map);
 				po.id = id;
 				po.answers = map;				
-				$.ajax({
-					url:"${path}/submit_page",
-					type:'get',
-					headers : {
-						'Accept' : 'application/json',
-						'Content-Type' : 'application/json'
-					},
-					data : po,
-					cache:false,
-					success:function(msg){
-						if(msg.code==0){
-							layer.alert("恭喜您，提交成功!", function (index) { 
-								// 判断是否有其他试题
-								getPage(${student.studentid});
-							});
-						}else{
-							alert(msg.message);
-						}
-					},
-					error:function(msg){
-						alert("系统出错啦！请向管理员反应。");
-					}
-				});
+				// $.ajax({
+				// 	url:"${path}/submit_page",
+				// 	type:'get',
+				// 	headers : {
+				// 		'Accept' : 'application/json',
+				// 		'Content-Type' : 'application/json'
+				// 	},
+				// 	data : po,
+				// 	cache:false,
+				// 	success:function(msg){
+				// 		if(msg.code==0){
+				// 			layer.alert("恭喜您，提交成功!", function (index) { 
+				// 				// 判断是否有其他试题
+				// 				getPage(${student.studentid});
+				// 			});
+				// 		}else{
+				// 			alert(msg.message);
+				// 		}
+				// 	},
+				// 	error:function(msg){
+				// 		alert("系统出错啦！请向管理员反应。");
+				// 	}
+				// });
 			}
 
 			function getPage(id) {
