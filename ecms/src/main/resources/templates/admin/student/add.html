@@ -207,7 +207,7 @@
  			$('#generate').click(function(){
  				document.form1.action = "${path}/admin/student/generate";
  				//document.form1.submit();
-				var value1 = $("#testType1").val();
+				/* var value1 = $("#testType1").val();
 				var value2 = $("#testType2").val();		
 				
 				if(value1 == "" && value2 == ""){
@@ -216,8 +216,24 @@
 				}else if(value1 == value2){
 					var msg = document.getElementById("testMsg");
 					msg.innerHTML = "请选择不同类型的试卷!";
-				}
+				} */
 			}); 
+			
+			$("#testType1").change(function(){
+				var value1 = $("#testType1").val();
+				if(value1 != ""){
+					var msg = document.getElementById("testMsg");
+					msg.innerHTML = "";
+				}
+			});
+			
+			$("#testType2").change(function(){
+				var value2 = $("#testType2").val();
+				if(value2 != ""){
+					var msg = document.getElementById("testMsg");
+					msg.innerHTML = "";
+				}
+			});
 			
 			function check(){
 				var value1 = $("#testType1").val();

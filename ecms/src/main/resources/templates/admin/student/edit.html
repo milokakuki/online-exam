@@ -218,6 +218,22 @@
 				}
 			}); 
 			
+			$("#testType1").change(function(){
+				var value1 = $("#testType1").val();
+				if(value1 != ""){
+					var msg = document.getElementById("testMsg");
+					msg.innerHTML = "";
+				}
+			});
+			
+			$("#testType2").change(function(){
+				var value2 = $("#testType2").val();
+				if(value2 != ""){
+					var msg = document.getElementById("testMsg");
+					msg.innerHTML = "";
+				}
+			});
+			
 			function check(){
 				var value1 = $("#testType1").val();
 				var value2 = $("#testType2").val();
@@ -235,22 +251,20 @@
                 var phone = document.getElementById("phone").value;
                 var phoneMsg = document.getElementById("phonemsg");
                 var re = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(15[0-3]{1})|(15[4-9]{1})|(18[0-9]{1})|(199))+\d{8})$/;
-                if(!phone.match(/[\u0000-\u00ff]/g)){
-                	phoneMsg.innerHTML = "请使用半角输入";
-                	phoneMsg.style.color = "red";
-                    return false;
-                }else if(phone == ""){
-                	phoneMsg.innerHTML = "手机号输入为空";
-                	phoneMsg.style.color = "red";
-                    return false;
-                }else if(phone.length != 11){
-                	phoneMsg.innerHTML = "请输入11位手机号码！";
-                	phoneMsg.style.color = "red";
-                    return false;
-                }else if(!re.test(phone)){
-                	phoneMsg.innerHTML = "请输入正确的手机号码!";
-                	phoneMsg.style.color = "red";
-                    return false;
+                if(phone != ""){
+                	if(!phone.match(/[\u0000-\u00ff]/g)){
+                    	phoneMsg.innerHTML = "请使用半角输入";
+                    	phoneMsg.style.color = "red";
+                        return false;
+                    }else if(phone.length != 11){
+                    	phoneMsg.innerHTML = "请输入11位手机号码！";
+                    	phoneMsg.style.color = "red";
+                        return false;
+                    }else if(!re.test(phone)){
+                    	phoneMsg.innerHTML = "请输入正确的手机号码!";
+                    	phoneMsg.style.color = "red";
+                        return false;
+                    }
                 }
 				return true;
 			}

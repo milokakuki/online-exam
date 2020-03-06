@@ -1,7 +1,5 @@
 package com.ecms.core.admin.controller;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +38,6 @@ import com.ecms.core.service.StudentService;
 import com.ecms.web.bind.Const;
 import com.ecms.web.view.RequestElement;
 
-import net.sf.ehcache.search.expression.And;
 
 @Controller
 @RequestMapping("/admin/student")
@@ -246,48 +243,35 @@ public class StudentController {
 		Student s = studentService.findByStudentId(student.getStudentid());
 		List<PageHistory> pageHistories = pageHistoryService.findByStudent(s);
 		if (s != null && pageHistories != null) {
-			Integer pType1 = 0; 
-			Integer pType2 = 0;
-			boolean flag = true;
+			// 先删除关联表中对应Student中status为0的数据
 			for(PageHistory pHistory:pageHistories) {
-				if(pageType1 != "" && flag == true) {
-					pType1 = Integer.parseInt(pageType1);
-					s.setName(student.getName());
-					s.setPhone(student.getPhone());
-					s.setSchool(student.getSchool());
-					s.setMajor(student.getMajor());
-					s.setBirthdate(student.getBirthdate());
-					s.setDegree(student.getDegree());
-					s.setUpdateTime(new Date());
-					pHistory.setStudent(s);
-					com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
-					p1.setId(pType1);
-					pHistory.setPage(p1);
-					pageHistoryService.upDate(pHistory);
-					flag = false;
-				}
-				
-				if(pageType2 != "" && flag == true) {
-					pType2 = Integer.parseInt(pageType2);
-					s.setName(student.getName());
-					s.setPhone(student.getPhone());
-					s.setSchool(student.getSchool());
-					s.setMajor(student.getMajor());
-					s.setBirthdate(student.getBirthdate());
-					s.setDegree(student.getDegree());
-					s.setUpdateTime(new Date());
-					pHistory.setStudent(s);
-					com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
-					p2.setId(pType2);
-					pHistory.setPage(p2);
-					pageHistoryService.upDate(pHistory);
-					flag = false;
-				}
-				
+				pageHistoryService.delete(pHistory);
 			}
-			//p.setStudent(s);
-			//pageHistoryService.upDate(p);
-			// studentService.upDate(s);
+			// 再根据选择逐条插入
+			Integer pType1 = 0; 
+			if(pageType1 != "") {
+				PageHistory pageHistory = new PageHistory();
+				pType1 = Integer.parseInt(pageType1);
+				//pageHistory.setCreateTime(new Date());
+				pageHistory.setStudent(s);
+				pageHistory.setStatus(0);
+				com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
+				p1.setId(pType1);
+				pageHistory.setPage(p1);
+				pageHistoryService.saveAndFlush(pageHistory);
+			}
+			Integer pType2 = 0;
+			if(pageType2 != "") {
+				PageHistory pageHistory2 = new PageHistory();
+				pType2 = Integer.parseInt(pageType2);
+				//pageHistory2.setCreateTime(new Date());
+				pageHistory2.setStudent(s);
+				pageHistory2.setStatus(0);
+				com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
+				p2.setId(pType2);
+				pageHistory2.setPage(p2);
+				pageHistoryService.saveAndFlush(pageHistory2);
+			}
 		}
 		return "redirect:/admin/student/list";
 	}
@@ -437,46 +421,37 @@ public class StudentController {
 		}
 		
 		if (s != null && pageHistories != null) {
-			Integer pType1 = 0; 
-			Integer pType2 = 0;
-			boolean flag = true;
+			// 先删除关联表中对应Student中status为0的数据
 			for(PageHistory pHistory:pageHistories) {
-				if(pageType1 != "" && flag == true) {
-					pType1 = Integer.parseInt(pageType1);
-					s.setName(student.getName());
-					s.setPhone(student.getPhone());
-					s.setSchool(student.getSchool());
-					s.setMajor(student.getMajor());
-					s.setBirthdate(student.getBirthdate());
-					s.setDegree(student.getDegree());
-					s.setUpdateTime(new Date());
-					pHistory.setStudent(s);
-					pHistory.setStatus(0);
-					com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
-					p1.setId(pType1);
-					pHistory.setPage(p1);
-					pageHistoryService.upDate(pHistory);
-					flag = false;
-				}
-				
-				if(pageType2 != "" && flag == true) {
-					pType2 = Integer.parseInt(pageType2);
-					s.setName(student.getName());
-					s.setPhone(student.getPhone());
-					s.setSchool(student.getSchool());
-					s.setMajor(student.getMajor());
-					s.setBirthdate(student.getBirthdate());
-					s.setDegree(student.getDegree());
-					s.setUpdateTime(new Date());
-					pHistory.setStudent(s);
-					com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
-					p2.setId(pType2);
-					pHistory.setPage(p2);
-					pageHistoryService.upDate(pHistory);
-					flag = false;
-				}
-				
+				pageHistoryService.delete(pHistory);
 			}
+			// 再根据选择逐条插入
+			Integer pType1 = 0; 
+			if(pageType1 != "") {
+				PageHistory pageHistory = new PageHistory();
+				pType1 = Integer.parseInt(pageType1);
+				//pageHistory.setCreateTime(new Date());
+				pageHistory.setStudent(s);
+				pageHistory.setStatus(0);
+				com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
+				p1.setId(pType1);
+				pageHistory.setPage(p1);
+				pageHistoryService.saveAndFlush(pageHistory);
+			}
+			Integer pType2 = 0;
+			if(pageType2 != "") {
+				PageHistory pageHistory2 = new PageHistory();
+				pType2 = Integer.parseInt(pageType2);
+				//pageHistory2.setCreateTime(new Date());
+				pageHistory2.setStudent(s);
+				pageHistory2.setStatus(0);
+				com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
+				p2.setId(pType2);
+				pageHistory2.setPage(p2);
+				pageHistoryService.saveAndFlush(pageHistory2);
+			}
+			
+			// 生成URL
 			int studentid = student.getStudentid();
 			String email = student.getEmail();
 			String ip = "";
