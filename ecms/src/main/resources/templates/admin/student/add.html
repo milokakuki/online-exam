@@ -254,7 +254,7 @@
                 var re = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(15[0-3]{1})|(15[4-9]{1})|(18[0-9]{1})|(199))+\d{8})$/;
                 if(phone != ""){
                 	if(!phone.match(/[\u0000-\u00ff]/g)){
-                    	phoneMsg.innerHTML = "请使用半角输入";
+                    	phoneMsg.innerHTML = "请使用半角输入！";
                     	phoneMsg.style.color = "red";
                         return false;
                     }else if(phone.length != 11){
@@ -267,7 +267,18 @@
                         return false;
                     }
                 }
-
+                
+                // 判断邮箱是否合法
+                var email = document.getElementById("email").value;
+                var emailMsg = document.getElementById("emailmsg");
+				if(email != ""){
+					var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+					if(!re.test(email)){
+					   emailMsg.innerHTML = "请输入正确的邮箱！";
+					   emailMsg.style.color = "red";
+					   return false;
+					}
+				}
 				return true;
 			}
 		</script>

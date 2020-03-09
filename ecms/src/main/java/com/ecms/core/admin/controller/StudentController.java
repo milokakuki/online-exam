@@ -125,7 +125,7 @@ public class StudentController {
 		int end = element.getPageNo() + 3 < total ? element.getPageNo() + 3 : total;
 		model.addAttribute("page", students).addAttribute("start", start).addAttribute("end", end);
 		boolean flag = true;
-		model.addAttribute("flag", flag);
+		model.addAttribute("flag", flag).addAttribute("name", name).addAttribute("school", school).addAttribute("email", email).addAttribute("phone", phone);
 		
 		return "admin/student/list";
 	}
