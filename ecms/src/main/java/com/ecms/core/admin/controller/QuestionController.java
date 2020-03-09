@@ -285,6 +285,7 @@ public class QuestionController {
 		model.addAttribute("questionType", questionType);
 		
 		model.addAttribute("ids", ids);
+		model.addAttribute("pagename", pagep.getName());
 		model.addAttribute("pid", pid);
 		model.addAttribute("questionPages", questionPages);
 		model.addAttribute("page", questions).addAttribute("start", start).addAttribute("end", end);
