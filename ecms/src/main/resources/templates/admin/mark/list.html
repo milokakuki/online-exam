@@ -69,7 +69,7 @@ div.container div.row div {
 			<!-- /.content-header -->
 			<section class="content">
 				<div class="row">
-					<form action="${path}/admin/mark/search" id="form-mark-list"
+					<form action="${path}/admin/mark/search" id="form-mark-search" 
 						method="POST" class="col-md-12">
 						<div class="box box-solid">
 							<div class="box-body">
@@ -81,14 +81,14 @@ div.container div.row div {
 											<div class="form-group">
 												<label for="name" class="col-md-3 control-label">姓名</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" name="name"
+													<input type="text" class="form-control" name="name" value="${(name)!}"
 														id="name" placeholder="请输入姓名" />
 												</div>
 											</div>
 											<div class="form-group">
 												<label for="school" class="col-md-3 control-label">学校</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" name="school"
+													<input type="text" class="form-control" name="school" value="${(school)!}"
 														id="school" placeholder="请输入学校" />
 												</div>
 											</div>
@@ -98,14 +98,14 @@ div.container div.row div {
 											<div class="form-group">
 												<label for="phone" class="col-md-3 control-label">电话</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" name="phone"
+													<input type="text" class="form-control" name="phone" value="${(phone)!}"
 														id="phone" placeholder="请输入联系电话" />
 												</div>
 											</div>
 											<div class="form-group">
 												<label for="email" class="col-md-3 control-label">邮箱</label>
 												<div class="col-md-8">
-													<input type="text" class="form-control" name="email"
+													<input type="text" class="form-control" name="email" value="${(email)!}"
 														id="email" placeholder="请输入联系邮箱" />
 												</div>
 											</div>
@@ -113,7 +113,7 @@ div.container div.row div {
 
 										<div>
 											<div style="float: right; padding-right: 15px;">
-												<button type="submit" class="btn btn-sm btn-primary"
+												<button type="submit" class="btn btn-sm btn-primary" id="submit"
 													style="width: 88px;">
 													<i class="fa fa-search"></i> 检索
 												</button>
@@ -125,6 +125,7 @@ div.container div.row div {
 							</div>
 						</div>
 					</form>
+					
 					<#if flag>
 					<form action="#" id="form-page-mark" method="POST"
 						class="col-md-12">
@@ -181,7 +182,6 @@ div.container div.row div {
 												</div>
 											</div>
 										</div>
-									
 
 									</div>
 								</div>
@@ -189,6 +189,7 @@ div.container div.row div {
 						</div>
 					</form>
 					</#if>
+				
 				</div>
 
 			</section>
@@ -217,22 +218,6 @@ div.container div.row div {
 	<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
 	<script type="text/javascript"
 		src="${path}/plugins/layer-v3.0.3/layer/layer.js"></script>
-	<script type="text/javascript">
-		function openDetail(id) {
-			document.location.href = "/detail_page?id=" + id;
-		};
 
-		function clear() {
-			var name = document.getElementById("name");
-			var school = document.getElementById("school");
-			var phone = document.getElementById("phone");
-			var email = document.getElementById("email");
-			name.innerHTML = "";
-			school.innerHTML = "";
-			phone = innerHTML = "";
-			email = innerHTML = "";
-		}
-
-	</script>
 </body>
 </html>
