@@ -253,6 +253,11 @@ public class StudentController {
 				PageHistory pageHistory = new PageHistory();
 				pType1 = Integer.parseInt(pageType1);
 				//pageHistory.setCreateTime(new Date());
+				s.setMajor(student.getMajor());
+				s.setPhone(student.getPhone());
+				s.setSchool(student.getSchool());
+				s.setDegree(student.getDegree());
+				s.setRemark(student.getRemark());
 				pageHistory.setStudent(s);
 				pageHistory.setStatus(0);
 				com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
@@ -265,6 +270,11 @@ public class StudentController {
 				PageHistory pageHistory2 = new PageHistory();
 				pType2 = Integer.parseInt(pageType2);
 				//pageHistory2.setCreateTime(new Date());
+				s.setMajor(student.getMajor());
+				s.setPhone(student.getPhone());
+				s.setSchool(student.getSchool());
+				s.setDegree(student.getDegree());
+				s.setRemark(student.getRemark());
 				pageHistory2.setStudent(s);
 				pageHistory2.setStatus(0);
 				com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
@@ -431,6 +441,11 @@ public class StudentController {
 				PageHistory pageHistory = new PageHistory();
 				pType1 = Integer.parseInt(pageType1);
 				//pageHistory.setCreateTime(new Date());
+				s.setMajor(student.getMajor());
+				s.setPhone(student.getPhone());
+				s.setSchool(student.getSchool());
+				s.setDegree(student.getDegree());
+				s.setRemark(student.getRemark());
 				pageHistory.setStudent(s);
 				pageHistory.setStatus(0);
 				com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
@@ -443,6 +458,11 @@ public class StudentController {
 				PageHistory pageHistory2 = new PageHistory();
 				pType2 = Integer.parseInt(pageType2);
 				//pageHistory2.setCreateTime(new Date());
+				s.setMajor(student.getMajor());
+				s.setPhone(student.getPhone());
+				s.setSchool(student.getSchool());
+				s.setDegree(student.getDegree());
+				s.setRemark(student.getRemark());
 				pageHistory2.setStudent(s);
 				pageHistory2.setStatus(0);
 				com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
