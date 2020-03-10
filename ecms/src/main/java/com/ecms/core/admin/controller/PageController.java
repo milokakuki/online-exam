@@ -206,6 +206,7 @@ public class PageController {
 	public String edit(Page page,HttpSession session){
 		User user = (User)session.getAttribute(Const.LOGIN_ADMIN);
 		page.setCreator(user.getUsername());
+		page.setCreateTime(new Date());
 		pageService.saveAndFlush(page);
 		return "redirect:/admin/page/list";
 	}
@@ -255,6 +256,7 @@ public class PageController {
 		}
 		
 		model.addAttribute("ids", ids);
+		model.addAttribute("pagename", pagep.getName());
 		model.addAttribute("pid", pid);
 		model.addAttribute("page", questionPages).addAttribute("start", start).addAttribute("end", end);
 		
