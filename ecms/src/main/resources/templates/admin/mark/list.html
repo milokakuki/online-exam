@@ -166,10 +166,15 @@ div.container div.row div {
 																	<td>${(ph.counts)!}</td>	
 																	<td>${(ph.startTime)!}</td>	
 																	<td>${(ph.endTime)!}</td>
-																	<td>${(ph.markTime)!}</td>	
+																	<td>${(ph.markTime)!}</td>
+																	<#if ph.student.status == 2 >	
 																	<td>
 																		<a href="${path}/admin/mark/manual/${ph.id}" class="text-info"><i class="fa fa-edit"></i> 阅卷</a>&nbsp;																	
-																	</td>	
+																	</td><#else>
+																	<td>
+																	    <a href="javascript: func()" class="text-info"><i class="fa fa-edit"></i> 阅卷</a>&nbsp;	
+																	 </td>
+																	</#if>	
 																</tr>
 															</#list>
 														</#if>
@@ -219,5 +224,10 @@ div.container div.row div {
 	<script type="text/javascript"
 		src="${path}/plugins/layer-v3.0.3/layer/layer.js"></script>
 
+	<script type="text/javascript">
+		function func(){
+			alert("该考生尚未提交答卷！");
+		}
+	</script>
 </body>
 </html>
