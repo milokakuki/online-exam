@@ -1,5 +1,7 @@
 package com.ecms.core.admin.controller;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +37,7 @@ import com.ecms.core.entity.Student;
 import com.ecms.core.service.PageHistoryService;
 import com.ecms.core.service.PageService;
 import com.ecms.core.service.StudentService;
+import com.ecms.util.PasswordUtils;
 import com.ecms.web.bind.Const;
 import com.ecms.web.view.RequestElement;
 
@@ -524,4 +527,40 @@ public class StudentController {
 		return "redirect:/admin/student/list";
 	}
 	
+	//generateURL
+	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
+	@GetMapping("/generateURL/{studentid}")
+	public String generateURL(@PathVariable(name = "studentid") Integer studentId, Model model) {
+		Student student = studentService.findByStudentId(studentId);
+		// 生成URL
+		int studentid = student.getStudentid();
+		String email = student.getEmail();		
+		SimpleDateFormat sdf = new SimpleDateFormat("mmss");
+		String tid = sdf.format(new Date()).toString();
+		
+		
+		// tid进行加密
+		String newTid = tid;
+		try {
+			newTid = PasswordUtils.encryptPassword(tid);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		String ip = "";
+		try {
+			//ip = InetAddress.getLocalHost().getHostAddress();
+			ip=Const.HttpClient.BASE_PATH;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String strLink = ip+"/?id="+studentid+"&email="+email+"&tid="+newTid;
+		System.out.println("******************strLink = "+strLink+"*****************************");
+		
+		student.setUrl(strLink);
+		studentService.upDate(student);
+		
+		return "redirect:/admin/student/list";
+	}
 }

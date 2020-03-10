@@ -74,6 +74,17 @@ public class Student implements Serializable {
 
 	@Column(name = "status")
 	private int status = 0;
+	
+	@Column(name = "url")
+	private String url;
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public Set<PageHistory> getPageHistories() {
 		return pageHistories;
