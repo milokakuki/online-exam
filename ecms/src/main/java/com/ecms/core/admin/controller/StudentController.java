@@ -191,38 +191,6 @@ public class StudentController {
 				//studentService.saveAndFlush(student);
 				return "redirect:/admin/student/list";
 			}else {
-				/*
-				 * 添加链接
-				 */
-				int studentid = tmp2.getStudentid();
-				String email = tmp2.getEmail();
-				String ip = "";
-				try {
-					//ip = InetAddress.getLocalHost().getHostAddress();
-					ip=Const.HttpClient.BASE_PATH;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				String strLink = ip+"/?id="+studentid+"&email="+email;
-				System.out.println("******************strLink = "+strLink+"*****************************");
-				model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
-				
-				/**
-				 * 添加已选试卷
-				 */
-				List<PageHistory> pageHistories = pageHistoryService.findByStudent(tmp2);
-				int index = 0;
-				for(int i = 0 ; i < pageHistories.size() ; i++) {
-					index++;
-					if(index == 1) {
-						int page1 = pageHistories.get(0).getPage().getId();
-						model.addAttribute("page1", page1);
-					}
-					if(index == 2) {
-						int page2 = pageHistories.get(1).getPage().getId();
-						model.addAttribute("page2", page2);
-					}
-				}
 				
 				model.addAttribute("emailmsg", "邮箱已用!").addAttribute("student", student);
 				return "admin/student/add";
@@ -264,7 +232,7 @@ public class StudentController {
 
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@PostMapping("/edit")
-	public String edit(Student student,@RequestParam("pageType1")String pageType1,@RequestParam("pageType2")String pageType2,@RequestParam("link")String link, Model model) {
+	public String edit(Student student,@RequestParam("pageType1")String pageType1,@RequestParam("pageType2")String pageType2, Model model) {
 		/**
 		 * 添加试卷信息
 		 */
@@ -532,12 +500,13 @@ public class StudentController {
 	@GetMapping("/generateURL/{studentid}")
 	public String generateURL(@PathVariable(name = "studentid") Integer studentId, Model model) {
 		Student student = studentService.findByStudentId(studentId);
+		student.setStatus(0);
+		
 		// 生成URL
 		int studentid = student.getStudentid();
 		String email = student.getEmail();		
 		SimpleDateFormat sdf = new SimpleDateFormat("mmss");
 		String tid = sdf.format(new Date()).toString();
-		
 		
 		// tid进行加密
 		String newTid = tid;
@@ -559,7 +528,19 @@ public class StudentController {
 		System.out.println("******************strLink = "+strLink+"*****************************");
 		
 		student.setUrl(strLink);
-		studentService.upDate(student);
+		
+		List<PageHistory> pageHistories = pageHistoryService.findByStudent(student);
+		for(PageHistory pHistory : pageHistories) {
+			pHistory.setStatus(0);
+			pHistory.setAnswers(null);
+			pHistory.setStartTime(null);
+			pHistory.setMarkTime(null);
+			pHistory.setEndTime(null);
+			pHistory.setStudent(student);
+			pageHistoryService.upDate(pHistory);
+		}
+		
+		// studentService.upDate(student);
 		
 		return "redirect:/admin/student/list";
 	}
