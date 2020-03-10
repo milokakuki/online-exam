@@ -25,6 +25,7 @@ question_add = {
 		bindSubmit : function bindSubmit() {
 			$("#btn-save").click(function() {
 				if ( question_add.verifyInput()== true) {
+					document.getElementById("btn-save").disabled="disabled";
 					var question_entity = question_add.composeEntity();
 					var pid = $(".question-pageid input").val();
 					console.log(question_entity);
