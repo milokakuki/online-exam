@@ -131,9 +131,7 @@ question_add = {
 				if (opt_img.length<=0 && add_opt_item.children("input").val()==""){
 					  resultc= false;
 					  $(".add-opt-item .form-message").text("请输入选项内容");
-						 
 				}
-				 
 			}
 			}
 			if ($(".question-type select").val() ==2){
@@ -149,6 +147,7 @@ question_add = {
 					//}
 					if (opt_img.length<=0 && add_opt_item.children("input").val()==""){
 						  resultc= false;
+						  $(".add-opt-item .form-message").text("请输入选项内容");
 					}
 				}
 				}

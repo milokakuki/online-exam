@@ -162,7 +162,7 @@
 				skin: 'layui-layer-molv',
 				btn:['确认','取消'],
 				btnAlign:'c',
-				offset:[offset.top-60,offset.left-120],
+				offset:[offset.top - $("html,body").scrollTop()-60,offset.left-120],
 				yes:function(index){
 					$.ajax({
 						url:"${path}/admin/question/delete/"+id+"-"+pid,
