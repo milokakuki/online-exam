@@ -144,7 +144,7 @@ public class StudentController {
 		/**
 		 * 添加试卷信息
 		 */
-		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		List<com.ecms.core.entity.Page> testPages = pageService.findByStatus(1);
 		model.addAttribute("testPages", testPages);
 		return "admin/student/add";
 	}
@@ -155,11 +155,13 @@ public class StudentController {
 		/**
 		 * 添加试卷信息
 		 */
-		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		List<com.ecms.core.entity.Page> testPages = pageService.findByStatus(1);
 		model.addAttribute("testPages", testPages);
 		Student tmp = studentService.findByName(student.getName());
 		Student tmp2 = studentService.findByEmail(student.getEmail());
 		student.setCreateTime(new Date());
+		
+		System.out.println("su");	
 		
 		if (tmp == null) {
 			if(tmp2 == null) {
@@ -195,6 +197,40 @@ public class StudentController {
 			}
 			
 		} else {
+			
+			/*
+			 * 添加链接
+			 */
+			int studentid = tmp.getStudentid();
+			String email = tmp.getEmail();
+			String ip = "";
+			try {
+				//ip = InetAddress.getLocalHost().getHostAddress();
+				ip=Const.HttpClient.BASE_PATH;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			String strLink = ip+"/?id="+studentid+"&email="+email;
+			System.out.println("******************strLink = "+strLink+"*****************************");
+			model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
+			
+			/**
+			 * 添加已选试卷
+			 */
+			List<PageHistory> pageHistories = pageHistoryService.findByStudent(tmp);
+			int index = 0;
+			for(int i = 0 ; i < pageHistories.size() ; i++) {
+				index++;
+				if(index == 1) {
+					int page1 = pageHistories.get(0).getPage().getId();
+					model.addAttribute("page1", page1);
+				}
+				if(index == 2) {
+					int page2 = pageHistories.get(1).getPage().getId();
+					model.addAttribute("page2", page2);
+				}
+			}
+			
 			model.addAttribute("namemsg", "用户名已用!").addAttribute("student", student);
 			return "admin/student/add";
 		}
@@ -207,7 +243,7 @@ public class StudentController {
 		/**
 		 * 添加试卷信息
 		 */
-		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		List<com.ecms.core.entity.Page> testPages = pageService.findByStatus(1);
 		model.addAttribute("testPages", testPages);
 		Student student = studentService.findByStudentId(studentId);
 		List<PageHistory> pageHistories = pageHistoryService.findByStudent(student);
@@ -238,7 +274,7 @@ public class StudentController {
 		/**
 		 * 添加试卷信息
 		 */
-		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		List<com.ecms.core.entity.Page> testPages = pageService.findByStatus(1);
 		model.addAttribute("testPages", testPages);
 		Student s = studentService.findByStudentId(student.getStudentid());
 		List<PageHistory> pageHistories = pageHistoryService.findByStudent(s);
@@ -258,6 +294,7 @@ public class StudentController {
 				s.setSchool(student.getSchool());
 				s.setDegree(student.getDegree());
 				s.setRemark(student.getRemark());
+				s.setStatus(0);
 				pageHistory.setStudent(s);
 				pageHistory.setStatus(0);
 				com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
@@ -275,6 +312,7 @@ public class StudentController {
 				s.setSchool(student.getSchool());
 				s.setDegree(student.getDegree());
 				s.setRemark(student.getRemark());
+				s.setStatus(0);
 				pageHistory2.setStudent(s);
 				pageHistory2.setStatus(0);
 				com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
@@ -327,7 +365,7 @@ public class StudentController {
 		/**
 		 * 添加试卷信息
 		 */
-		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		List<com.ecms.core.entity.Page> testPages = pageService.findByStatus(1);
 		model.addAttribute("testPages", testPages);
 		return "admin/student/add";
 	}
@@ -338,7 +376,7 @@ public class StudentController {
 		/**
 		 * 添加试卷信息
 		 */
-		List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+		List<com.ecms.core.entity.Page> testPages = pageService.findByStatus(1);
 		model.addAttribute("testPages", testPages);
 		Student tmp = studentService.findByName(student.getName());
 		Student tmp2 = studentService.findByEmail(student.getEmail());
@@ -446,6 +484,7 @@ public class StudentController {
 				s.setSchool(student.getSchool());
 				s.setDegree(student.getDegree());
 				s.setRemark(student.getRemark());
+				s.setStatus(0);
 				pageHistory.setStudent(s);
 				pageHistory.setStatus(0);
 				com.ecms.core.entity.Page p1 = new com.ecms.core.entity.Page();
@@ -463,6 +502,7 @@ public class StudentController {
 				s.setSchool(student.getSchool());
 				s.setDegree(student.getDegree());
 				s.setRemark(student.getRemark());
+				s.setStatus(0);
 				pageHistory2.setStudent(s);
 				pageHistory2.setStatus(0);
 				com.ecms.core.entity.Page p2 = new com.ecms.core.entity.Page();
@@ -487,7 +527,7 @@ public class StudentController {
 			/**
 			 * 添加试卷信息
 			 */
-			List<com.ecms.core.entity.Page> testPages = pageService.findAll();
+			List<com.ecms.core.entity.Page> testPages = pageService.findByStatus(1);
 			model.addAttribute("testPages", testPages);
 		    return "admin/student/edit";
 		}
