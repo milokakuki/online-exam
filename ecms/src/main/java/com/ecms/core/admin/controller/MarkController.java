@@ -64,9 +64,18 @@ public class MarkController {
 	@RequiresRoles(value = { "ADMIN" }, logical = Logical.OR)
 	@GetMapping("/list")
 	public String list(RequestElement element, Model model) {
+		Specification<PageHistory> sp = new Specification<PageHistory>() {
+			@Override
+			public Predicate toPredicate(Root<PageHistory> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				Predicate condition1 = null;
+				condition1 = cb.equal(root.get("status"), 2);
+				query.where(condition1);
+				return null;
+			}
+		};
 		Sort sort = new Sort(Direction.DESC, "endTime");
 		Pageable pageable = new PageRequest(element.getPageNo() - 1, element.getPageSize(), sort);
-		Page<PageHistory> phs = pageHistoryService.findAll(pageable);
+		Page<PageHistory> phs = pageHistoryDao.findAll(sp,pageable);
 		int total = phs.getTotalPages();
 		int start = element.getPageNo() - 3 > 0 ? element.getPageNo() - 3 : 1;
 		int end = element.getPageNo() + 3 < total ? element.getPageNo() + 3 : total;
@@ -111,7 +120,10 @@ public class MarkController {
 				} else {
 					condition4 = cb.like(join.get("email"), "%%");
 				}
-				query.where(condition1, condition2, condition3, condition4);
+				Predicate condition5 = null;
+				condition5 = cb.equal(root.get("status"),2);
+				
+				query.where(condition1, condition2, condition3, condition4,condition5);
 				return null;
 			}
 		};

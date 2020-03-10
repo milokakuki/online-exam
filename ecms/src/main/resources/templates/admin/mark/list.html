@@ -155,9 +155,8 @@ div.container div.row div {
 													<tbody>
 														<#if page.getContent()??>
 															<#list page.getContent() as ph>
-															<#if ph.student.status == 2>
 																<tr>
-																	<td>${(ph_index+1)!}</td>
+																	<td>${(ph_index+1+page.getNumber()*page.getSize())!}</td>
 																	<td>${(ph.student.name)!}</td>
 																	<td>${(ph.student.email)!}</td>
 																	<td>${(ph.student.phone)!}</td>
@@ -170,8 +169,7 @@ div.container div.row div {
 																	<td>
 																		<a href="${path}/admin/mark/manual/${ph.id}" class="text-info"><i class="fa fa-edit"></i> 阅卷</a>&nbsp;																	
 																	</td>	
-																</tr>
-																</#if>
+																</tr>								
 															</#list>
 														</#if>
 													</tbody>
