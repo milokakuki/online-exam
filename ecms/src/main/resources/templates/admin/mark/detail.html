@@ -340,10 +340,10 @@ div.container div.row div {
 							</div>
 						</div>
 						<div class="form-group">
-							<form action="${path}/admin/mark/manual/${pagehistoryid}/point"
+							<form action="${path}/admin/mark/manual/${pagehistoryid}/point" onsubmit="return check()"
 								id="form-mark-list" method="POST" class="col-md-12">
 								<div class="col-md-8">
-									<input type="text" class="form-control" name="point" id="point"
+									<input type="text" class="form-control" name="point" id="point" value="${(point)!}"
 										placeholder="请输入成绩" />
 								</div>
 								<button type="submit" class="btn btn-sm btn-primary">提交</button>
@@ -378,20 +378,19 @@ div.container div.row div {
 		<script type="text/javascript"
 			src="${path}/plugins/layer-v3.0.3/layer/layer.js"></script>
 		<script type="text/javascript">
-			function openDetail(id) {
-				document.location.href = "/detail_page?id=" + id;
-			};
-
-			function clear() {
-				var name = document.getElementById("name");
-				var school = document.getElementById("school");
-				var phone = document.getElementById("phone");
-				var email = document.getElementById("email");
-				name.innerHTML = "";
-				school.innerHTML = "";
-				phone = innerHTML = "";
-				email = innerHTML = "";
+		function check(){
+			var point = $("#point").val()
+			if(point==="" || point ==null){
+				alert("请输入成绩！");
+				return false;
 			}
+			if(isNaN(point)){
+				alert("请输入有效成绩！");
+				return false;
+			}
+			return true;
+		}
+		
 		</script>
 </body>
 </html>

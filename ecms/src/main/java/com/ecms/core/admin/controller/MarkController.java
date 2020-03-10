@@ -138,6 +138,7 @@ public class MarkController {
 	        for (QuestionPage questionPage : questionPages) {
 	                questions.add(questionPage.getQuestion());
 	        }
+	        model.addAttribute("point", ph.getCounts());
 			model.addAttribute("questions", questions);
 			model.addAttribute("answers",ph.getAnswers());
 			model.addAttribute("student", ph.getStudent());
