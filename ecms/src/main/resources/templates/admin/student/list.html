@@ -34,7 +34,6 @@
 <link rel="stylesheet"
 	href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
 <!--Personal Css  -->
-<link rel="stylesheet" href="${path}/css/test_page1.css" />
 
 <style>
 div.container div.row div {
@@ -111,7 +110,7 @@ div.container div.row div {
 										
 										<div>
 											<div style="float: right; padding-right:15px;">
-												<a href="${path}/admin/student/add" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-plus"></i> 新登陆</a>
+												<a href="${path}/admin/student/add" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-plus"></i> 新登录</a>
 											    <button type="submit" class="btn btn-sm btn-primary" style="width:88px;"><i class="fa fa-search"></i> 检索</button>
 												<a href="${path}/admin/student/search" class="btn btn-sm btn-primary" onclick="clear()" style="width:88px;"> <i class="fa fa-eraser"></i>清除条件</a>
 											</div>
@@ -148,6 +147,7 @@ div.container div.row div {
 															<th>电话</th>
 															<th>学校</th>
 															<th>备考</th>
+															<th>URL</th>
 															<th>操作</th>
 														</tr>
 													</thead>
@@ -162,9 +162,11 @@ div.container div.row div {
 																	<td>${(student.phone)!}</td>
 																	<td>${(student.school)!}</td>	
 																	<td>${(student.remark)!}</td>	
+																	<td><span class="hot_title">${(student.url)!}</span></td>
 																	<td>
 																		<a href="${path}/admin/student/edit/${student.studentid}" class="text-info"><i class="fa fa-edit"></i> 编辑</a>&nbsp;
-																		<a href="javascript:void(0);" id="delete-user" class="text-red" onclick="delete_student(this,${student.studentid})"><i class="fa  fa-trash"></i> 删除</a> 
+																		<a href="javascript:void(0);" id="delete-user" class="text-red" onclick="delete_student(this,${student.studentid})"><i class="fa  fa-trash"></i> 删除</a>&nbsp; 
+																		<a href="${path}/admin/student/generateURL/${student.studentid}" class="text-info"><i class="fa fa-bolt"></i>生成URL</a>&nbsp;
 																	</td>				
 																</tr>
 															</#list>
