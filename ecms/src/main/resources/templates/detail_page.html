@@ -1,376 +1,427 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<#include "/admin/include/title.html"/>
-		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-		<meta http-equiv="Expires" CONTENT="0"> 
-		<meta http-equiv="Cache-Control" CONTENT="no-cache"> 
-		<meta http-equiv="Pragma" CONTENT="no-cache">
-		<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
-		<!--Font Awesome-->
-		<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
-		<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
-		<!--Theme style-->
-		<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
-		<link rel="stylesheet" type="text/css" href="${path}/css/detail.css" />
-		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/_all-skins.min.css" />
-		<link rel="stylesheet" type="text/css" href="${path}/plugins/iCheck/all.css" />
-		<!--AdminLTE Skins-->
-		<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
-		<!-- <link rel="icon" href="${path}/img/favicon.ico" type="image/x-icon" />
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<#include "/admin/include/title.html" />
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+	<meta http-equiv="Expires" CONTENT="0">
+	<meta http-equiv="Cache-Control" CONTENT="no-cache">
+	<meta http-equiv="Pragma" CONTENT="no-cache">
+	<link rel="stylesheet" href="${path}/common/bootstrap/dist/css/bootstrap.min.css" />
+	<!--Font Awesome-->
+	<link rel="stylesheet" href="${path}/common/font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="${path}/common/Ionicons/css/ionicons.min.css" />
+	<!--Theme style-->
+	<link rel="stylesheet" type="text/css" href="${path}/dist/css/AdminLTE.min.css" />
+	<link rel="stylesheet" type="text/css" href="${path}/css/detail.css" />
+	<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/_all-skins.min.css" />
+	<link rel="stylesheet" type="text/css" href="${path}/plugins/iCheck/all.css" />
+	<!--AdminLTE Skins-->
+	<link rel="stylesheet" type="text/css" href="${path}/dist/css/skins/skin-blue.min.css" />
+	<!-- <link rel="icon" href="${path}/img/favicon.ico" type="image/x-icon" />
 		<link rel="shortcut icon" href="${path}/img/favicon.ico" type="image/x-icon"/> -->
-		<!--[if lt IE 9]>
+	<!--[if lt IE 9]>
 			<script type="text/javascript" src="${path}/js/html5shiv/3.7.3/html5shiv.min.js}" ></script>
 			<script type="text/javascript" src="${path}/js/respond/1.4.2/respond.min.js}" ></script>	
 		<![endif]-->
-		<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
-		<link rel="stylesheet" href="${path}/css/page-examing.css" />
-		<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
-	</head>
+	<link rel="stylesheet" href="${path}/css/fonts.googleapis.com.css" />
+	<link rel="stylesheet" href="${path}/css/page-examing.css" />
+	<link rel="stylesheet" href="${path}/plugins/layer-v3.0.3/layer/skin/default/layer.css" />
+</head>
 
-	<body>
-		<#include "/admin/include/title.html"/>
-		<div class="container">
-			<div class="col-md-3">
-				<div class="def-bk" id="bk-exam-control">
+<body>
+	<#include "/admin/include/title.html" />
+	<div class="container">
+		<div class="col-md-3">
+			<div class="def-bk" id="bk-exam-control">
 
-					<div class="def-bk-content" id="exam-control">
+				<div class="def-bk-content" id="exam-control">
 
-						<div id="question-time" class="question-time-normal">
-							<div style="height:140px;text-align: center;">
-								<i id="time-icon" class="fa fa-clock-o"> </i>
-							</div>
-
-							<span style="margin-right:10px;color: #B8B8B8;">剩余时间</span>
-							<span id="exam-clock"></span>
-							<span id="exam-timestamp" style="display:none;">${time}</span>
-							<div id="answer-save-info"></div>
-
+					<div id="question-time" class="question-time-normal">
+						<div style="height:140px;text-align: center;">
+							<i id="time-icon" class="fa fa-clock-o"> </i>
 						</div>
-						<div id="question-submit">
-							<button class="btn-success btn" style="width:100%;" onclick="submit_answer(${pageHistory.id})">
-								交卷
-							</button>
-						</div>
+
+						<span style="margin-right:10px;color: #B8B8B8;">剩余时间</span>
+						<span id="exam-clock"></span>
+						<span id="exam-timestamp" style="display:none;">${time}</span>
+						<div id="answer-save-info"></div>
+
 					</div>
-
+					<div id="question-submit">
+						<button class="btn-success btn" style="width:100%;" onclick="submit_answer(${pageHistory.id})">
+							交卷
+						</button>
+					</div>
 				</div>
+
 			</div>
-			<div class="col-md-9">
-				<div class="box box-primary">
-		            <div class="box-body box-profile">
-		            	<#list questions as index>
-							<div class="bg-gray disabled color-palette">
-								<h4>【${index.questionType.name}】${index.title!}</h4>
-								
+		</div>
+		<div class="col-md-9">
+			<div class="box box-primary">
+				<div class="box-body box-profile">
+					<#list questions as index>
+						<div class="bg-gray disabled color-palette">
+							<h4>【${index.questionType.name}】${index.title!}</h4>
+
+						</div>
+
+						<hr>
+						<p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${index.content}</p>
+						<#if index.titleImg?? && index.titleImg!="">
+							<img class="img-responsive pad" src="${path}/${index.titleImg}" alt="Photo">
+						</#if>
+						<hr>
+						<#if index.questionType.id=1>
+							<div class="form-group single">
+								<input id="qId" value="${index.id}" type="hidden" />
+								<#list index.choiceList?keys as ca>
+									<div class="box-comment">
+
+										<div class="comment-text">
+											<label>
+												<input type="radio" value="${ca}" name="r${index.id}" class="flat-red">
+												<span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp
+													&nbsp${index.choiceList[ca]}</span>
+												<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
+													<!-- Title image -->
+													<img class="attachment-img" src="${index.choiceImgList[ca]}"
+														alt="Attachment Image">
+												</#if>
+											</label>
+										</div>
+
+									</div>
+								</#list>
 							</div>
-							
-							<hr>
-							<p><button class="btn-xs btn-warning">内容</button>&nbsp;&nbsp;&nbsp;${index.content}</p>
-							<#if index.titleImg?? && index.titleImg!="">
-					              <img class="img-responsive pad" src="${path}/${index.titleImg}" alt="Photo">
-				            </#if>
-							<hr>
-							<#if index.questionType.id = 1>
-					            <div class="form-group single">
-					                <input id="qId" value="${index.id}" type="hidden" />
-									<#list index.choiceList?keys as ca>
-						                <div class="box-comment">
-							              	
-							                <div class="comment-text">
-								                <label>
-											      <input type="radio" value="${ca}" name="r${index.id}" class="flat-red">
-								                  <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
-								                  <#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
-								                </label>
-							                </div>
-							                
-						                </div>
-					                </#list>
+						</#if>
+						<#if index.questionType.id=2>
+							<div class="form-group multiple">
+								<input id="qId" value="${index.id}" type="hidden" />
+								<#list index.choiceList?keys as ca>
+									<div class="box-comment">
+
+										<div class="comment-text">
+											<label>
+												<input type="checkbox" value="${ca}" name="r${index.id}"
+													class="flat-red">
+												<span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp
+													&nbsp${index.choiceList[ca]}</span>
+											</label>
+										</div>
+										<#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
+											<!-- Title image -->
+											<img class="attachment-img" src="${index.choiceImgList[ca]}"
+												alt="Attachment Image">
+										</#if>
+									</div>
+								</#list>
+							</div>
+						</#if>
+						<#if index.questionType.id=3>
+							<div class="form-group judge">
+								<input id="qId" value="${index.id}" type="hidden" />
+								<div class="box-comment">
+									<div class="comment-text">
+										<input type="radio" value="T" name="r${index.id}" class="flat-red">
+										<span>&nbsp &nbsp &nbsp正确</span><br><br>
+										<input type="radio" value="F" name="r${index.id}" class="flat-red">
+										<span>&nbsp &nbsp &nbsp错误</span>
+									</div>
 								</div>
-							</#if>
-							<#if index.questionType.id = 2>
-								<div class="form-group multiple">
-									<input id="qId" value="${index.id}" type="hidden" />
-									<#list index.choiceList?keys as ca>
-										<div class="box-comment">
-											
-											<div class="comment-text">
-								                <label>
-								                   <input type="checkbox" value="${ca}" name="r${index.id}" class="flat-red" >
-								                   <span>&nbsp &nbsp &nbsp${ca}:&nbsp &nbsp &nbsp${index.choiceList[ca]}</span>
-								                </label>
-							                </div>
-							                <#if index.choiceImgList[ca]?? && index.choiceImgList[ca]!="">
-								                <!-- Title image -->
-								                <img class="attachment-img" src="${index.choiceImgList[ca]}" alt="Attachment Image">
-											</#if>
-						                </div>
-					                </#list>
-					            </div>
-							</#if>
-							<#if index.questionType.id = 3>
-								<div class="form-group judge">
-									<input id="qId" value="${index.id}" type="hidden" />
-									<div class="box-comment">
-										<div class="comment-text">
-											<input type="radio" value="T" name="r${index.id}" class="flat-red">
-											<span>&nbsp &nbsp &nbsp正确</span><br><br>
-											<input type="radio" value="F" name="r${index.id}" class="flat-red">
-											<span>&nbsp &nbsp &nbsp错误</span>
-										</div>
+							</div>
+						</#if>
+						<#if index.questionType.id=4>
+							<div class="form-group fill">
+								<input id="qId" value="${index.id}" type="hidden" />
+								<div class="box-comment">
+									<div class="comment-text">
+										<br />
+										<input type="text" class="form-control" placeholder="Enter ...">
+										<br />
 									</div>
-					            </div>
-							</#if>
-							<#if index.questionType.id = 4>
-								<div class="form-group fill">
-									<input id="qId" value="${index.id}" type="hidden" />
-									<div class="box-comment">
-										<div class="comment-text">
-											<br/>
-											<input type="text" class="form-control" placeholder="Enter ...">
-											<br/>
-										</div>
+								</div>
+							</div>
+						</#if>
+						<#if index.questionType.id=5>
+							<div class="form-group appl">
+								<input id="qId" value="${index.id}" type="hidden" />
+								<div class="box-comment">
+									<div class="comment-text">
+										<br />
+										<textarea class="form-control"></textarea>
+										<br />
 									</div>
-					            </div>
-							</#if>
-							<#if index.questionType.id = 5>
-								<div class="form-group appl">
-									<input id="qId" value="${index.id}" type="hidden" />
-									<div class="box-comment">
-										<div class="comment-text">
-											<br/>
-											<textarea class="form-control"></textarea>
-											<br/>
-										</div>
-									</div>
-					            </div>
-							</#if>
-						</#list>
-					</div>
+								</div>
+							</div>
+						</#if>
+					</#list>
 				</div>
 			</div>
 		</div>
-		
-		<footer class="footer bg-gray color-palette">
-			<hr>
-			<div class="container">
-			    <h4>
-			    	<strong>Copyright © 2020 <a href="#">Nssol online examination system</a>.</strong> All rights reserved.
-				    <div class="pull-right">
-				      <b>Version</b> 1.0.0
-				    </div>
-			    </h4>
+	</div>
+
+	<div class="modal" tabindex="-1" role="dialog" id="modal">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">休息时间</h5>
+				</div>
+				<div class="modal-body">
+					<p>请稍作休息！准备好后点击确定即开始下一套题。</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="nextPage">确定</button>
+				</div>
 			</div>
-		</footer>
-		<!--jQuery-->
-		<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
-		<!--jQuery UI-->
-		<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
-		<script>
-			$.widget.bridge('uibutton', $.ui.button);
-		</script>
-		<!--Bootstrap-->
-		<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="${path}/plugins/iCheck/icheck.min.js"></script>
-		<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js" ></script>
-		<!--AdminLTE App-->
-		<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
-		<!--<script type="text/javascript" src="${path}/dist/js/pages/dashboard.js" ></script>-->
-		<script type="text/javascript">
-			window.onbeforeunload = function() { 
-				// 离开画面前警告
-				return "Your work will be lost."; 
-			};
+		</div>
+	</div>
 
-			$('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-		      checkboxClass: 'icheckbox_flat-green',
-		      radioClass   : 'iradio_flat-green'
-		    })
-		    
-			function submit_answer(id){
-				var po = new Object();
-				var map = {}
-				var tmp =  $(".single");
-				var qId = tmp.find("#qId");
-				for (var i = 0; i < tmp.length; i++) {
-					var a = qId[i].value;
-					var answer = tmp[i].querySelector(".checked input");
-					var b;
-					if(!answer){
-						b="";
-					}else{
-						b = answer.value;
-					}
-					map[a]=b;
+	<footer class="footer bg-gray color-palette">
+		<hr>
+		<div class="container">
+			<h4>
+				<strong>Copyright © 2020 <a href="#">Nssol online examination system</a>.</strong> All rights reserved.
+				<div class="pull-right">
+					<b>Version</b> 1.0.0
+				</div>
+			</h4>
+		</div>
+	</footer>
+	<!--jQuery-->
+	<script type="text/javascript" src="${path}/common/jquery/dist/jquery.min.js"></script>
+	<!--jQuery UI-->
+	<script type="text/javascript" src="${path}/common/jquery-ui/jquery-ui.min.js"></script>
+	<script>
+		$.widget.bridge('uibutton', $.ui.button);
+	</script>
+	<!--Bootstrap-->
+	<script type="text/javascript" src="${path}/common/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${path}/plugins/iCheck/icheck.min.js"></script>
+	<script type="text/javascript" src="${path}/plugins/layer-v3.0.3/layer/layer.js"></script>
+	<!--AdminLTE App-->
+	<script type="text/javascript" src="${path}/dist/js/adminlte.min.js"></script>
+	<!--<script type="text/javascript" src="${path}/dist/js/pages/dashboard.js" ></script>-->
+	<script type="text/javascript">
+		window.onbeforeunload = function () {
+			// 离开画面前警告
+			return "Your work will be lost.";
+		};
+
+		$('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+			checkboxClass: 'icheckbox_flat-green',
+			radioClass: 'iradio_flat-green'
+		})
+
+		function submit_answer(id) {
+			var po = new Object();
+			var map = {}
+			var tmp = $(".single");
+			var qId = tmp.find("#qId");
+			for (var i = 0; i < tmp.length; i++) {
+				var a = qId[i].value;
+				var answer = tmp[i].querySelector(".checked input");
+				var b;
+				if (!answer) {
+					b = "";
+				} else {
+					b = answer.value;
 				}
-				tmp = $(".multiple");
-				qId = tmp.find("#qId");
-				for (var i = 0; i < tmp.length; i++) {
-					var a = qId[i].value;
-					var checkboxs = tmp.eq(i).find(".checked input");
-					var str = "";
-					for (var j = 0; j < checkboxs.length; j++) {
-						str = str + checkboxs[j].value;
-					}
-					map[a]=str;
-				}
-				tmp =  $(".judge");
-				qId = tmp.find("#qId");
-				for (var i = 0; i < tmp.length; i++) {
-					var a = qId[i].value;
-					var answer = tmp[i].querySelector(".checked input");
-					var b;
-					if(!answer){
-						b="";
-					}else{
-						b = answer.value;
-					}
-					map[a]=b;
-				}
-				tmp =  $(".fill");
-				qId = tmp.find("#qId");
-				for (var i = 0; i < tmp.length; i++) {
-					var a = qId[i].value;
-					var answer = tmp.find(".comment-text input");
-					var b;
-					if(answer[i] == null){
-						b="";
-					}else{
-						b = answer[i].value;
-					}
-					map[a]=b;
-				}
-				tmp =  $(".appl");
-				qId = tmp.find("#qId");
-				for (var i = 0; i < tmp.length; i++) {
-					var a = qId[i].value;
-					var answer = tmp.find(".comment-text textarea");
-					var b;
-					if(answer[i] == null){
-						b="";
-					}else{
-						b = answer[i].value;
-					}
-					map[a]=b;
-				}
-				console.log(map);
-				po.id = id;
-				po.answers = map;				
-				$.ajax({
-					url:"${path}/submit_page",
-					type:'get',
-					headers : {
-						'Accept' : 'application/json',
-						'Content-Type' : 'application/json'
-					},
-					data : po,
-					cache:false,
-					success:function(msg){
-						if(msg.code==0){
-							layer.alert("恭喜您，提交成功!", function (index) { 
-								// 判断是否有其他试题
-								getPage(${student.studentid});
-							});
-						}else{
-							alert(msg.message);
-						}
-					},
-					error:function(msg){
-						alert("系统出错啦！请向管理员反应。");
-					}
-				});
+				map[a] = b;
 			}
-
-			function getPage(id) {
-					$.ajax({
-						url: "${path}/get_page",
-						type: 'get',
-						headers: {
-							'Accept': 'application/json',
-							'Content-Type': 'application/json'
-						},
-						data: { id : parseInt(id) },
-						cache: false,
-						success: function (phid) {
-							if (phid) {
-								//window.location.href = "${path}/detail_page?phid="+phid;
-								// 避免参数暴露在url中，采取post方式
-								document.write("<form action=detail_page method=post name=form1 style='display:none'>");
-								document.write("<input type=hidden name=phid value='" + phid + "'/>");
-								document.write("</form>");
-								document.form1.submit();
-							} else {
-								window.onbeforeunload = null;
-								layer.alert("所有试题已经做完，现在跳转界面。", function (index) {
-									window.location.href = "${path}/finish";
-								});
-							}
-						},
-						error: function () {
-							alert("系统出错啦！请向管理员反应。")
-						}
-					});
+			tmp = $(".multiple");
+			qId = tmp.find("#qId");
+			for (var i = 0; i < tmp.length; i++) {
+				var a = qId[i].value;
+				var checkboxs = tmp.eq(i).find(".checked input");
+				var str = "";
+				for (var j = 0; j < checkboxs.length; j++) {
+					str = str + checkboxs[j].value;
 				}
-
-			$(function(){
-				startTimer();
+				map[a] = str;
+			}
+			tmp = $(".judge");
+			qId = tmp.find("#qId");
+			for (var i = 0; i < tmp.length; i++) {
+				var a = qId[i].value;
+				var answer = tmp[i].querySelector(".checked input");
+				var b;
+				if (!answer) {
+					b = "";
+				} else {
+					b = answer.value;
+				}
+				map[a] = b;
+			}
+			tmp = $(".fill");
+			qId = tmp.find("#qId");
+			for (var i = 0; i < tmp.length; i++) {
+				var a = qId[i].value;
+				var answer = tmp.find(".comment-text input");
+				var b;
+				if (answer[i] == null) {
+					b = "";
+				} else {
+					b = answer[i].value;
+				}
+				map[a] = b;
+			}
+			tmp = $(".appl");
+			qId = tmp.find("#qId");
+			for (var i = 0; i < tmp.length; i++) {
+				var a = qId[i].value;
+				var answer = tmp.find(".comment-text textarea");
+				var b;
+				if (answer[i] == null) {
+					b = "";
+				} else {
+					b = answer[i].value;
+				}
+				map[a] = b;
+			}
+			//console.log(map);
+			po.id = id;
+			po.answers = map;
+			$.ajax({
+				url: "${path}/submit_page",
+				type: 'get',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				data: po,
+				cache: false,
+				success: function (msg) {
+					if (msg.code == 0) {
+						layer.alert("恭喜您，提交成功!", function (index) {
+							layer.closeAll('dialog');
+							// 判断是否有其他试题
+							getPage(${ student.studentid });
+						});
+						
+					} else {
+						alert(msg.message);
+					}
+				},
+				error: function (msg) {
+					alert("系统出错啦！请向管理员反应。");
+				}
 			});
-			/**
-			 * 开始倒计时
-			 */
-			function startTimer() {
-				var timestamp = parseInt($("#exam-timestamp").text());
-				var int = setInterval(function() {
-					$("#exam-timestamp").text(timestamp);
-					$("#exam-clock").text(toHHMMSS(timestamp));
-					if(timestamp < 600){
-						var exam_clock = $("#question-time");
-						exam_clock.removeClass("question-time-normal");
-						exam_clock.addClass("question-time-warning");
-					}
-					
-					timestamp-- || examTimeOut(int); 
-				}, 1000);
-			}
-			/**
-			 * 时间formater
-			 *
-			 * @param timestamp
-			 * @returns {String}
-			 */
-			function toHHMMSS(timestamp) {
-				var sec_num = parseInt(timestamp, 10);
-				var hours = Math.floor(sec_num / 3600);
-				var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-				var seconds = sec_num - (hours * 3600) - (minutes * 60);
+		}
 
-				if (hours < 10) {
-					hours = "0" + hours;
+		function getPage(id) {
+			$.ajax({
+				url: "${path}/get_page",
+				type: 'get',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				data: { id: parseInt(id) },
+				cache: false,
+				success: function (phid) {
+					if (phid) {
+						$('#modal').modal({ backdrop: false });
+						$('#nextPage').prop('phid', phid)
+						timedMsg();
+					} else {
+						window.onbeforeunload = null;
+						layer.alert("所有试题已经做完，现在跳转界面。", function (index) {
+							window.location.href = "${path}/finish";
+						});
+					}
+				},
+				error: function () {
+					alert("系统出错啦！请向管理员反应。")
 				}
-				if (minutes < 10) {
-					minutes = "0" + minutes;
-				}
-				if (seconds < 10) {
-					seconds = "0" + seconds;
-				}
-				var time = hours + ':' + minutes + ':' + seconds;
-				return time;
+			});
+		}
+
+		$('#nextPage').click(function(){
+			var id = $('#nextPage').prop('phid');
+			// 获得下一套试卷
+			document.write("<form action=detail_page method=post name=form1 style='display:none'>");
+			document.write("<input type=hidden name=phid value='" + id + "'/>");
+			document.write("</form>");
+			document.form1.submit();
+		});
+
+		$(function () {
+			startTimer();
+		});
+		/**
+		 * 休息倒计时
+		 */
+		var c = 60;
+		var t;
+		function timedMsg() {
+			$('#nextPage').html('请等待 ' + c + ' s');
+			$('#nextPage').prop("disabled", true);
+			if (c == 0) {
+				clearTimeout(t);
+				$('#nextPage').html("确定");
+				$('#nextPage').prop("disabled", false)
+			} else {
+				t = setTimeout('timedMsg()', 1000);
 			}
-			/**
-			 * 考试时间到
-			 * @param int
-			 */
-			function examTimeOut (int){
+
+			c--;
+		};
+
+		/**
+		 * 答题倒计时
+		 */
+		function startTimer() {
+			var timestamp = parseInt($("#exam-timestamp").text());
+			var int = setInterval(function () {
+				$("#exam-timestamp").text(timestamp);
+				$("#exam-clock").text(toHHMMSS(timestamp));
+				if (timestamp < 600) {
+					var exam_clock = $("#question-time");
+					exam_clock.removeClass("question-time-normal");
+					exam_clock.addClass("question-time-warning");
+				}
+
+				timestamp-- || examTimeOut(int);
+			}, 1000);
+		}
+		/**
+		 * 时间formater
+		 *
+		 * @param timestamp
+		 * @returns {String}
+		 */
+		function toHHMMSS(timestamp) {
+			var sec_num = parseInt(timestamp, 10);
+			var hours = Math.floor(sec_num / 3600);
+			var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+			var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+			if (hours < 10) {
+				hours = "0" + hours;
+			}
+			if (minutes < 10) {
+				minutes = "0" + minutes;
+			}
+			if (seconds < 10) {
+				seconds = "0" + seconds;
+			}
+			var time = hours + ':' + minutes + ':' + seconds;
+			return time;
+		}
+		/**
+		 * 考试时间到
+		 * @param int
+		 */
+		function examTimeOut(int) {
+			if ($('#modal').is(':hidden')) {
 				clearInterval(int);
-				submit_answer(${pageHistory.id});
+				submit_answer(${ pageHistory.id });
 			}
-		</script>
-	</body>
+		}
+	</script>
+</body>
 
 </html>

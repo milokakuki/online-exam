@@ -156,7 +156,7 @@ div.container div.row div {
 															<#list page.getContent() as student>
 																<tr>
 																	<!-- <td><input value="${student.studentid}" type="checkbox"/></td> -->
-																	<td>${(student_index + 1)!}</td>
+																	<td>${(student_index + 1 + page.getNumber()*page.getSize())!}</td>
 																	<td>${(student.name)!}</td>
 																	<td>${(student.email)!}</td>
 																	<td>${(student.phone)!}</td>
@@ -251,7 +251,7 @@ div.container div.row div {
 				skin: 'layui-layer-molv',
 				btn:['确认','取消'],
 				btnAlign:'c',
-				offset:[offset.top-60,offset.left-120],
+				offset:[offset.top - $("html,body").scrollTop()-60,offset.left-120],
 				yes:function(index){
 					$.ajax({
 						url:"${path}/admin/student/delete/"+id,
