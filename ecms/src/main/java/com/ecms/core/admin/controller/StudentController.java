@@ -157,13 +157,9 @@ public class StudentController {
 		 */
 		List<com.ecms.core.entity.Page> testPages = pageService.findByStatus(1);
 		model.addAttribute("testPages", testPages);
-		Student tmp = studentService.findByName(student.getName());
 		Student tmp2 = studentService.findByEmail(student.getEmail());
 		student.setCreateTime(new Date());
 		
-		System.out.println("su");	
-		
-		if (tmp == null) {
 			if(tmp2 == null) {
 				Integer pType1 = 0; 
 				if(pageType1 != "") {
@@ -192,48 +188,43 @@ public class StudentController {
 				//studentService.saveAndFlush(student);
 				return "redirect:/admin/student/list";
 			}else {
+				/*
+				 * 添加链接
+				 */
+				int studentid = tmp2.getStudentid();
+				String email = tmp2.getEmail();
+				String ip = "";
+				try {
+					//ip = InetAddress.getLocalHost().getHostAddress();
+					ip=Const.HttpClient.BASE_PATH;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				String strLink = ip+"/?id="+studentid+"&email="+email;
+				System.out.println("******************strLink = "+strLink+"*****************************");
+				model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
+				
+				/**
+				 * 添加已选试卷
+				 */
+				List<PageHistory> pageHistories = pageHistoryService.findByStudent(tmp2);
+				int index = 0;
+				for(int i = 0 ; i < pageHistories.size() ; i++) {
+					index++;
+					if(index == 1) {
+						int page1 = pageHistories.get(0).getPage().getId();
+						model.addAttribute("page1", page1);
+					}
+					if(index == 2) {
+						int page2 = pageHistories.get(1).getPage().getId();
+						model.addAttribute("page2", page2);
+					}
+				}
+				
 				model.addAttribute("emailmsg", "邮箱已用!").addAttribute("student", student);
 				return "admin/student/add";
 			}
 			
-		} else {
-			
-			/*
-			 * 添加链接
-			 */
-			int studentid = tmp.getStudentid();
-			String email = tmp.getEmail();
-			String ip = "";
-			try {
-				//ip = InetAddress.getLocalHost().getHostAddress();
-				ip=Const.HttpClient.BASE_PATH;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			String strLink = ip+"/?id="+studentid+"&email="+email;
-			System.out.println("******************strLink = "+strLink+"*****************************");
-			model.addAttribute("strLink", strLink).addAttribute("studentid", studentid);
-			
-			/**
-			 * 添加已选试卷
-			 */
-			List<PageHistory> pageHistories = pageHistoryService.findByStudent(tmp);
-			int index = 0;
-			for(int i = 0 ; i < pageHistories.size() ; i++) {
-				index++;
-				if(index == 1) {
-					int page1 = pageHistories.get(0).getPage().getId();
-					model.addAttribute("page1", page1);
-				}
-				if(index == 2) {
-					int page2 = pageHistories.get(1).getPage().getId();
-					model.addAttribute("page2", page2);
-				}
-			}
-			
-			model.addAttribute("namemsg", "用户名已用!").addAttribute("student", student);
-			return "admin/student/add";
-		}
 		
 	}
 
@@ -378,11 +369,9 @@ public class StudentController {
 		 */
 		List<com.ecms.core.entity.Page> testPages = pageService.findByStatus(1);
 		model.addAttribute("testPages", testPages);
-		Student tmp = studentService.findByName(student.getName());
 		Student tmp2 = studentService.findByEmail(student.getEmail());
 		student.setCreateTime(new Date());
 		
-		if (tmp == null) {
 			if(tmp2 == null) {
 				Integer pType1 = 0; 
 				if(pageType1 != "") {
@@ -441,11 +430,6 @@ public class StudentController {
 				model.addAttribute("emailmsg", "邮箱已用!").addAttribute("student", student);
 				return "admin/student/add";
 			}
-			
-		} else {
-			model.addAttribute("namemsg", "用户名已用!").addAttribute("student", student);
-			return "admin/student/add";
-		}
 		
 	}
 	
